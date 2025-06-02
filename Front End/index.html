@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self' https://js.stripe.com https://checkout.stripe.com 'unsafe-inline' 'unsafe-eval' blob:;
+        connect-src 'self' https://*.stripe.com http://localhost:8080 https://checkout.stripe.com https://api.stripe.com;
+        frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://checkout.stripe.com;
+        img-src 'self' data: https: http: http://res.cloudinary.com;
+        style-src 'self' 'unsafe-inline';
+      ">
+      <title>Fine Treats Grocery</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
