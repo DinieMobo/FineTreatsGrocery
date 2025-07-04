@@ -1,20 +1,66 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import NoData from '../components/NoData'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaBox, FaShoppingBag, FaTruck, FaCalendarAlt, FaSearch } from 'react-icons/fa'
-import { format } from 'date-fns'
+import { FaBox, FaShoppingBag, FaTruck, FaCalendarAlt, FaSearch, FaFilter, FaTimes, FaSortAmountDown } from 'react-icons/fa'
+import { format, parseISO } from 'date-fns'
 import { Link } from 'react-router-dom'
+import { filterOrders, clearFilters, updateOrderStatus } from '../store/orderSlice'
+import { useGlobalContext } from '../provider/GlobalProvider'
+import OrderStatusUpdate from '../components/OrderStatusUpdate'
 
 const MyOrders = () => {
-  const orders = useSelector(state => state.orders.order)
+  const dispatch = useDispatch()
+  const { fetchOrder } = useGlobalContext()
+  const { order, filteredOrders, loading, filter } = useSelector(state => state.orders)
   const [expandedOrder, setExpandedOrder] = useState(null)
   const [hoveredOrder, setHoveredOrder] = useState(null)
   const [viewImage, setViewImage] = useState(null)
+  const [showFilters, setShowFilters] = useState(false)
+  const [sortBy, setSortBy] = useState('date-desc')
+
+  useEffect(() => {
+    fetchOrder()
+  }, [fetchOrder])
+
+  const [localFilter, setLocalFilter] = useState({
+    status: 'all',
+    dateRange: 'all',
+    searchQuery: ''
+  })
+
+  const handleApplyFilter = () => {
+    dispatch(filterOrders(localFilter))
+    setShowFilters(false)
+  }
+
+  const handleResetFilter = () => {
+    setLocalFilter({
+      status: 'all',
+      dateRange: 'all',
+      searchQuery: ''
+    })
+    dispatch(clearFilters())
+  }
+
+  const sortedOrders = [...filteredOrders].sort((a, b) => {
+    switch (sortBy) {
+      case 'date-asc':
+        return new Date(a.createdAt) - new Date(b.createdAt)
+      case 'date-desc':
+        return new Date(b.createdAt) - new Date(a.createdAt)
+      case 'price-asc':
+        return a.totalAmt - b.totalAmt
+      case 'price-desc':
+        return b.totalAmt - a.totalAmt
+      default:
+        return new Date(b.createdAt) - new Date(a.createdAt)
+    }
+  })
 
   const getFormattedDate = (timestamp) => {
     try {
-      return format(new Date(timestamp), 'MMM dd, yyyy')
+      return format(parseISO(timestamp), 'MMM dd, yyyy')
     } catch (error) {
       return 'N/A'
     }
@@ -22,19 +68,33 @@ const MyOrders = () => {
 
   const getStatusColor = (status) => {
     switch(status?.toLowerCase()) {
-      case 'pending':
-        return 'bg-yellow-500';
+      case 'completed':
+      case 'delivered':
+        return 'bg-green-500';
       case 'processing':
         return 'bg-blue-500';
       case 'shipped':
         return 'bg-indigo-500';
-      case 'delivered':
-        return 'bg-green-500';
+      case 'ordered':
+        return 'bg-blue-600';
       case 'cancelled':
         return 'bg-red-500';
+      case 'cash on delivery':
+        return 'bg-yellow-500';
+      case 'pending':
+        return 'bg-yellow-500';
       default:
-        return 'bg-white-500';
+        return 'bg-gray-500';
     }
+  }
+
+  const getStatusDisplayText = (order) => {
+    // Prioritize order_status if it exists, otherwise use payment_status
+    return order.order_status || order.payment_status || 'Pending';
+  }
+
+  const handleStatusUpdate = (orderId, newStatus) => {
+    dispatch(updateOrderStatus({ orderId, status: newStatus }));
   }
 
   return (
@@ -52,20 +112,185 @@ const MyOrders = () => {
           <FaShoppingBag className="mr-3" /> My Orders
         </h1>
         <span className="text-sm bg-white text-indigo-600 px-3 py-1 rounded-full font-medium">
-          {orders.length} {orders.length === 1 ? 'Order' : 'Orders'}
+          {filteredOrders.length} {filteredOrders.length === 1 ? 'Order' : 'Orders'}
         </span>
       </motion.div>
 
-      {!orders[0] && (
+      {/* Search and filter bar */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-6 flex flex-col md:flex-row gap-4"
+      >
+        <div className="relative flex-grow">
+          <input
+            type="text"
+            placeholder="Search orders by ID or product name..."
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10"
+            value={localFilter.searchQuery}
+            onChange={e => setLocalFilter({...localFilter, searchQuery: e.target.value})}
+            onKeyDown={e => e.key === 'Enter' && handleApplyFilter()}
+          />
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        </div>
+
+        <div className="flex gap-2">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <FaFilter /> Filters
+          </motion.button>
+
+          <div className="relative">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg flex items-center gap-2"
+              onClick={() => document.getElementById('sortDropdown').classList.toggle('hidden')}
+            >
+              <FaSortAmountDown /> Sort
+            </motion.button>
+            <div id="sortDropdown" className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 hidden">
+              <div className="py-1">
+                <button 
+                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 ${sortBy === 'date-desc' ? 'bg-blue-50 text-blue-700' : ''}`}
+                  onClick={() => {setSortBy('date-desc'); document.getElementById('sortDropdown').classList.add('hidden')}}
+                >
+                  Date (Newest First)
+                </button>
+                <button 
+                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 ${sortBy === 'date-asc' ? 'bg-blue-50 text-blue-700' : ''}`}
+                  onClick={() => {setSortBy('date-asc'); document.getElementById('sortDropdown').classList.add('hidden')}}
+                >
+                  Date (Oldest First)
+                </button>
+                <button 
+                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 ${sortBy === 'price-desc' ? 'bg-blue-50 text-blue-700' : ''}`}
+                  onClick={() => {setSortBy('price-desc'); document.getElementById('sortDropdown').classList.add('hidden')}}
+                >
+                  Price (High to Low)
+                </button>
+                <button 
+                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 ${sortBy === 'price-asc' ? 'bg-blue-50 text-blue-700' : ''}`}
+                  onClick={() => {setSortBy('price-asc'); document.getElementById('sortDropdown').classList.add('hidden')}}
+                >
+                  Price (Low to High)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Filter panel */}
+      <AnimatePresence>
+        {showFilters && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mb-6 bg-gray-50 p-4 rounded-lg overflow-hidden"
+          >
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="font-medium">Filter Orders</h3>
+              <button 
+                onClick={() => setShowFilters(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <select
+                  className="w-full rounded-md border border-gray-300 p-2"
+                  value={localFilter.status}
+                  onChange={e => setLocalFilter({...localFilter, status: e.target.value})}
+                >
+                  <option value="all">All Statuses</option>
+                  <option value="pending">Pending</option>
+                  <option value="processing">Processing</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="cash on delivery">Cash on Delivery</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
+                <select
+                  className="w-full rounded-md border border-gray-300 p-2"
+                  value={localFilter.dateRange}
+                  onChange={e => setLocalFilter({...localFilter, dateRange: e.target.value})}
+                >
+                  <option value="all">All Time</option>
+                  <option value="last7days">Last 7 Days</option>
+                  <option value="last30days">Last 30 Days</option>
+                  <option value="last3months">Last 3 Months</option>
+                  <option value="last6months">Last 6 Months</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="flex gap-2 justify-end">
+              <button 
+                onClick={handleResetFilter}
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm"
+              >
+                Reset
+              </button>
+              <button 
+                onClick={handleApplyFilter}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm"
+              >
+                Apply Filters
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Loading state */}
+      {loading && (
+        <div className="flex justify-center items-center h-48">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      )}
+
+      {/* Empty state */}
+      {!loading && sortedOrders.length === 0 && (
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.1 }}
+          className="text-center py-8"
         >
-          <NoData />
+          {order.length > 0 ? (
+            <div>
+              <FaFilter className="mx-auto text-3xl text-gray-400 mb-2" />
+              <h3 className="text-lg font-medium text-gray-700 mb-1">No matching orders found</h3>
+              <p className="text-gray-500 mb-4">Try changing your filters or search terms</p>
+              <button 
+                onClick={handleResetFilter}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm"
+              >
+                Clear Filters
+              </button>
+            </div>
+          ) : (
+            <NoData />
+          )}
         </motion.div>
       )}
 
+      {/* Image viewer */}
       <AnimatePresence>
         {viewImage && (
           <motion.div 
@@ -86,6 +311,7 @@ const MyOrders = () => {
                 src={viewImage} 
                 alt="Product image" 
                 className="w-full h-full object-contain"
+                loading="lazy"
               />
               <button 
                 className="absolute top-2 right-2 bg-white/80 rounded-full p-1 text-gray-800 hover:bg-white"
@@ -100,13 +326,14 @@ const MyOrders = () => {
         )}
       </AnimatePresence>
 
+      {/* Order list */}
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
         className="space-y-4"
       >
-        {orders.map((order, index) => {
+        {sortedOrders.map((order, index) => {
           const isExpanded = expandedOrder === order._id;
           const isHovered = hoveredOrder === order._id;
           
@@ -123,7 +350,7 @@ const MyOrders = () => {
               onMouseLeave={() => setHoveredOrder(null)}
             >
               <motion.div 
-                className={`border-l-4 ${getStatusColor(order.payment_status || 'pending')} p-4`}
+                className={`border-l-4 ${getStatusColor(getStatusDisplayText(order))} p-4`}
                 whileHover={{ backgroundColor: 'rgba(59, 130, 246, 0.05)' }}
               >
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 cursor-pointer"
@@ -138,8 +365,8 @@ const MyOrders = () => {
                   </div>
                   
                   <div className="flex items-center mt-2 md:mt-0">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(order.payment_status || 'pending')}`}>
-                      {order.payment_status || 'Pending'}
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(getStatusDisplayText(order))}`}>
+                      {getStatusDisplayText(order)}
                     </span>
                     
                     <div className="ml-4 flex items-center gap-2 text-gray-500">
@@ -157,23 +384,36 @@ const MyOrders = () => {
                       }`}
                       onClick={(e) => {
                         e.stopPropagation();
-                        setViewImage(order.product_details?.image?.[0]);
+                        if (order.product_details?.image?.[0]) {
+                          setViewImage(order.product_details.image[0]);
+                        }
                       }}
                     >
-                      <img
-                        src={order.product_details?.image?.[0]}
-                        alt={order.product_details?.name}
-                        className="w-full h-full object-contain"
-                      />
+                      {order.product_details?.image?.[0] ? (
+                        <img
+                          src={order.product_details.image[0]}
+                          alt={order.product_details?.name || "Product"}
+                          className="w-full h-full object-contain"
+                          loading="lazy"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://via.placeholder.com/150?text=No+Image';
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                          <FaBox className="text-gray-400" />
+                        </div>
+                      )}
                     </div>
-                    {isHovered && (
+                    {isHovered && order.product_details?.image?.[0] && (
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center rounded-md cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setViewImage(order.product_details?.image?.[0]);
+                          setViewImage(order.product_details.image[0]);
                         }}
                       >
                         <FaSearch className="text-white" />
@@ -191,7 +431,7 @@ const MyOrders = () => {
                       </div>
                       <div>
                         <p className="text-xs text-gray-500">Quantity</p>
-                        <p className="font-medium text-gray-800">1</p>
+                        <p className="font-medium text-gray-800">{order.quantity || 1}</p>
                       </div>
                       <div>
                         <p className="text-xs text-gray-500">Total</p>

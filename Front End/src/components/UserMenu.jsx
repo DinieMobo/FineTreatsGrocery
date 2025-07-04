@@ -9,7 +9,7 @@ import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
 import { HiOutlineExternalLink, HiOutlineUser, HiOutlineLogout } from "react-icons/hi";
 import { MdOutlineCategory, MdSubdirectoryArrowRight } from "react-icons/md";
-import { FaRegAddressCard, FaBox, FaBoxOpen, FaShoppingBag } from "react-icons/fa";
+import { FaRegAddressCard, FaBox, FaBoxOpen, FaShoppingBag, FaCog } from "react-icons/fa";
 import isAdmin from '../utils/isAdmin'
 import { motion } from 'framer-motion'
 
@@ -149,6 +149,18 @@ const UserMenu = ({close}) => {
                 onClick={handleClose}
                 isHovered={hoveredItem === "product"}
                 onHover={() => setHoveredItem("product")}
+                onLeave={() => setHoveredItem(null)}
+              />
+            )}
+
+            {isAdmin(user.role) && (
+              <MenuItem 
+                to="/dashboard/admin-orders" 
+                text="Manage Orders" 
+                icon={<FaCog />} 
+                onClick={handleClose}
+                isHovered={hoveredItem === "admin-orders"}
+                onHover={() => setHoveredItem("admin-orders")}
                 onLeave={() => setHoveredItem(null)}
               />
             )}

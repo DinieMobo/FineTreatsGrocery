@@ -83,6 +83,10 @@ const SuccessPage = () => {
           ...SummaryApi.getOrderList
         });
         
+        if (!ordersResponse.data || !ordersResponse.data.success) {
+          throw new Error("Failed to fetch orders");
+        }
+        
         const orders = ordersResponse.data.data;
         const recentOrders = orders.filter(order => {
           const orderDate = new Date(order.createdAt);
@@ -91,18 +95,23 @@ const SuccessPage = () => {
         });
         
         if (recentOrders.length === 0) {
-          await Axios({
-            ...SummaryApi.clearCart,
-            method: 'POST'
-          });
+          try {
+            await Axios({
+              ...SummaryApi.clearCart,
+              method: 'POST'
+            });
 
-          toast("Your payment was processed but we're still preparing your order. It will appear in your orders soon.", {
-            icon: '⚠️',
-            style: {
-              background: '#FEF3C7',
-              color: '#92400E',
-            },
-          });
+            toast("Your payment was processed but we're still preparing your order. It will appear in your orders soon.", {
+              icon: '⚠️',
+              style: {
+                background: '#FEF3C7',
+                color: '#92400E',
+              },
+            });
+          } catch (clearCartError) {
+            console.error("Failed to clear cart:", clearCartError);
+            toast.error("There was an issue finalizing your order. Please contact support.");
+          }
         } else {
           toast.success("Order placed successfully!");
         }
@@ -111,6 +120,7 @@ const SuccessPage = () => {
         
       } catch (error) {
         console.error("Error checking order status:", error);
+        toast.error("We couldn't verify your order status. Please check your orders page or contact support.");
       }
     };
     

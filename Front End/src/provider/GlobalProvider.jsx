@@ -7,7 +7,7 @@ import AxiosToastError from "../utils/AxiosToastError";
 import toast from "react-hot-toast";
 import { pricewithDiscount } from "../utils/PriceWithDiscount";
 import { handleAddAddress } from "../store/addressSlice";
-import { setOrder } from "../store/orderSlice";
+import { setOrder, setLoading, setError, setCurrentOrder } from "../store/orderSlice";
 
 export const GlobalContext = createContext(null)
 
@@ -120,19 +120,51 @@ const GlobalProvider = ({children}) => {
           AxiosToastError(error)
       }
     }
-    const fetchOrder = async()=>{
+    const fetchOrder = async() => {
       if (!user?._id) return; 
       try {
+        dispatch(setLoading(true));
         const response = await Axios({
           ...SummaryApi.getOrderItems,
         })
         const { data : responseData } = response
 
         if(responseData.success){
-            dispatch(setOrder(responseData.data))
+            dispatch(setOrder(responseData.data));
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
+        dispatch(setError(error.message || "Failed to fetch orders"));
+        AxiosToastError(error);
+      } finally {
+        dispatch(setLoading(false));
+      }
+    }
+    
+    const fetchOrderById = async(orderId) => {
+      if (!user?._id || !orderId) return null;
+      
+      try {
+        dispatch(setLoading(true));
+        const response = await Axios({
+          ...SummaryApi.getSingleOrder,
+          method: 'GET',
+          params: { orderId }
+        });
+        
+        if (response.data.success) {
+          dispatch(setCurrentOrder(response.data.data));
+          return response.data.data;
+        } else {
+          toast.error(response.data.message || "Failed to fetch order details");
+          return null;
+        }
+      } catch (error) {
+        console.log(error);
+        AxiosToastError(error);
+        return null;
+      } finally {
+        dispatch(setLoading(false));
       }
     }
 
@@ -145,6 +177,7 @@ const GlobalProvider = ({children}) => {
         dispatch(handleAddItemCart([])); 
         dispatch(handleAddAddress([])); 
         dispatch(setOrder([])); 
+        dispatch(setCurrentOrder(null));
       }
     },[user, dispatch])
     
@@ -157,7 +190,8 @@ const GlobalProvider = ({children}) => {
             totalPrice,
             totalQty,
             notDiscountTotalPrice,
-            fetchOrder
+            fetchOrder,
+            fetchOrderById
         }}>
             {children}
         </GlobalContext.Provider>

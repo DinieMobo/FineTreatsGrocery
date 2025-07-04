@@ -10,7 +10,7 @@ import Select from 'react-select'
 import countryList from 'react-select-country-list'
 
 const AddAddress = ({close}) => {
-    const { register, handleSubmit, reset, setValue } = useForm()
+    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm()
     const { fetchAddress } = useGlobalContext()
     const [selectedCountry, setSelectedCountry] = useState(null)
     const [countryOptions] = useState(countryList().getData())
@@ -120,6 +120,7 @@ const AddAddress = ({close}) => {
                         value={selectedCountry ? selectedCountry.label : ''}
                         readOnly
                     />
+                    {errors.country && <p className="text-red-500 text-xs mt-1">Please select a country</p>}
                 </div>
                 <div className='grid gap-1'>
                     <label htmlFor='phone'>Phone No. :</label>
@@ -127,8 +128,15 @@ const AddAddress = ({close}) => {
                         type='text'
                         id='phone' 
                         className='border bg-blue-50 p-2 rounded'
-                        {...register("phone",{required : true})}
+                        {...register("phone", {
+                            required: true,
+                            pattern: {
+                                value: /^[0-9]{10,15}$/,
+                                message: "Please enter a valid phone number"
+                            }
+                        })}
                     />
+                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
                 </div>
 
                 <button type='submit' className='bg-primary-200 w-full  py-2 font-semibold mt-4 hover:bg-primary-100'>Submit</button>

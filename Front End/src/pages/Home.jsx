@@ -10,6 +10,7 @@ import { validURLConvert } from '../utils/valideURLConvert';
 import { useNavigate } from 'react-router-dom';
 import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay';
 import { motion } from 'framer-motion';
+import { toast } from 'react-toastify';
 
 // Constants for default banners
 const DEFAULT_BANNER = '/default-banner.jpg';
@@ -118,6 +119,7 @@ const Home = () => {
 
     if (!subcategory) {
       console.error('No matching subcategory found');
+      toast.error("Category not found. Please try another one.");
       return;
     }
 

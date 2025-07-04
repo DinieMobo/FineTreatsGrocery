@@ -16,7 +16,7 @@ const AddToCartButton = ({ data }) => {
     const [qty, setQty] = useState(0)
     const [cartItemDetails,setCartItemsDetails] = useState()
 
-    const handleADDTocart = async (e) => {
+    const handleaddToCart = async (e) => {
         e.preventDefault()
         e.stopPropagation()
 
@@ -24,7 +24,7 @@ const AddToCartButton = ({ data }) => {
             setLoading(true)
 
             const response = await Axios({
-                ...SummaryApi.addTocart,
+                ...SummaryApi.addToCart,
                 data: {
                     productId: data?._id
                 }
@@ -91,7 +91,7 @@ const AddToCartButton = ({ data }) => {
                         <button onClick={increaseQty} className='bg-green-600 hover:bg-green-700 text-white flex-1 w-full p-1 rounded flex items-center justify-center'><FaPlus /></button>
                     </div>
                 ) : (
-                    <button onClick={handleADDTocart} className='bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded'>
+                    <button onClick={handleaddToCart} className='bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded'>
                         {loading ? <Loading /> : "Add"}
                     </button>
                 )

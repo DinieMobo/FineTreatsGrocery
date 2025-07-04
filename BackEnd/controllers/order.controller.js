@@ -4,47 +4,62 @@ import OrderModel from "../models/order.model.js";
 import UserModel from "../models/user.model.js";
 import mongoose from "mongoose";
 
- export async function CashOnDeliveryOrderController(request,response){
-    try {
-        const userId = request.userId // auth middleware 
-        const { list_items, totalAmt, addressId,subTotalAmt } = request.body 
+export async function CashOnDeliveryOrderController(request, response) {
+  try {
+    const userId = request.userId
+    const { list_items, totalAmt, addressId, subTotalAmt } = request.body
 
-        const payload = list_items.map(el => {
-            return({
-                userId : userId,
-                orderId : `ORD-${new mongoose.Types.ObjectId()}`,
-                productId : el.productId._id, 
-                product_details : {
-                    name : el.productId.name,
-                    image : el.productId.image
-                } ,
-                paymentId : "",
-                payment_status : "CASH ON DELIVERY",
-                delivery_address : addressId ,
-                subTotalAmt  : subTotalAmt,
-                totalAmt  :  totalAmt,
-            })
-        })
-
-        const generatedOrder = await OrderModel.insertMany(payload)
-
-        const removeCartItems = await ProductCartModel.deleteMany({ userId : userId })
-        const updateInUser = await UserModel.updateOne({ _id : userId }, { shopping_cart : []})
-
-        return response.json({
-            message : "Order successfully",
-            error : false,
-            success : true,
-            data : generatedOrder
-        })
-
-    } catch (error) {
-        return response.status(500).json({
-            message : error.message || error ,
-            error : true,
-            success : false
-        })
+    // Validate required fields
+    if (!list_items || !list_items.length || !addressId) {
+      return response.status(400).json({
+        message: "Missing required order information",
+        error: true,
+        success: false
+      });
     }
+
+    const payload = list_items.map(el => {
+      if (!el.productId || !el.productId._id) {
+        throw new Error("Invalid product information in order items");
+      }
+      
+      return ({
+        userId: userId,
+        orderId: `ORD-${new mongoose.Types.ObjectId()}`,
+        productId: el.productId._id,
+        product_details: {
+          name: el.productId.name || 'Unknown Product',
+          image: el.productId.image || []
+        },
+        paymentId: "",
+        payment_status: "CASH ON DELIVERY",
+        delivery_address: addressId,
+        subTotalAmt: subTotalAmt,
+        totalAmt: totalAmt,
+        quantity: el.quantity || 1,
+        invoice_receipt: `INV-${new mongoose.Types.ObjectId()}`
+      })
+    })
+
+    const generatedOrder = await OrderModel.insertMany(payload)
+
+    const removeCartItems = await ProductCartModel.deleteMany({ userId : userId })
+    const updateInUser = await UserModel.updateOne({ _id : userId }, { shopping_cart : []})
+
+    return response.json({
+        message : "Order successfully",
+        error : false,
+        success : true,
+        data : generatedOrder
+    })
+
+  } catch (error) {
+    return response.status(500).json({
+        message : error.message || error ,
+        error : true,
+        success : false
+    })
+  }
 }
 
 export const PricewithDiscount = (price,dis = 1)=>{
@@ -264,4 +279,74 @@ export async function GetOrderDetailsController(request,response){
             success : false
         })
     }
+}
+
+export async function UpdateOrderStatusController(request, response) {
+  try {
+    const { orderId, status } = request.body;
+
+    // Validate status
+    const validStatuses = ["ordered", "processing", "shipped", "delivered", "cancelled"];
+    if (!validStatuses.includes(status)) {
+      return response.status(400).json({
+        message: "Invalid order status provided",
+        error: true,
+        success: false
+      });
+    }
+
+    // Update the order
+    const updatedOrder = await OrderModel.findOneAndUpdate(
+      { orderId: orderId },
+      { 
+        order_status: status,
+        updatedAt: new Date()
+      },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return response.status(404).json({
+        message: "Order not found",
+        error: true,
+        success: false
+      });
+    }
+
+    return response.json({
+      message: "Order status updated successfully",
+      error: false,
+      success: true,
+      data: updatedOrder
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false
+    });
+  }
+}
+
+export async function GetAllOrdersController(request, response) {
+  try {
+    // Get all orders with user and address info
+    const allOrders = await OrderModel.find()
+      .sort({ createdAt: -1 })
+      .populate('delivery_address')
+      .populate('userId', 'name email phone');
+      
+    return response.json({
+      message: "All orders retrieved successfully",
+      data: allOrders,
+      error: false,
+      success: true
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false
+    });
+  }
 }

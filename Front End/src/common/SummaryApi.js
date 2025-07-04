@@ -109,7 +109,7 @@ const SummaryApi = {
         url : '/api/product/search-product',
         method : 'POST'
     },
-    addTocart : {
+    addToCart : {
         url : "/api/cart/create-cart",
         method : 'POST'
     },
@@ -159,6 +159,14 @@ const SummaryApi = {
     },
     getOrderList: {
         url: '/api/order/order-list',
+        method: 'GET'
+    },
+    updateOrderStatus: {
+        url: '/api/order/update-status', 
+        method: 'PUT'
+    },
+    getAllOrdersAdmin: {
+        url: '/api/order/admin/all-orders',
         method: 'GET'
     }
 }

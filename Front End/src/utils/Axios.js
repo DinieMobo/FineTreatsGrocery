@@ -68,4 +68,32 @@ const refreshAccessToken = async(refreshToken)=>{
     }
 }
 
+export const updateOrderStatus = async (orderId, status) => {
+  try {
+    const response = await Axios({
+      ...SummaryApi.updateOrderStatus,
+      data: {
+        orderId,
+        status
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    throw error;
+  }
+};
+
+export const getAllOrders = async () => {
+  try {
+    const response = await Axios({
+      ...SummaryApi.getAllOrdersAdmin
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching all orders:', error);
+    throw error;
+  }
+};
+
 export default Axios

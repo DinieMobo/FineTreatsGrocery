@@ -235,12 +235,15 @@ const CheckoutPage = () => {
         
         if (result.error) {
           console.error("Stripe redirect error:", result.error);
-          toast.error("Payment redirect failed: " + result.error.message);
+          toast.error(`Payment redirect failed: ${result.error.message || "Unknown error"}`);
+          
+          // Attempt to recover the session
+          localStorage.setItem('failedPaymentSession', responseData.id);
           setIsPaymentProcessing(false);
         }
       } catch (redirectError) {
         console.error("Redirect error:", redirectError);
-        toast.error("Failed to redirect to payment page. Please try again.");
+        toast.error("Failed to redirect to payment page. Please try again or contact support.");
         setIsPaymentProcessing(false);
       }
       

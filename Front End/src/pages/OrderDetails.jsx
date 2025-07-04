@@ -1,89 +1,246 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
 import Axios from '../utils/Axios';
 import SummaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { FaArrowLeft, FaBox, FaMapMarkerAlt, FaCalendarAlt, FaCreditCard, 
-         FaTruck, FaReceipt, FaPrint, FaDownload } from 'react-icons/fa';
+         FaTruck, FaReceipt, FaPrint, FaDownload, FaSync } from 'react-icons/fa';
+import { toast } from 'react-hot-toast';
+import { useGlobalContext } from '../provider/GlobalProvider';
+import { setCurrentOrder } from '../store/orderSlice';
 
 const OrderDetails = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
-  const [orderData, setOrderData] = useState(null);
+  const dispatch = useDispatch();
+  const { fetchOrderById, fetchOrder } = useGlobalContext();
   const [loading, setLoading] = useState(true);
   const [viewImage, setViewImage] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [orderTrackingSteps, setOrderTrackingSteps] = useState([]);
   const allOrders = useSelector(state => state.orders.order);
+  const currentOrder = useSelector(state => state.orders.currentOrder);
   
   useEffect(() => {
-    const orderFromStore = allOrders.find(order => order._id === orderId);
-    
-    if (orderFromStore) {
-      setOrderData(orderFromStore);
-      setLoading(false);
-    } else {
-      fetchOrderDetails();
-    }
-  }, [orderId, allOrders]);
-  
-  const fetchOrderDetails = async () => {
-    try {
+    const getOrderDetails = async () => {
       setLoading(true);
-      const response = await Axios({
-        ...SummaryApi.getSingleOrder,
-        method: 'GET',
-        params: { orderId }
-      });
       
-      if (response.data.success) {
-        setOrderData(response.data.data);
+      // First try to get from store
+      const orderFromStore = allOrders.find(order => order._id === orderId);
+      
+      if (orderFromStore) {
+        dispatch(setCurrentOrder(orderFromStore));
+        setLoading(false);
+      } else {
+        // If not in store or we need fresh data, fetch it
+        const fetchedOrder = await fetchOrderById(orderId);
+        if (!fetchedOrder) {
+          toast.error("Could not find order details");
+          navigate('/dashboard/myorders');
+        }
+        setLoading(false);
       }
-    } catch (error) {
-      AxiosToastError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+    
+    getOrderDetails();
+  }, [orderId, allOrders, dispatch, fetchOrderById, navigate]);
   
-  const getFormattedDate = (timestamp) => {
+  // Generate order tracking steps based on status
+  useEffect(() => {
+    if (currentOrder) {
+      // This is a simplified tracking flow - in a real app this would come from the backend
+      const defaultSteps = [
+        { id: 'ordered', label: 'Order Placed', completed: true, date: currentOrder.createdAt },
+        { id: 'processing', label: 'Processing', completed: false, date: null },
+        { id: 'shipped', label: 'Shipped', completed: false, date: null },
+        { id: 'delivered', label: 'Delivered', completed: false, date: null }
+      ];
+
+      // Use order_status first, then fall back to payment_status
+      const status = currentOrder.order_status?.toLowerCase() || currentOrder.payment_status?.toLowerCase();
+      
+      if (status === 'processing' || status === 'shipped' || status === 'delivered' || status === 'completed') {
+        defaultSteps[1].completed = true;
+        defaultSteps[1].date = currentOrder.updatedAt || new Date(new Date(currentOrder.createdAt).getTime() + 1000*60*60*24); // +1 day (simplified)
+      }
+      
+      if (status === 'shipped' || status === 'delivered' || status === 'completed') {
+        defaultSteps[2].completed = true;
+        defaultSteps[2].date = currentOrder.updatedAt || new Date(new Date(currentOrder.createdAt).getTime() + 1000*60*60*24*2); // +2 days (simplified)
+      }
+      
+      if (status === 'delivered' || status === 'completed') {
+        defaultSteps[3].completed = true;
+        defaultSteps[3].date = currentOrder.updatedAt || new Date(new Date(currentOrder.createdAt).getTime() + 1000*60*60*24*5); // +5 days (simplified)
+      }
+      
+      setOrderTrackingSteps(defaultSteps);
+    }
+  }, [currentOrder]);
+  
+  const getFormattedDate = useCallback((timestamp) => {
     try {
-      return format(new Date(timestamp), 'MMMM dd, yyyy • h:mm a');
+      return format(typeof timestamp === 'string' ? parseISO(timestamp) : timestamp, 'MMMM dd, yyyy • h:mm a');
     } catch (error) {
       return 'N/A';
     }
-  };
+  }, []);
   
-  const getStatusColor = (status) => {
+  const getStatusColor = useCallback((status) => {
     switch(status?.toLowerCase()) {
       case 'completed':
+      case 'delivered':
         return 'bg-green-500';
       case 'processing':
         return 'bg-blue-500';
       case 'shipped':
         return 'bg-indigo-500';
-      case 'delivered':
-        return 'bg-green-600';
+      case 'ordered':
+        return 'bg-blue-600';
       case 'cancelled':
         return 'bg-red-500';
+      case 'cash on delivery':
+        return 'bg-yellow-500';
       case 'pending':
         return 'bg-yellow-500';
       default:
         return 'bg-gray-500';
     }
+  }, []);
+  
+  const handlePrintReceipt = useCallback(() => {
+    window.print();
+  }, []);
+
+  const handleDownloadReceipt = useCallback(() => {
+    // Create a more detailed receipt in HTML format
+    if (!currentOrder) return;
+    
+    const receiptContent = `
+      <html>
+        <head>
+          <title>Receipt - ${currentOrder.orderId}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+            h1 { color: #3b82f6; text-align: center; margin-bottom: 30px; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { font-weight: bold; font-size: 24px; color: #3b82f6; margin-bottom: 10px; }
+            .receipt-id { color: #6b7280; margin-bottom: 20px; }
+            .order-details { margin: 20px 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 20px; }
+            .section-title { font-weight: bold; margin-bottom: 10px; color: #4b5563; }
+            .item { margin-bottom: 20px; }
+            .item img { max-width: 100px; max-height: 100px; margin-right: 10px; float: left; }
+            .item-details { margin-left: 120px; }
+            .total { font-weight: bold; margin-top: 20px; text-align: right; font-size: 18px; }
+            .footer { margin-top: 40px; text-align: center; color: #6b7280; font-size: 14px; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { text-align: left; padding: 12px; }
+            th { background-color: #f3f4f6; }
+            tr:nth-child(even) { background-color: #f9fafb; }
+            .address { margin: 20px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="logo">Fine Treats Grocery</div>
+            <div class="receipt-id">Receipt #: ${currentOrder.invoice_receipt || currentOrder.orderId}</div>
+          </div>
+          
+          <div class="order-details">
+            <div class="section-title">Order Information</div>
+            <p>Order ID: ${currentOrder.orderId}</p>
+            <p>Date: ${getFormattedDate(currentOrder.createdAt)}</p>
+            <p>Payment Method: ${currentOrder.paymentId ? 'Online Payment' : 'Cash on Delivery'}</p>
+            <p>Payment Status: ${currentOrder.payment_status || 'Processing'}</p>
+          </div>
+          
+          <div class="section-title">Product Details</div>
+          <div class="item">
+            <img src="${currentOrder.product_details?.image?.[0] || 'placeholder.png'}" alt="Product Image">
+            <div class="item-details">
+              <p><strong>${currentOrder.product_details?.name || 'Product'}</strong></p>
+              <p>Quantity: ${currentOrder.quantity || 1}</p>
+              <p>Price per unit: Rs.${(currentOrder.subTotalAmt / (currentOrder.quantity || 1)).toFixed(2)}</p>
+              <p>Subtotal: Rs.${currentOrder.subTotalAmt?.toFixed(2) || "0.00"}</p>
+            </div>
+            <div style="clear: both;"></div>
+          </div>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Subtotal</td>
+                <td>Rs.${currentOrder.subTotalAmt?.toFixed(2) || "0.00"}</td>
+              </tr>
+              <tr>
+                <td>Discount</td>
+                <td>Rs.${((currentOrder.subTotalAmt || 0) - (currentOrder.totalAmt || 0)).toFixed(2)}</td>
+              </tr>
+              <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>Rs.${currentOrder.totalAmt?.toFixed(2) || "0.00"}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <div class="address">
+            <div class="section-title">Shipping Address</div>
+            <p>${currentOrder.delivery_address?.address_line1 || ''}, ${currentOrder.delivery_address?.address_line2 || ''}</p>
+            <p>${currentOrder.delivery_address?.city || ''}, ${currentOrder.delivery_address?.state || ''}, ${currentOrder.delivery_address?.zipcode || ''}</p>
+            <p>${currentOrder.delivery_address?.country || ''}</p>
+            <p>Phone: ${currentOrder.delivery_address?.phone || ''}</p>
+          </div>
+          
+          <div class="footer">
+            <p>Thank you for shopping with Fine Treats Grocery!</p>
+            <p>For any queries, please contact us at support@finetreats.com</p>
+          </div>
+        </body>
+      </html>
+    `;
+    
+    // Create a Blob from the HTML content
+    const blob = new Blob([receiptContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    
+    // Create a download link and trigger it
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Receipt-${currentOrder.orderId}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, [currentOrder, getFormattedDate]);
+
+  const handleRefreshOrder = async () => {
+    await fetchOrder();
+    const refreshedOrder = await fetchOrderById(orderId);
+    if (refreshedOrder) {
+      toast.success("Order details refreshed!");
+    }
   };
   
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="flex justify-center items-center h-64 flex-col">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+        <p className="text-gray-600">Loading order details...</p>
       </div>
     );
   }
   
-  if (!orderData) {
+  if (!currentOrder) {
     return (
       <div className="p-6 text-center">
         <h2 className="text-xl font-semibold text-gray-700 mb-2">Order Not Found</h2>
@@ -117,20 +274,66 @@ const OrderDetails = () => {
           
           <div>
             <h1 className="text-xl font-bold text-gray-800">Order Details</h1>
-            <p className="text-sm text-gray-500">Order #{orderData.orderId}</p>
+            <p className="text-sm text-gray-500">Order #{currentOrder.orderId}</p>
           </div>
         </div>
         
         <div className="flex items-center">
-          <span className={`px-3 py-1 rounded-full text-white text-sm font-medium ${getStatusColor(orderData.payment_status)}`}>
-            {orderData.payment_status || 'Processing'}
+          <span className={`px-3 py-1 rounded-full text-white text-sm font-medium ${getStatusColor(currentOrder.order_status || currentOrder.payment_status)}`}>
+            {currentOrder.order_status || currentOrder.payment_status || 'Processing'}
           </span>
           <span className="ml-3 text-sm text-gray-500 flex items-center">
             <FaCalendarAlt className="mr-1 text-blue-500" /> 
-            {getFormattedDate(orderData.createdAt)}
+            {getFormattedDate(currentOrder.createdAt)}
           </span>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={handleRefreshOrder}
+            className="ml-3 p-2 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100"
+            title="Refresh order details"
+          >
+            <FaSync className="text-sm" />
+          </motion.button>
         </div>
       </div>
+      
+      {/* Order tracking timeline */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="bg-white rounded-lg shadow-md p-4 mb-6"
+      >
+        <h2 className="text-lg font-semibold mb-4">Order Status</h2>
+        <div className="flex items-center justify-between relative">
+          <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 h-1 bg-gray-200 -z-10"></div>
+          
+          {orderTrackingSteps.map((step, index) => (
+            <div key={step.id} className="flex flex-col items-center relative">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                step.completed 
+                  ? 'bg-green-500 text-white'
+                  : 'bg-gray-200 text-gray-500'
+              }`}>
+                {step.completed ? (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  index + 1
+                )}
+              </div>
+              <div className="text-xs font-medium mt-2 text-center">{step.label}</div>
+              {step.date && (
+                <div className="text-xs text-gray-500 mt-1">
+                  {format(new Date(step.date), 'MMM dd')}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </motion.div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
@@ -148,45 +351,58 @@ const OrderDetails = () => {
             <div className="p-4 flex">
               {/* Product image */}
               <div className="w-24 h-24 mr-4 rounded-md overflow-hidden flex-shrink-0 border border-gray-100">
-                <img
-                  src={orderData.product_details?.image?.[0]}
-                  alt={orderData.product_details?.name}
-                  className="w-full h-full object-contain"
-                  onClick={() => setViewImage(orderData.product_details?.image?.[0])}
-                  style={{ cursor: 'pointer' }}
-                />
+                {currentOrder.product_details?.image?.[0] ? (
+                  <img
+                    src={currentOrder.product_details.image[0]}
+                    alt={currentOrder.product_details?.name || "Product image"}
+                    className="w-full h-full object-contain"
+                    onClick={() => setViewImage(currentOrder.product_details.image[0])}
+                    style={{ cursor: 'pointer' }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://via.placeholder.com/150?text=No+Image';
+                    }}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                    <FaBox className="text-gray-400 text-3xl" />
+                  </div>
+                )}
               </div>
               
               {/* Product information */}
               <div className="flex-1">
                 <h3 className="font-medium text-gray-800">
-                  {orderData.product_details?.name || "Product Name"}
+                  {currentOrder.product_details?.name || "Product Name"}
                 </h3>
                 
                 <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                   <div>
                     <span className="text-gray-500">Price:</span>{' '}
                     <span className="font-medium text-gray-800">
-                      {DisplayPriceInRupees(orderData.subTotalAmt)}
+                      {DisplayPriceInRupees(currentOrder.subTotalAmt)}
                     </span>
                   </div>
                   
                   <div>
                     <span className="text-gray-500">Quantity:</span>{' '}
-                    <span className="font-medium text-gray-800">1</span>
+                    <span className="font-medium text-gray-800">
+                      {currentOrder.quantity || 1}
+                    </span>
                   </div>
                   
                   <div>
                     <span className="text-gray-500">Total:</span>{' '}
                     <span className="font-medium text-gray-800">
-                      {DisplayPriceInRupees(orderData.totalAmt)}
+                      {DisplayPriceInRupees(currentOrder.totalAmt)}
                     </span>
                   </div>
                   
                   <div>
                     <span className="text-gray-500">Order ID:</span>{' '}
                     <span className="font-medium text-gray-800">
-                      {orderData.orderId}
+                      {currentOrder.orderId}
                     </span>
                   </div>
                 </div>
@@ -211,36 +427,36 @@ const OrderDetails = () => {
                 <div>
                   <p className="text-gray-500">Payment Method</p>
                   <p className="font-medium text-gray-800">
-                    {orderData.paymentId ? 'Online Payment' : 'Cash on Delivery'}
+                    {currentOrder.paymentId ? 'Online Payment' : 'Cash on Delivery'}
                   </p>
                 </div>
                 
                 <div>
                   <p className="text-gray-500">Payment Status</p>
                   <p className="font-medium text-gray-800">
-                    {orderData.payment_status || 'Processing'}
+                    {currentOrder.payment_status || 'Processing'}
                   </p>
                 </div>
                 
                 <div>
                   <p className="text-gray-500">Subtotal</p>
                   <p className="font-medium text-gray-800">
-                    {DisplayPriceInRupees(orderData.subTotalAmt)}
+                    {DisplayPriceInRupees(currentOrder.subTotalAmt)}
                   </p>
                 </div>
                 
                 <div>
                   <p className="text-gray-500">Total Amount</p>
                   <p className="font-medium text-gray-800">
-                    {DisplayPriceInRupees(orderData.totalAmt)}
+                    {DisplayPriceInRupees(currentOrder.totalAmt)}
                   </p>
                 </div>
                 
-                {orderData.paymentId && (
+                {currentOrder.paymentId && (
                   <div className="col-span-2">
                     <p className="text-gray-500">Payment ID</p>
                     <p className="font-medium text-gray-800 break-all">
-                      {orderData.paymentId}
+                      {currentOrder.paymentId}
                     </p>
                   </div>
                 )}
@@ -264,25 +480,25 @@ const OrderDetails = () => {
             </div>
             
             <div className="p-4">
-              {orderData.delivery_address ? (
+              {currentOrder.delivery_address ? (
                 <div className="text-sm space-y-3">
                   <div className="flex items-start">
                     <FaMapMarkerAlt className="text-blue-500 mt-1 mr-2 flex-shrink-0" />
                     <div>
                       <p className="font-medium text-gray-800">
-                        {orderData.delivery_address.address_line1}
+                        {currentOrder.delivery_address.address_line1}
                       </p>
                       <p className="text-gray-600">
-                        {orderData.delivery_address.address_line2}
+                        {currentOrder.delivery_address.address_line2}
                       </p>
                       <p className="text-gray-600">
-                        {orderData.delivery_address.city}, {orderData.delivery_address.state}, {orderData.delivery_address.zipcode}
+                        {currentOrder.delivery_address.city}, {currentOrder.delivery_address.state}, {currentOrder.delivery_address.zipcode}
                       </p>
                       <p className="text-gray-600">
-                        {orderData.delivery_address.country}
+                        {currentOrder.delivery_address.country}
                       </p>
                       <p className="text-gray-600 mt-2">
-                        Phone: {orderData.delivery_address.phone}
+                        Phone: {currentOrder.delivery_address.phone}
                       </p>
                     </div>
                   </div>
@@ -306,16 +522,17 @@ const OrderDetails = () => {
             </div>
             
             <div className="p-4 text-center">
-              {orderData.invoice_receipt ? (
+              {currentOrder.invoice_receipt || currentOrder.orderId ? (
                 <div className="space-y-4">
                   <p className="text-sm text-gray-600">
-                    Receipt ID: {orderData.invoice_receipt}
+                    Receipt ID: {currentOrder.invoice_receipt || currentOrder.orderId}
                   </p>
                   <div className="flex justify-center space-x-3">
                     <motion.button
                       className="px-3 py-2 bg-blue-50 text-blue-600 rounded-lg flex items-center text-sm"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
+                      onClick={handlePrintReceipt}
                     >
                       <FaPrint className="mr-2" /> Print Receipt
                     </motion.button>
@@ -323,6 +540,7 @@ const OrderDetails = () => {
                       className="px-3 py-2 bg-green-50 text-green-600 rounded-lg flex items-center text-sm"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
+                      onClick={handleDownloadReceipt}
                     >
                       <FaDownload className="mr-2" /> Download
                     </motion.button>
@@ -354,10 +572,18 @@ const OrderDetails = () => {
             className="relative max-w-2xl max-h-[80vh] rounded-lg overflow-hidden bg-white p-2"
             onClick={e => e.stopPropagation()}
           >
+            {imageLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-500"></div>
+              </div>
+            )}
             <img
               src={viewImage}
               alt="Product image"
               className="w-full h-full object-contain"
+              onLoad={() => setImageLoading(false)}
+              onError={() => setImageLoading(false)}
+              onLoadStart={() => setImageLoading(true)}
             />
             <button
               className="absolute top-2 right-2 bg-white/80 rounded-full p-1 text-gray-800 hover:bg-white"

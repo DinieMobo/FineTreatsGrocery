@@ -29,6 +29,8 @@
     "react-router-dom": "^6.28.2",
     "react-select": "^5.10.1",
     "react-select-country-list": "^2.2.3",
+    "react-to-print": "^3.1.0",
+    "react-toastify": "^11.0.5",
     "react-type-animation": "^3.2.0",
     "sweetalert2": "^11.6.13"
   },

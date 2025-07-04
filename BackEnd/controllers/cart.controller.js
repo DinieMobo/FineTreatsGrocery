@@ -1,7 +1,6 @@
 import ProductCartModel from "../models/product_cart.model.js";
 import UserModel from "../models/user.model.js";
 
-export const AddToCartItemController = async(request,response)=>{
     try {
         const  userId = request.userId
         const { productId } = request.body

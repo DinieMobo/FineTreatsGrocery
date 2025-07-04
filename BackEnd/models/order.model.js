@@ -27,6 +27,11 @@ const orderSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    order_status: {
+        type: String,
+        enum: ["ordered", "processing", "shipped", "delivered", "cancelled"],
+        default: "ordered"
+    },
     delivery_address: {
         type: mongoose.Schema.ObjectId,
         ref: "Address"
@@ -38,6 +43,10 @@ const orderSchema = new mongoose.Schema({
     totalAmt: {
         type: Number,
         default: 0
+    },
+    quantity: {
+        type: Number,
+        default: 1
     },
     invoice_receipt: {
         type: String,
