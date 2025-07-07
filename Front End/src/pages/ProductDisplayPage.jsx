@@ -14,7 +14,6 @@ import Loading from '../components/Loading';
 
 const ProductDisplayPage = () => {
   const params = useParams()
-  // Bug fix: Handle missing or malformed product ID more gracefully
   let productId = params?.product ? params?.product?.split("-")?.slice(-1)[0] : null
   const [data, setData] = useState({
     name: "",
@@ -56,7 +55,6 @@ const ProductDisplayPage = () => {
     visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
   }
 
-  // Mouse tracking for image magnifier effect
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (mainImageRef.current) {
@@ -90,7 +88,6 @@ const ProductDisplayPage = () => {
 
       if (responseData.success) {
         setData(responseData.data)
-        // Reset image index when loading new product
         setImage(0)
       }
     } catch (error) {

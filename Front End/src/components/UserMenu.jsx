@@ -45,7 +45,6 @@ const UserMenu = ({close}) => {
       }
    }
 
-   // Animation variants
    const containerVariants = {
      hidden: { opacity: 0, y: -5 },
      visible: { 
@@ -212,7 +211,6 @@ const UserMenu = ({close}) => {
   )
 }
 
-// MenuItem component for consistent styling and behavior
 const MenuItem = ({ to, text, icon, onClick, isHovered, onHover, onLeave }) => {
   return (
     <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>

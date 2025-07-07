@@ -76,7 +76,6 @@ const CategoryPage = () => {
         }
     };
 
-    // Track mouse position for custom cursor effect
     useEffect(() => {
         const handleMouseMove = (e) => {
             setCursorPosition({ x: e.clientX, y: e.clientY });
