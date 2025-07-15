@@ -9,7 +9,7 @@ const OrderStatusBadge = ({ status, size = 'normal', showIcon = true, className 
     switch(normalizedStatus) {
       case 'ordered':
         return {
-          color: 'bg-blue-500 text-white',
+          color: 'bg-yellow-500 text-white',
           hoverColor: 'hover:bg-blue-600',
           icon: <FaBox />,
           label: 'Ordered',

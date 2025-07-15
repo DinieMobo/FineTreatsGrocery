@@ -108,7 +108,7 @@ export const DeleteCategoryController = async(request,response)=>{
 
         if(checkSubCategory >  0 || checkProduct > 0 ){
             return response.status(400).json({
-                message : "Category is already use can't delete",
+                message : "Category is already in use",
                 error : true,
                 success : false
             })
@@ -117,7 +117,7 @@ export const DeleteCategoryController = async(request,response)=>{
         const deleteCategory = await CategoryModel.deleteOne({ _id : _id})
 
         return response.json({
-            message : "Delete category successfully",
+            message : "Category Deleted successfully",
             data : deleteCategory,
             error : false,
             success : true

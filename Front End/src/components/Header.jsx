@@ -40,7 +40,6 @@ const Header = () => {
         navigate("/user")
     }
 
-    //total item and total price
     // useEffect(()=>{
     //     const qty = cartItem.reduce((preve,curr)=>{
     //         return preve + curr.quantity

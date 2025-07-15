@@ -6,8 +6,6 @@ import AdminOrderManagement from '../pages/AdminOrderManagement';
 import ProtectedRoute from '../components/ProtectedRoute';
 import DashboardLayout from '../layouts/DashboardLayout';
 import NoData from '../components/NoData';
-
-// Import your other page components
 import Home from '../pages/Home';
 import ProductPage from '../pages/ProductPage';
 import Checkout from '../pages/Checkout';
@@ -15,7 +13,6 @@ import Checkout from '../pages/Checkout';
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* Public routes */}
       <Route path="/" element={<Home />} />
       <Route path="/products" element={<ProductPage />} />
       <Route path="/checkout" element={
@@ -24,7 +21,6 @@ const AppRoutes = () => {
         </ProtectedRoute>
       } />
       
-      {/* Dashboard routes - nested within the dashboard layout */}
       <Route path="/dashboard" element={
         <ProtectedRoute requiredRole="Customer">
           <DashboardLayout />
@@ -34,7 +30,6 @@ const AppRoutes = () => {
         <Route path="myorders" element={<MyOrders />} />
         <Route path="orderdetails/:orderId" element={<OrderDetails />} />
         
-        {/* Admin Routes */}
         <Route path="admin-orders" element={
           <ProtectedRoute requiredRole="Admin">
             <AdminOrderManagement />
@@ -42,7 +37,6 @@ const AppRoutes = () => {
         } />
       </Route>
       
-      {/* Catch all - 404 */}
       <Route path="*" element={<NoData />} />
     </Routes>
   );

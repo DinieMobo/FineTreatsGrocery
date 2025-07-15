@@ -112,7 +112,7 @@ const Address = () => {
               onMouseLeave={() => setHoveredCard(null)}
             >
               {/* Border accent */}
-              <div className={`absolute top-0 left-0 w-1 h-full bg-blue-500 rounded-l-lg transition-all duration-300 ${
+              <div className={`absolute top-0 left-0 w-1 h-full bg-yellow-500 rounded-l-lg transition-all duration-300 ${
                 hoveredCard === address._id ? 'h-full' : 'h-[30%]'
               }`}></div>
               

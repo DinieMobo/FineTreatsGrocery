@@ -6,7 +6,6 @@ const Axios = axios.create({
     withCredentials : true
 })
 
-//sending access token in the header
 Axios.interceptors.request.use(
     async(config)=>{
         const accessToken = localStorage.getItem('accesstoken');
@@ -22,8 +21,6 @@ Axios.interceptors.request.use(
     }
 )
 
-//extend the life span of access token with 
-// the help refresh
 Axios.interceptors.request.use(
     (response)=>{
         return response

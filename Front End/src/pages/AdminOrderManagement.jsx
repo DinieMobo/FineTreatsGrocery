@@ -96,7 +96,7 @@ const AdminOrderManagement = () => {
       case 'delivered':
         return 'bg-green-500';
       case 'processing':
-        return 'bg-blue-500';
+        return 'bg-yellow-500';
       case 'shipped':
         return 'bg-indigo-500';
       case 'ordered':

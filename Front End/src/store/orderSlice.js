@@ -33,19 +33,16 @@ const orderSlice = createSlice({
         updateOrderStatus: (state, action) => {
             const { orderId, status } = action.payload;
             
-            // Update in order array
             const orderIndex = state.order.findIndex(order => order.orderId === orderId);
             if (orderIndex !== -1) {
                 state.order[orderIndex].order_status = status;
             }
             
-            // Update in filtered orders array
             const filteredIndex = state.filteredOrders.findIndex(order => order.orderId === orderId);
             if (filteredIndex !== -1) {
                 state.filteredOrders[filteredIndex].order_status = status;
             }
             
-            // Update current order if it's the same one
             if (state.currentOrder && state.currentOrder.orderId === orderId) {
                 state.currentOrder.order_status = status;
             }
@@ -53,7 +50,6 @@ const orderSlice = createSlice({
         adminUpdateOrderStatus: (state, action) => {
             const { id, orderId, status } = action.payload;
             
-            // Update in order array by _id or orderId
             const orderIndex = state.order.findIndex(order => 
                 (id && order._id === id) || order.orderId === orderId
             );
@@ -61,7 +57,6 @@ const orderSlice = createSlice({
                 state.order[orderIndex].order_status = status;
             }
             
-            // Update in filtered orders array
             const filteredIndex = state.filteredOrders.findIndex(order => 
                 (id && order._id === id) || order.orderId === orderId
             );
@@ -69,7 +64,6 @@ const orderSlice = createSlice({
                 state.filteredOrders[filteredIndex].order_status = status;
             }
             
-            // Update current order if it's the same one
             if (state.currentOrder && 
                 ((id && state.currentOrder._id === id) || state.currentOrder.orderId === orderId)) {
                 state.currentOrder.order_status = status;
@@ -83,7 +77,6 @@ const orderSlice = createSlice({
             
             if (status !== 'all') {
                 filtered = filtered.filter(order => {
-                    // Check order_status first, then fall back to payment_status
                     const orderStatus = order.order_status || order.payment_status || '';
                     return orderStatus.toLowerCase() === status.toLowerCase();
                 });
@@ -142,7 +135,7 @@ export const {
     setLoading,
     setError,
     updateOrderStatus,
-    adminUpdateOrderStatus, // Export the new action
+    adminUpdateOrderStatus,
     filterOrders,
     clearFilters
 } = orderSlice.actions

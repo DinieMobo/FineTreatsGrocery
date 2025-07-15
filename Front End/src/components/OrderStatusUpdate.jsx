@@ -13,7 +13,7 @@ const OrderStatusUpdate = ({ order, onStatusUpdate }) => {
 
   const statusOptions = [
     { value: 'ordered', label: 'Ordered', color: 'bg-blue-600' },
-    { value: 'processing', label: 'Processing', color: 'bg-blue-500' },
+    { value: 'processing', label: 'Processing', color: 'bg-yellow-500' },
     { value: 'shipped', label: 'Shipped', color: 'bg-indigo-500' },
     { value: 'delivered', label: 'Delivered', color: 'bg-green-500' },
     { value: 'cancelled', label: 'Cancelled', color: 'bg-red-500' }
@@ -54,7 +54,6 @@ const OrderStatusUpdate = ({ order, onStatusUpdate }) => {
     setIsEditing(false);
   };
 
-  // Only admins can edit order status
   if (!isAdmin(user?.role)) {
     return (
       <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${currentStatusOption.color}`}>

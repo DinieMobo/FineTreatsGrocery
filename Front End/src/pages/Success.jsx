@@ -62,7 +62,6 @@ const SuccessPage = () => {
     
     if (pendingPayment) {
       const paymentData = JSON.parse(pendingPayment);
-      // Check if the payment is recent (within last 10 minutes)
       const isRecentPayment = Date.now() - paymentData.timestamp < 10 * 60 * 1000;
       
       if (isRecentPayment) {

@@ -403,7 +403,6 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
                                                 }
                                             })
                                         }
-                                        // Reset select value
                                         e.target.value = ""
                                     }}
                                     onFocus={() => setActiveField('category')}

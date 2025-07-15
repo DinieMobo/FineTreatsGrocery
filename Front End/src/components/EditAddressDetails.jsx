@@ -69,7 +69,6 @@ const EditAddressDetails = ({close, data}) => {
         countryOptions.find(opt => opt.label === data.country) || null
     )
     
-    // Animation variants
     const overlayVariants = {
         hidden: { opacity: 0 },
         visible: { 

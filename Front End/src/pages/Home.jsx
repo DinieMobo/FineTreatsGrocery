@@ -12,22 +12,19 @@ import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 
-// Constants for default banners
 const DEFAULT_BANNER = '/default-banner.jpg';
 const DEFAULT_BANNER_MOBILE = '/default-banner-mobile.jpg';
 
-// Enhanced Loading Skeleton Component
 const LoadingSkeleton = () => (
   <div className="bg-white rounded-lg p-4 min-h-36 grid gap-2 shadow-md relative overflow-hidden">
     <div className="bg-blue-100 min-h-24 rounded-lg"></div>
+
     <div className="bg-blue-100 h-8 rounded-lg"></div>
-    {/* Animated loading effect */}
     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" 
          style={{ backgroundSize: '200% 100%' }}></div>
   </div>
 );
 
-// Enhanced Category Card Component with hover effects
 const CategoryCard = ({ category, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
   
@@ -94,7 +91,6 @@ const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const bannerRef = useRef(null);
 
-  // Track mouse position for parallax effect
   const handleMouseMove = (e) => {
     if (bannerRef.current) {
       const { left, top, width, height } = bannerRef.current.getBoundingClientRect();
@@ -104,7 +100,6 @@ const Home = () => {
     }
   };
 
-  // Auto rotate the banner images
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentBannerIndex((prev) => (prev + 1) % bannerImages.length);
@@ -211,7 +206,7 @@ const Home = () => {
         >
           <span className="relative z-10">Shop by Category</span>
           <motion.span 
-            className="absolute -bottom-1 left-0 h-1 bg-blue-500 rounded-full"
+            className="absolute -bottom-1 left-0 h-1 bg-yellow-500 rounded-full"
             initial={{ width: '0%' }}
             animate={{ width: '100%' }}
             transition={{ delay: 0.6, duration: 0.5 }}

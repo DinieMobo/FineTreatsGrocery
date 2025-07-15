@@ -1,12 +1,9 @@
-// Enhanced toast utilities for consistent use throughout the application
 import toast from 'react-hot-toast';
 
-// Standard toast methods
 export const showSuccess = (message) => toast.success(message);
 export const showError = (message) => toast.error(message);
 export const showLoading = (message) => toast.loading(message);
 
-// Custom warning toast (not built into react-hot-toast)
 export const showWarning = (message) => {
   return toast(message, {
     icon: '⚠️',
@@ -19,7 +16,6 @@ export const showWarning = (message) => {
   });
 };
 
-// Custom info toast
 export const showInfo = (message) => {
   return toast(message, {
     icon: 'ℹ️',
@@ -32,10 +28,8 @@ export const showInfo = (message) => {
   });
 };
 
-// Dismiss all toasts
 export const dismissAll = () => toast.dismiss();
 
-// Default export with all methods
 export default {
   success: showSuccess,
   error: showError,

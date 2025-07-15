@@ -34,7 +34,6 @@ const ProductDisplayPage = () => {
   const imageContainer = useRef()
   const mainImageRef = useRef()
 
-  // Animation variants
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -216,7 +215,7 @@ const ProductDisplayPage = () => {
             >
               <span className={`block w-3 h-3 lg:w-4 lg:h-4 rounded-full ${
                 index === image 
-                  ? "bg-blue-500 shadow-md shadow-blue-200" 
+                  ? "bg-yellow-500 shadow-md shadow-blue-200" 
                   : "bg-gray-200"
               }`}></span>
             </motion.button>

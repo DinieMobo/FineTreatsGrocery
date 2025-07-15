@@ -186,7 +186,7 @@ const SubCategoryPage = () => {
         className='p-4 bg-white rounded-lg shadow-md flex items-center justify-between mb-6 sticky top-0 z-10'
       >
         <h2 className='font-bold text-xl text-gray-800 flex items-center'>
-          <span className="inline-block w-2 h-6 bg-blue-500 rounded-full mr-2"></span>
+          <span className="inline-block w-2 h-6 bg-yellow-500 rounded-full mr-2"></span>
           Sub-Categories Management
         </h2>
         <motion.button 

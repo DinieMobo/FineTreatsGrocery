@@ -124,7 +124,7 @@ const CategoryPage = () => {
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 0.15 }}
                         exit={{ scale: 0, opacity: 0 }}
-                        className="fixed w-20 h-20 rounded-full bg-blue-500 pointer-events-none z-50"
+                        className="fixed w-20 h-20 rounded-full bg-yellow-500 pointer-events-none z-50"
                         style={{ 
                             left: cursorPosition.x - 40, 
                             top: cursorPosition.y - 40,
@@ -154,7 +154,7 @@ const CategoryPage = () => {
                     transition={{ delay: 0.2, duration: 0.4 }}
                 >
                     <motion.span 
-                        className='inline-block w-2 h-6 bg-blue-500 rounded-full mr-2'
+                        className='inline-block w-2 h-6 bg-yellow-500 rounded-full mr-2'
                         animate={{ 
                             height: [24, 20, 24],
                             opacity: [0.7, 1, 0.7]

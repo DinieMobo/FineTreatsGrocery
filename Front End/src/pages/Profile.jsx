@@ -200,7 +200,7 @@ const Profile = () => {
                     </motion.div>
 
                     <motion.button 
-                        className='flex items-center justify-center gap-2 border-2 px-6 py-3 font-semibold bg-primary-100 border-primary-200 text-primary-200 hover:bg-primary-200 hover:text-white rounded-lg shadow-md transition-all duration-300 mt-4'
+                        className='flex items-center justify-center gap-2 border-2 px-6 py-3 font-semibold bg-primary-100 border-primary-200 text-black-200 hover:bg-primary-200 hover:text-white rounded-lg shadow-md transition-all duration-300 mt-4'
                         disabled={loading}
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}

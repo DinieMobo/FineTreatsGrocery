@@ -113,7 +113,7 @@ export const UpdateCartItemQtyController = async(request,response)=>{
 
 export const DeleteCartItemQtyController = async(request,response)=>{
     try {
-      const userId = request.userId // middleware
+      const userId = request.userId
       const { _id } = request.body 
       
       if(!_id){
@@ -146,7 +146,6 @@ export async function clearCartController(request, response) {
     try {
         const userId = request.userId;
         
-        // Clear the cart
         await ProductCartModel.deleteMany({ userId: userId });
         await UserModel.findByIdAndUpdate(userId, { shopping_cart: [] });
         

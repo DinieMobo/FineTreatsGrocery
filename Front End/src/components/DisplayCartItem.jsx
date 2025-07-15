@@ -23,7 +23,6 @@ const DisplayCartItem = ({close}) => {
     const redirectToCheckoutPage = () => {
         if(user?._id){
             setIsPaymentLoading(true)
-            // Simulate loading for better UX
             setTimeout(() => {
                 navigate("/checkout")
                 if(close) close()
@@ -40,7 +39,6 @@ const DisplayCartItem = ({close}) => {
         })
     }
     
-    // Animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: { 

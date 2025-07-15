@@ -74,7 +74,6 @@ const ProductListPage = () => {
     }
   }
 
-  // Load products
   const handleLoadMore = () => {
     if (page < totalPage) {
       setPage(prev => prev + 1)
@@ -97,7 +96,6 @@ const ProductListPage = () => {
     setDisplaySubCategory(sub)
   }, [params, AllSubCategory])
 
-  // FilterSub Categories on Search
   const filteredSubCategories = DisplaySubCategory.filter(item => 
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   )

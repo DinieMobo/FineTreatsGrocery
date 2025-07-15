@@ -18,7 +18,6 @@ import { WebhookStripe } from './controllers/order.controller.js';
 
 const app = express()
 
-// Update the CORS configuration to allow Stripe domains
 const corsOptions = {
     credentials: true,
     origin: function(origin, callback) {

@@ -421,7 +421,6 @@ const EditSubCategory = ({close, data, fetchData}) => {
                                     } else {
                                         toast.error("Category already added")
                                     }
-                                    // Reset select value
                                     e.target.value = ""
                                 }}
                                 onFocus={() => setActiveField('category')}

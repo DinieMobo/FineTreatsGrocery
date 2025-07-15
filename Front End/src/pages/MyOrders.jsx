@@ -72,7 +72,7 @@ const MyOrders = () => {
       case 'delivered':
         return 'bg-green-500';
       case 'processing':
-        return 'bg-blue-500';
+        return 'bg-yellow-500';
       case 'shipped':
         return 'bg-indigo-500';
       case 'ordered':
@@ -89,7 +89,6 @@ const MyOrders = () => {
   }
 
   const getStatusDisplayText = (order) => {
-    // Prioritize order_status if it exists, otherwise use payment_status
     return order.order_status || order.payment_status || 'Pending';
   }
 

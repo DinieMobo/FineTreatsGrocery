@@ -29,14 +29,12 @@ const OrderDetails = () => {
     const getOrderDetails = async () => {
       setLoading(true);
       
-      // First try to get from store
       const orderFromStore = allOrders.find(order => order._id === orderId);
       
       if (orderFromStore) {
         dispatch(setCurrentOrder(orderFromStore));
         setLoading(false);
       } else {
-        // If not in store or we need fresh data, fetch it
         const fetchedOrder = await fetchOrderById(orderId);
         if (!fetchedOrder) {
           toast.error("Could not find order details");
@@ -49,10 +47,8 @@ const OrderDetails = () => {
     getOrderDetails();
   }, [orderId, allOrders, dispatch, fetchOrderById, navigate]);
   
-  // Generate order tracking steps based on status
   useEffect(() => {
     if (currentOrder) {
-      // This is a simplified tracking flow - in a real app this would come from the backend
       const defaultSteps = [
         { id: 'ordered', label: 'Order Placed', completed: true, date: currentOrder.createdAt },
         { id: 'processing', label: 'Processing', completed: false, date: null },
@@ -60,22 +56,21 @@ const OrderDetails = () => {
         { id: 'delivered', label: 'Delivered', completed: false, date: null }
       ];
 
-      // Use order_status first, then fall back to payment_status
       const status = currentOrder.order_status?.toLowerCase() || currentOrder.payment_status?.toLowerCase();
       
       if (status === 'processing' || status === 'shipped' || status === 'delivered' || status === 'completed') {
         defaultSteps[1].completed = true;
-        defaultSteps[1].date = currentOrder.updatedAt || new Date(new Date(currentOrder.createdAt).getTime() + 1000*60*60*24); // +1 day (simplified)
+        defaultSteps[1].date = currentOrder.updatedAt || new Date(new Date(currentOrder.createdAt).getTime() + 1000*60*60*24);
       }
       
       if (status === 'shipped' || status === 'delivered' || status === 'completed') {
         defaultSteps[2].completed = true;
-        defaultSteps[2].date = currentOrder.updatedAt || new Date(new Date(currentOrder.createdAt).getTime() + 1000*60*60*24*2); // +2 days (simplified)
+        defaultSteps[2].date = currentOrder.updatedAt || new Date(new Date(currentOrder.createdAt).getTime() + 1000*60*60*24*2);
       }
       
       if (status === 'delivered' || status === 'completed') {
         defaultSteps[3].completed = true;
-        defaultSteps[3].date = currentOrder.updatedAt || new Date(new Date(currentOrder.createdAt).getTime() + 1000*60*60*24*5); // +5 days (simplified)
+        defaultSteps[3].date = currentOrder.updatedAt || new Date(new Date(currentOrder.createdAt).getTime() + 1000*60*60*24*5);
       }
       
       setOrderTrackingSteps(defaultSteps);
@@ -96,7 +91,7 @@ const OrderDetails = () => {
       case 'delivered':
         return 'bg-green-500';
       case 'processing':
-        return 'bg-blue-500';
+        return 'bg-yellow-500';
       case 'shipped':
         return 'bg-indigo-500';
       case 'ordered':
@@ -117,7 +112,6 @@ const OrderDetails = () => {
   }, []);
 
   const handleDownloadReceipt = useCallback(() => {
-    // Create a more detailed receipt in HTML format
     if (!currentOrder) return;
     
     const receiptContent = `
@@ -209,11 +203,9 @@ const OrderDetails = () => {
       </html>
     `;
     
-    // Create a Blob from the HTML content
     const blob = new Blob([receiptContent], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     
-    // Create a download link and trigger it
     const link = document.createElement('a');
     link.href = url;
     link.download = `Receipt-${currentOrder.orderId}.html`;

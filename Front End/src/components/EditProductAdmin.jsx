@@ -159,7 +159,6 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
     }
   }
 
-  // Form sections for tabbed interface
   const formSections = [
     { id: 'basic', title: 'Basic Information', icon: <MdDescription /> },
     { id: 'images', title: 'Product Images', icon: <BsImage /> },
@@ -454,7 +453,6 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             const category = allCategory.find(el => el._id === value)
                             if (!category) return;
                             
-                            // Prevent duplicates
                             if (data.category.some(c => c._id === category._id)) {
                               return;
                             }
@@ -514,7 +512,6 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             const subCategory = allSubCategory.find(el => el._id === value)
                             if (!subCategory) return;
                             
-                            // Prevent duplicates
                             if (data.subCategory.some(c => c._id === subCategory._id)) {
                               return;
                             }
@@ -768,7 +765,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             className='grid gap-2'
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.05 }} // Reduced delay to minimize flickering
+                            transition={{ delay: index * 0.05 }}
                           >
                             <div className="flex justify-between">
                               <label htmlFor={k} className='text-sm font-medium text-gray-600'>

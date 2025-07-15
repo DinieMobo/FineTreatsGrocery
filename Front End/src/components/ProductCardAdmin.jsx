@@ -42,14 +42,12 @@ const ProductCardAdmin = ({ data, fetchProductData }) => {
     }
   }
   
-  // Bug fix: Handle cases where image doesn't load properly
   const handleImageError = () => {
     setImageError(true)
   }
 
   return (
     <>
-      {/* The actual Product Card visual elements */}
       <motion.div 
         className='w-36 bg-white rounded-lg shadow-sm overflow-hidden'
         whileHover={{ 
@@ -91,7 +89,7 @@ const ProductCardAdmin = ({ data, fetchProductData }) => {
           
           {/* Product details indicator */}
           <motion.div 
-            className="absolute top-2 left-2 bg-blue-500 rounded-full p-1 z-20"
+            className="absolute top-2 left-2 bg-yellow-500 rounded-full p-1 z-20"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ 
               opacity: isHovered ? 1 : 0,
@@ -142,7 +140,6 @@ const ProductCardAdmin = ({ data, fetchProductData }) => {
         </div>
       </motion.div>
 
-      {/* The Modal, rendered outside the card's flow */}
       <AnimatePresence>
         {editOpen && (
           <EditProductAdmin 

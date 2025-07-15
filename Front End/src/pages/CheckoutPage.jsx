@@ -29,7 +29,6 @@ const CheckoutPage = () => {
   const [activeElement, setActiveElement] = useState(null)
   const [loadingProgress, setLoadingProgress] = useState(0)
   
-  // Mouse follower
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
@@ -44,7 +43,6 @@ const CheckoutPage = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [mouseX, mouseY])
 
-  // Simulated checkout progress for visual feedback
   useEffect(() => {
     if (isPaymentProcessing) {
       const interval = setInterval(() => {
@@ -63,7 +61,6 @@ const CheckoutPage = () => {
     }
   }, [isPaymentProcessing])
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
@@ -159,10 +156,7 @@ const CheckoutPage = () => {
       setIsPaymentProcessing(true)
       const loadingToastId = toast.loading("Preparing payment gateway...");
       
-      // Check if the browser is blocking third-party cookies
-      // This is a common cause of Stripe checkout issues
       try {
-        // Test third-party cookie support
         document.cookie = "testcookie=1; SameSite=None; Secure";
         if (!document.cookie.includes("testcookie")) {
           toast.dismiss(loadingToastId);
@@ -172,7 +166,6 @@ const CheckoutPage = () => {
         console.log("Cookie test failed:", cookieError);
       }
       
-      // Load Stripe
       const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
       if (!stripePublicKey) {
         toast.dismiss(loadingToastId);
@@ -195,7 +188,6 @@ const CheckoutPage = () => {
         return;
       }
       
-      // Get checkout session from backend
       toast.dismiss(loadingToastId);
       const processingToastId = toast.loading("Processing your order...");
       
@@ -218,7 +210,6 @@ const CheckoutPage = () => {
         return;
       }
 
-      // Store payment session ID in localStorage before redirecting
       localStorage.setItem('pendingPayment', JSON.stringify({
         sessionId: responseData.id,
         timestamp: Date.now(),
@@ -229,7 +220,6 @@ const CheckoutPage = () => {
       toast.dismiss(processingToastId);
       toast.loading("Redirecting to secure payment page...");
       
-      // Redirect to Stripe checkout with error handling
       try {
         const result = await stripePromise.redirectToCheckout({ sessionId: responseData.id });
         
@@ -237,7 +227,6 @@ const CheckoutPage = () => {
           console.error("Stripe redirect error:", result.error);
           toast.error(`Payment redirect failed: ${result.error.message || "Unknown error"}`);
           
-          // Attempt to recover the session
           localStorage.setItem('failedPaymentSession', responseData.id);
           setIsPaymentProcessing(false);
         }
