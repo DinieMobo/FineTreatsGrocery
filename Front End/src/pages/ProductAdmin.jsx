@@ -100,21 +100,21 @@ const ProductAdmin = () => {
   
   return (
     <motion.section 
-      className='min-h-screen bg-gray-50'
+      className='min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300'
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       {/* Header with search */}
       <motion.div 
-        className='p-4 bg-white shadow-lg rounded-lg mb-5 sticky top-0 z-10'
+        className='p-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg mb-5 sticky top-0 z-10 border dark:border-gray-700 transition-colors duration-300'
         initial={{ y: -20 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         <div className='flex flex-col md:flex-row items-center justify-between gap-4'>
           <motion.h2 
-            className='font-semibold text-xl text-primary-200'
+            className='font-semibold text-xl text-primary-200 dark:text-primary-300 transition-colors duration-300'
             whileHover={{ scale: 1.02 }}
           >
             Products Management
@@ -123,9 +123,9 @@ const ProductAdmin = () => {
           <div className='flex items-center gap-4 w-full md:w-auto'>
             <motion.div 
               className={`
-                h-full min-w-56 max-w-96 w-full bg-gray-50 px-4 flex items-center gap-3 py-2 rounded-full 
+                h-full min-w-56 max-w-96 w-full bg-gray-50 dark:bg-gray-700 px-4 flex items-center gap-3 py-2 rounded-full 
                 border transition-all duration-300 
-                ${isSearchFocused ? 'border-primary-200 shadow-md' : 'border-gray-200'}
+                ${isSearchFocused ? 'border-primary-200 dark:border-primary-300 shadow-md' : 'border-gray-200 dark:border-gray-600'}
               `}
               animate={{ 
                 width: isSearchFocused ? '100%' : '100%',
@@ -140,13 +140,14 @@ const ProductAdmin = () => {
                   color: isSearchFocused ? '#3B82F6' : '#94A3B8'
                 }}
                 transition={{ duration: 0.3 }}
+                className="text-gray-500 dark:text-gray-400"
               >
                 <IoSearchOutline size={22} />
               </motion.div>
               <input
                 type='text'
                 placeholder='Search products...' 
-                className='h-full w-full outline-none bg-transparent'
+                className='h-full w-full outline-none bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300'
                 value={search}
                 onChange={handleOnChange}
                 onFocus={() => setIsSearchFocused(true)}
@@ -170,7 +171,7 @@ const ProductAdmin = () => {
         )}
       </AnimatePresence>
 
-      <div className='p-6 bg-white rounded-lg shadow-md m-4'>
+      <div className='p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md m-4 border dark:border-gray-700 transition-colors duration-300'>
         {/* Products */}
         <div className='min-h-[55vh]'>
           <motion.div 

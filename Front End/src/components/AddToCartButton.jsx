@@ -84,14 +84,14 @@ const AddToCartButton = ({ data }) => {
             {
                 isAvailableCart ? (
                     <div className='flex w-full h-full'>
-                        <button onClick={decreaseQty} className='bg-green-600 hover:bg-green-700 text-white flex-1 w-full p-1 rounded flex items-center justify-center'><FaMinus /></button>
+                        <button onClick={decreaseQty} className='bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white flex-1 w-full p-1 rounded flex items-center justify-center transition-colors duration-300'><FaMinus /></button>
 
-                        <p className='flex-1 w-full font-semibold px-1 flex items-center justify-center'>{qty}</p>
+                        <p className='flex-1 w-full font-semibold px-1 flex items-center justify-center text-gray-900 dark:text-gray-100 transition-colors duration-300'>{qty}</p>
 
-                        <button onClick={increaseQty} className='bg-green-600 hover:bg-green-700 text-white flex-1 w-full p-1 rounded flex items-center justify-center'><FaPlus /></button>
+                        <button onClick={increaseQty} className='bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white flex-1 w-full p-1 rounded flex items-center justify-center transition-colors duration-300'><FaPlus /></button>
                     </div>
                 ) : (
-                    <button onClick={handleaddToCart} className='bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded'>
+                    <button onClick={handleaddToCart} className='bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white px-2 lg:px-4 py-1 rounded transition-colors duration-300'>
                         {loading ? <Loading /> : "Add"}
                     </button>
                 )

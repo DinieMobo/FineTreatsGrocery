@@ -16,11 +16,11 @@ const DEFAULT_BANNER = '/default-banner.jpg';
 const DEFAULT_BANNER_MOBILE = '/default-banner-mobile.jpg';
 
 const LoadingSkeleton = () => (
-  <div className="bg-white rounded-lg p-4 min-h-36 grid gap-2 shadow-md relative overflow-hidden">
-    <div className="bg-blue-100 min-h-24 rounded-lg"></div>
+  <div className="bg-white dark:bg-gray-800 rounded-lg p-4 min-h-36 grid gap-2 shadow-md relative overflow-hidden border dark:border-gray-700 transition-colors duration-300">
+    <div className="bg-blue-100 dark:bg-gray-600 min-h-24 rounded-lg transition-colors duration-300"></div>
 
-    <div className="bg-blue-100 h-8 rounded-lg"></div>
-    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" 
+    <div className="bg-blue-100 dark:bg-gray-600 h-8 rounded-lg transition-colors duration-300"></div>
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 dark:via-gray-400/30 to-transparent animate-shimmer transition-colors duration-300" 
          style={{ backgroundSize: '200% 100%' }}></div>
   </div>
 );
@@ -30,7 +30,7 @@ const CategoryCard = ({ category, onClick }) => {
   
   return (
     <motion.div
-      className="w-full h-full overflow-hidden rounded-lg cursor-pointer bg-white shadow-sm"
+      className="w-full h-full overflow-hidden rounded-lg cursor-pointer bg-white dark:bg-gray-800 shadow-sm border dark:border-gray-700 transition-colors duration-300"
       initial={{ opacity: 0.9 }}
       whileHover={{ 
         scale: 1.05, 
@@ -53,14 +53,14 @@ const CategoryCard = ({ category, onClick }) => {
           />
         </div>
         <motion.div 
-          className="w-full bg-blue-50 rounded-lg py-2 mt-1"
+          className="w-full bg-blue-50 dark:bg-gray-700 rounded-lg py-2 mt-1 transition-colors duration-300"
           animate={{ 
-            backgroundColor: isHovered ? 'rgba(59, 130, 246, 0.1)' : 'rgba(239, 246, 255, 0.7)'
+            backgroundColor: isHovered ? 'rgba(59, 130, 246, 0.1)' : undefined
           }}
         >
           <motion.span 
-            className={`text-center block text-sm font-medium ${
-              isHovered ? 'text-blue-600' : 'text-gray-700'
+            className={`text-center block text-sm font-medium transition-colors duration-300 ${
+              isHovered ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'
             }`}
           >
             {category.name}
@@ -125,7 +125,7 @@ const Home = () => {
   };
 
   return (
-    <section className="bg-gradient-to-b from-white to-blue-50 min-h-screen">
+    <section className="bg-gradient-to-b from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 min-h-screen transition-colors duration-300">
       {/* Enhanced Banners with Parallax */}
       <div className="container mx-auto p-4">
         <motion.div

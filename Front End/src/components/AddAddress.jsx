@@ -45,10 +45,10 @@ const AddAddress = ({close}) => {
         }
     }
   return (
-    <section className='bg-black fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-70 h-screen overflow-auto'>
-        <div className='bg-white p-4 w-full max-w-lg mt-8 mx-auto rounded'>
+    <section className='bg-black dark:bg-gray-900 fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-70 dark:bg-opacity-80 h-screen overflow-auto transition-colors duration-300'>
+        <div className='bg-white dark:bg-gray-800 p-4 w-full max-w-lg mt-8 mx-auto rounded-lg border dark:border-gray-700 shadow-xl transition-colors duration-300'>
             <div className='flex justify-between items-center gap-4'>
-                <h2 className='font-semibold'>Add Address</h2>
+                <h2 className='font-semibold text-gray-900 dark:text-gray-100 transition-colors duration-300'>Add Address</h2>
                 <button onClick={close} className='hover:text-red-500'>
                     <IoClose  size={25}/>
                 </button>

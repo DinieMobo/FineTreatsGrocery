@@ -97,31 +97,31 @@ const DisplayCartItem = ({close}) => {
                 if (e.target === e.currentTarget) close();
             }}
         >
-            <div className="absolute inset-0 bg-neutral-900 bg-opacity-70 backdrop-blur-sm"></div>
+            <div className="absolute inset-0 bg-neutral-900 dark:bg-black bg-opacity-70 dark:bg-opacity-80 backdrop-blur-sm transition-colors duration-300"></div>
             
             <motion.div 
-                className='bg-white w-full max-w-sm min-h-screen max-h-screen ml-auto shadow-2xl relative'
+                className='bg-white dark:bg-gray-800 w-full max-w-sm min-h-screen max-h-screen ml-auto shadow-2xl relative border-l dark:border-gray-700 transition-colors duration-300'
                 variants={sideCartVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
             >
                 <motion.div 
-                    className='flex items-center p-4 border-b gap-3 justify-between bg-gradient-to-r from-blue-50 to-white'
+                    className='flex items-center p-4 border-b border-gray-200 dark:border-gray-700 gap-3 justify-between bg-gradient-to-r from-blue-50 to-white dark:from-gray-700 dark:to-gray-800 transition-colors duration-300'
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
                 >
                     <motion.h2 
-                        className='font-semibold text-gray-800 flex items-center gap-2'
+                        className='font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2 transition-colors duration-300'
                         whileHover={{ scale: 1.05 }}
                     >
-                        <FaShoppingBag className="text-primary-200" />
+                        <FaShoppingBag className="text-primary-200 dark:text-primary-300" />
                         Your Cart
                     </motion.h2>
                     <motion.button 
                         onClick={close}
-                        className='p-1.5 rounded-full hover:bg-red-100 text-red-500 transition-all duration-300'
+                        className='p-1.5 rounded-full hover:bg-red-100 dark:hover:bg-red-900 text-red-500 dark:text-red-400 transition-all duration-300'
                         whileHover={{ rotate: 90, scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                     >
@@ -129,7 +129,7 @@ const DisplayCartItem = ({close}) => {
                     </motion.button>
                 </motion.div>
 
-                <div className='min-h-[75vh] lg:min-h-[80vh] h-full max-h-[calc(100vh-150px)] bg-blue-50 p-2 flex flex-col gap-4 overflow-auto'>
+                <div className='min-h-[75vh] lg:min-h-[80vh] h-full max-h-[calc(100vh-150px)] bg-blue-50 dark:bg-gray-900 p-2 flex flex-col gap-4 overflow-auto transition-colors duration-300'>
                     {cartItem[0] ? (
                         <motion.div
                             variants={containerVariants}
@@ -137,7 +137,7 @@ const DisplayCartItem = ({close}) => {
                             animate="visible"
                         >
                             <motion.div 
-                                className='flex items-center justify-between px-4 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow-md'
+                                className='flex items-center justify-between px-4 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-600 dark:to-indigo-700 text-white rounded-lg shadow-md transition-colors duration-300'
                                 variants={itemVariants}
                                 whileHover={{ scale: 1.01, boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
                             >
@@ -153,13 +153,13 @@ const DisplayCartItem = ({close}) => {
                             </motion.div>
                             
                             <motion.div 
-                                className='bg-white rounded-lg p-4 grid gap-5 overflow-auto mt-3 shadow-md'
+                                className='bg-white dark:bg-gray-800 rounded-lg p-4 grid gap-5 overflow-auto mt-3 shadow-md border dark:border-gray-700 transition-colors duration-300'
                                 variants={itemVariants}
                             >
                                 {cartItem.map((item, index) => (
                                     <motion.div 
                                         key={item?._id+"cartItemDisplay"} 
-                                        className={`flex w-full gap-4 p-2 rounded-lg transition-all duration-200 ${hoveredItem === item?._id ? 'bg-blue-50 shadow-sm' : 'bg-white'}`}
+                                        className={`flex w-full gap-4 p-2 rounded-lg transition-all duration-200 ${hoveredItem === item?._id ? 'bg-blue-50 dark:bg-gray-700 shadow-sm' : 'bg-white dark:bg-gray-800'}`}
                                         variants={itemVariants}
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
@@ -169,7 +169,7 @@ const DisplayCartItem = ({close}) => {
                                         whileHover={{ y: -2 }}
                                     >
                                         <motion.div 
-                                            className='w-16 h-16 min-h-16 min-w-16 bg-white border rounded-lg overflow-hidden shadow-sm'
+                                            className='w-16 h-16 min-h-16 min-w-16 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden shadow-sm transition-colors duration-300'
                                             whileHover={{ scale: 1.05 }}
                                         >
                                             <img

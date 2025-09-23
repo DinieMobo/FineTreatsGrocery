@@ -12,6 +12,7 @@ import Axios from './utils/Axios';
 import SummaryApi from './common/SummaryApi';
 import { handleAddItemCart } from './store/cartProduct'
 import GlobalProvider from './provider/GlobalProvider';
+import ThemeProvider from './provider/ThemeProvider';
 import { FaCartShopping } from "react-icons/fa6";
 import CartMobileLink from './components/CartMobile';
 
@@ -71,19 +72,29 @@ function App() {
   },[])
 
   return (
-    <GlobalProvider> 
-      <Header/>
-      <main className='min-h-[78vh]'>
-          <Outlet/>
-      </main>
-      <Footer/>
-      <Toaster/>
-      {
-        location.pathname !== '/checkout' && (
-          <CartMobileLink/>
-        )
-      }
-    </GlobalProvider>
+    <ThemeProvider>
+      <GlobalProvider> 
+        <Header/>
+        <main className='min-h-[78vh]'>
+            <Outlet/>
+        </main>
+        <Footer/>
+        <Toaster 
+          toastOptions={{
+            className: '',
+            style: {
+              background: 'var(--toast-bg)',
+              color: 'var(--toast-color)',
+            },
+          }}
+        />
+        {
+          location.pathname !== '/checkout' && (
+            <CartMobileLink/>
+          )
+        }
+      </GlobalProvider>
+    </ThemeProvider>
   )
 }
 

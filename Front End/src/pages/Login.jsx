@@ -66,20 +66,20 @@ const Login = () => {
         }
     }
     return (
-        <section className='w-full min-h-screen flex items-center justify-center py-10 bg-gradient-to-br from-green-50 to-blue-50'>
+        <section className='w-full min-h-screen flex items-center justify-center py-10 bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300'>
             <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className='bg-white my-4 w-full max-w-lg mx-auto rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300'
+                className='bg-white dark:bg-gray-800 my-4 w-full max-w-lg mx-auto rounded-xl p-8 shadow-lg hover:shadow-xl dark:shadow-2xl transition-all duration-300 border dark:border-gray-700'
             >
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                 >
-                    <h2 className="text-3xl font-bold text-green-800 mb-2">Welcome Back!</h2>
-                    <p className="text-gray-600 mb-6">We're so excited to see you again! Please sign in to your Fine Treats account to continue your shopping journey.</p>
+                    <h2 className="text-3xl font-bold text-green-800 dark:text-green-400 mb-2 transition-colors duration-300">Welcome Back!</h2>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6 transition-colors duration-300">We're so excited to see you again! Please sign in to your Fine Treats account to continue your shopping journey.</p>
                 </motion.div>
 
                 <form className='grid gap-5 mt-6' onSubmit={handleSubmit}>
@@ -88,11 +88,11 @@ const Login = () => {
                         whileHover={{ scale: 1.01 }}
                         transition={{ type: "spring", stiffness: 300 }}
                     >
-                        <label htmlFor='email' className="text-gray-700 font-medium">Email</label>
+                        <label htmlFor='email' className="text-gray-700 dark:text-gray-200 font-medium transition-colors duration-300">Email</label>
                         <input
                             type='email'
                             id='email'
-                            className={`bg-blue-50 p-3 border ${activeField === 'email' ? 'border-green-500 ring-1 ring-green-300' : 'border-gray-300'} rounded-lg outline-none focus:border-green-500 transition-all duration-200`}
+                            className={`bg-blue-50 dark:bg-gray-700 p-3 border ${activeField === 'email' ? 'border-green-500 ring-1 ring-green-300 dark:ring-green-400' : 'border-gray-300 dark:border-gray-600'} rounded-lg outline-none focus:border-green-500 dark:focus:border-green-400 transition-all duration-200 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400`}
                             name='email'
                             value={data.email}
                             onChange={handleChange}
@@ -107,12 +107,12 @@ const Login = () => {
                         whileHover={{ scale: 1.01 }}
                         transition={{ type: "spring", stiffness: 300 }}
                     >
-                        <label htmlFor='password' className="text-gray-700 font-medium">Password</label>
-                        <div className={`bg-blue-50 p-3 border ${activeField === 'password' ? 'border-green-500 ring-1 ring-green-300' : 'border-gray-300'} rounded-lg flex items-center transition-all duration-200`}>
+                        <label htmlFor='password' className="text-gray-700 dark:text-gray-200 font-medium transition-colors duration-300">Password</label>
+                        <div className={`bg-blue-50 dark:bg-gray-700 p-3 border ${activeField === 'password' ? 'border-green-500 ring-1 ring-green-300 dark:ring-green-400' : 'border-gray-300 dark:border-gray-600'} rounded-lg flex items-center transition-all duration-200`}>
                             <input
                                 type={showPassword ? "text" : "password"}
                                 id='password'
-                                className='w-full outline-none bg-transparent'
+                                className='w-full outline-none bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400'
                                 name='password'
                                 value={data.password}
                                 onChange={handleChange}
@@ -122,7 +122,7 @@ const Login = () => {
                             />
                             <motion.div 
                                 onClick={() => setShowPassword(preve => !preve)} 
-                                className='cursor-pointer text-gray-500 hover:text-green-700'
+                                className='cursor-pointer text-gray-500 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-400 transition-colors duration-300'
                                 whileTap={{ scale: 0.9 }}
                             >
                                 {
@@ -136,7 +136,7 @@ const Login = () => {
                         </div>
                         <Link 
                             to={"/forgot-password"} 
-                            className='block ml-auto text-green-600 hover:text-green-800 hover:underline transition-all duration-200 font-medium'
+                            className='block ml-auto text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 hover:underline transition-all duration-200 font-medium'
                         >
                             Forgot password?
                         </Link>
@@ -144,7 +144,7 @@ const Login = () => {
 
                     <motion.button 
                         disabled={!validValue} 
-                        className={` ${validValue ? "bg-green-600 hover:bg-green-700" : "bg-gray-400"} text-white py-3 rounded-lg font-semibold my-4 tracking-wide transition-colors duration-300`}
+                        className={` ${validValue ? "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600" : "bg-gray-400 dark:bg-gray-600"} text-white py-3 rounded-lg font-semibold my-4 tracking-wide transition-colors duration-300`}
                         whileHover={validValue ? { scale: 1.03 } : {}}
                         whileTap={validValue ? { scale: 0.98 } : {}}
                     >
@@ -153,7 +153,7 @@ const Login = () => {
                 </form>
 
                 <motion.p 
-                    className="text-center text-gray-600 mt-4"
+                    className="text-center text-gray-600 dark:text-gray-300 mt-4 transition-colors duration-300"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
@@ -161,7 +161,7 @@ const Login = () => {
                     Don't have a Fine Treats account?{" "}
                     <Link 
                         to={"/register"} 
-                        className='font-semibold text-green-600 hover:text-green-800 hover:underline transition-all duration-200'
+                        className='font-semibold text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 hover:underline transition-all duration-200'
                     >
                         Register
                     </Link>

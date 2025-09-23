@@ -110,7 +110,7 @@ const CategoryPage = () => {
 
     return (
         <motion.section 
-            className='relative min-h-screen bg-gradient-to-br from-blue-50 to-white overflow-hidden'
+            className='relative min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 overflow-hidden transition-colors duration-300'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -142,19 +142,19 @@ const CategoryPage = () => {
             
             {/* Header section */}
             <motion.div 
-                className='p-4 bg-white shadow-lg rounded-b-lg flex items-center justify-between mb-6 sticky top-0 z-10 backdrop-blur-sm bg-opacity-90'
+                className='p-4 bg-white dark:bg-gray-800 shadow-lg rounded-b-lg flex items-center justify-between mb-6 sticky top-0 z-10 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90 transition-colors duration-300'
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.4 }}
             >
                 <motion.h2 
-                    className='font-bold text-xl text-gray-800 flex items-center'
+                    className='font-bold text-xl text-gray-800 dark:text-gray-200 flex items-center transition-colors duration-300'
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.2, duration: 0.4 }}
                 >
                     <motion.span 
-                        className='inline-block w-2 h-6 bg-yellow-500 rounded-full mr-2'
+                        className='inline-block w-2 h-6 bg-yellow-500 dark:bg-yellow-400 rounded-full mr-2 transition-colors duration-300'
                         animate={{ 
                             height: [24, 20, 24],
                             opacity: [0.7, 1, 0.7]
@@ -200,7 +200,7 @@ const CategoryPage = () => {
                     <motion.div
                         variants={cardVariants}
                         key={category._id}
-                        className="relative bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300"
+                        className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-lg overflow-hidden transition-all duration-300 border dark:border-gray-700"
                         onMouseEnter={() => setHoveredCard(category._id)}
                         onMouseLeave={() => setHoveredCard(null)}
                         whileHover={{ 
@@ -211,7 +211,7 @@ const CategoryPage = () => {
                     >
                         {/* Overlay gradient on hover */}
                         <motion.div 
-                            className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900/60 z-10 pointer-events-none"
+                            className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900/60 dark:to-blue-800/70 z-10 pointer-events-none"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: hoveredCard === category._id ? 1 : 0 }}
                             transition={{ duration: 0.3 }}
@@ -219,7 +219,7 @@ const CategoryPage = () => {
 
                         <div className='p-4 flex flex-col items-center'>
                             <motion.div 
-                                className='w-full h-40 overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-white mb-3'
+                                className='w-full h-40 overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-white dark:from-gray-700 dark:to-gray-600 mb-3 transition-colors duration-300'
                                 whileHover={{ scale: 1.02 }}
                             >
                                 <motion.img 
@@ -235,9 +235,9 @@ const CategoryPage = () => {
                                 />
                             </motion.div>
                             <motion.h3 
-                                className="text-center font-semibold text-lg mb-3"
+                                className="text-center font-semibold text-lg mb-3 text-gray-800 dark:text-gray-200 transition-colors duration-300"
                                 animate={{ 
-                                    color: hoveredCard === category._id ? "#2563eb" : "#374151",
+                                    color: hoveredCard === category._id ? "#2563eb" : undefined,
                                     y: hoveredCard === category._id ? -2 : 0
                                 }}
                                 transition={{ duration: 0.3 }}

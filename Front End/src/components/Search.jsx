@@ -31,15 +31,15 @@ const Search = () => {
     }
 
   return (
-    <div className='w-full  min-w-[300px] lg:min-w-[420px] h-11 lg:h-12 rounded-lg border overflow-hidden flex items-center text-neutral-500 bg-slate-50 group focus-within:border-primary-200 '>
+    <div className='w-full  min-w-[300px] lg:min-w-[420px] h-11 lg:h-12 rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden flex items-center text-neutral-500 dark:text-neutral-400 bg-slate-50 dark:bg-gray-700 group focus-within:border-primary-200 dark:focus-within:border-primary-300 transition-colors duration-300 '>
         <div>
             {
                 (isMobile && isSearchPage ) ? (
-                    <Link to={"/"} className='flex justify-center items-center h-full p-2 m-1 group-focus-within:text-primary-200 bg-white rounded-full shadow-md'>
+                    <Link to={"/"} className='flex justify-center items-center h-full p-2 m-1 group-focus-within:text-primary-200 dark:group-focus-within:text-primary-300 bg-white dark:bg-gray-600 rounded-full shadow-md transition-colors duration-300'>
                         <FaArrowLeft size={20}/>
                     </Link>
                 ) :(
-                    <button className='flex justify-center items-center h-full p-3 group-focus-within:text-primary-200'>
+                    <button className='flex justify-center items-center h-full p-3 group-focus-within:text-primary-200 dark:group-focus-within:text-primary-300 transition-colors duration-300'>
                         <IoSearch size={22}/>
                     </button>
                 )
@@ -48,7 +48,7 @@ const Search = () => {
         <div className='w-full h-full'>
             {
                 !isSearchPage ? (
-                     <div onClick={redirectToSearchPage} className='w-full h-full flex items-center'>
+                     <div onClick={redirectToSearchPage} className='w-full h-full flex items-center text-gray-600 dark:text-gray-300 transition-colors duration-300'>
                         <TypeAnimation
                                 sequence={[
                                 'Chocolate Bars',
@@ -83,7 +83,7 @@ const Search = () => {
                             placeholder='Search for the products you like.'
                             autoFocus
                             defaultValue={searchText}
-                            className='bg-transparent w-full h-full outline-none'
+                            className='bg-transparent w-full h-full outline-none text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300'
                             onChange={handleOnChange}
                         />
                     </div>

@@ -67,8 +67,8 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
     return (
         <div>
             <div className='container mx-auto p-4 flex items-center justify-between gap-4'>
-                <h3 className='font-semibold text-lg md:text-xl'>{name}</h3>
-                <Link  to={redirectURL} className='text-green-600 hover:text-green-400'>See All</Link>
+                <h3 className='font-semibold text-lg md:text-xl text-gray-900 dark:text-gray-100 transition-colors duration-300'>{name}</h3>
+                <Link  to={redirectURL} className='text-green-600 dark:text-green-400 hover:text-green-400 dark:hover:text-green-300 transition-colors duration-300'>See All</Link>
             </div>
             <div className='relative flex items-center '>
                 <div className=' flex gap-4 md:gap-6 lg:gap-8 container mx-auto px-4 overflow-x-scroll scrollbar-none scroll-smooth' ref={containerRef}>
@@ -93,10 +93,10 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
 
                 </div>
                 <div className='w-full left-0 right-0 container mx-auto  px-2  absolute hidden lg:flex justify-between'>
-                    <button onClick={handleScrollLeft} className='z-10 relative bg-white hover:bg-gray-100 shadow-lg text-lg p-2 rounded-full'>
+                    <button onClick={handleScrollLeft} className='z-10 relative bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-lg text-lg p-2 rounded-full text-gray-700 dark:text-gray-200 border dark:border-gray-600 transition-colors duration-300'>
                         <FaAngleLeft />
                     </button>
-                    <button onClick={handleScrollRight} className='z-10 relative  bg-white hover:bg-gray-100 shadow-lg p-2 text-lg rounded-full'>
+                    <button onClick={handleScrollRight} className='z-10 relative bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-lg p-2 text-lg rounded-full text-gray-700 dark:text-gray-200 border dark:border-gray-600 transition-colors duration-300'>
                         <FaAngleRight />
                     </button>
                 </div>

@@ -11,6 +11,7 @@ import UserMenu from './UserMenu';
 import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees';
 import { useGlobalContext } from '../provider/GlobalProvider';
 import DisplayCartItem from './DisplayCartItem';
+import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
     const [ isMobile ] = useMobile()
@@ -54,7 +55,7 @@ const Header = () => {
     // },[cartItem])
 
   return (
-    <header className='h-24 lg:h-20 lg:shadow-md sticky top-0 z-40 flex flex-col justify-center gap-1 bg-white'>
+    <header className='h-24 lg:h-20 lg:shadow-md sticky top-0 z-40 flex flex-col justify-center gap-1 bg-white dark:bg-gray-800 transition-colors duration-300'>
         {
             !(isSearchPage && isMobile) && (
                 <div className='container mx-auto flex items-center px-2 justify-between'>
@@ -84,19 +85,22 @@ const Header = () => {
                                 </div>
 
 
-                                {/**login and my cart */}
-                                <div className=''>
+                                {/**Theme toggle, login and my cart */}
+                                <div className='flex items-center gap-3'>
+                                    {/**Theme Toggle */}
+                                    <ThemeToggle />
+                                    
                                     {/**user icons display in only mobile version**/}
-                                    <button className='text-neutral-600 lg:hidden' onClick={handleMobileUser}>
+                                    <button className='text-neutral-600 dark:text-neutral-300 lg:hidden transition-colors duration-300' onClick={handleMobileUser}>
                                         <FaRegCircleUser size={26}/>
                                     </button>
 
                                       {/**Desktop**/}
-                                    <div className='hidden lg:flex  items-center gap-10'>
+                                    <div className='hidden lg:flex  items-center gap-6'>
                                         {
                                             user?._id ? (
                                                 <div className='relative'>
-                                                    <div onClick={()=>setOpenUserMenu(preve => !preve)} className='flex select-none items-center gap-1 cursor-pointer'>
+                                                    <div onClick={()=>setOpenUserMenu(preve => !preve)} className='flex select-none items-center gap-1 cursor-pointer text-neutral-700 dark:text-neutral-200 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-300'>
                                                         <p>Account</p>
                                                         {
                                                             openUserMenu ? (
@@ -110,7 +114,7 @@ const Header = () => {
                                                     {
                                                         openUserMenu && (
                                                             <div className='absolute right-0 top-12'>
-                                                                <div className='bg-white rounded p-4 min-w-52 lg:shadow-lg'>
+                                                                <div className='bg-white dark:bg-gray-700 rounded p-4 min-w-52 lg:shadow-lg border dark:border-gray-600 transition-colors duration-300'>
                                                                     <UserMenu close={handleCloseUserMenu}/>
                                                                 </div>
                                                             </div>
@@ -119,10 +123,10 @@ const Header = () => {
                                                     
                                                 </div>
                                             ) : (
-                                                <button onClick={redirectToLoginPage} className='text-lg px-2'>Login</button>
+                                                <button onClick={redirectToLoginPage} className='text-lg px-2 text-neutral-700 dark:text-neutral-200 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-300'>Login</button>
                                             )
                                         }
-                                        <button onClick={()=>setOpenCartSection(true)} className='flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-2 rounded text-white'>
+                                        <button onClick={()=>setOpenCartSection(true)} className='flex items-center gap-2 bg-green-800 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 px-3 py-2 rounded text-white transition-colors duration-300'>
                                             {/**add to card icons */}
                                             <div className='animate-bounce'>
                                                 <BsCart4 size={26}/>

@@ -70,6 +70,41 @@ const userSchema = new mongoose.Schema({
         enum : ["Admin","User"],
         default : "User"
     },
+    theme_preference: {
+        type: String,
+        enum: ["light", "dark", "system"],
+        default: "system"
+    },
+    ui_preferences: {
+        language: {
+            type: String,
+            default: "en"
+        },
+        notifications: {
+            email: {
+                type: Boolean,
+                default: true
+            },
+            push: {
+                type: Boolean,
+                default: true
+            },
+            marketing: {
+                type: Boolean,
+                default: false
+            }
+        },
+        display: {
+            compact_mode: {
+                type: Boolean,
+                default: false
+            },
+            show_prices_with_tax: {
+                type: Boolean,
+                default: true
+            }
+        }
+    },
 },{
     timestamps: true
 })

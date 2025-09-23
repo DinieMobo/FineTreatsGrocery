@@ -71,10 +71,10 @@ const Profile = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className='p-4 max-w-3xl mx-auto'
+            className='p-4 max-w-3xl mx-auto bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300'
         >
             <motion.h1 
-                className="text-2xl font-bold mb-6 text-primary-200"
+                className="text-2xl font-bold mb-6 text-primary-200 dark:text-primary-300 transition-colors duration-300"
                 initial={{ y: -20 }}
                 animate={{ y: 0 }}
                 transition={{ type: "spring", stiffness: 300 }}
@@ -82,7 +82,7 @@ const Profile = () => {
                 My Profile
             </motion.h1>
 
-            <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border dark:border-gray-700 p-6 mb-8 transition-colors duration-300">
                 {/**profile upload and display image */}
                 <div className="flex flex-col items-center justify-center mb-6">
                     <motion.div 
@@ -105,7 +105,7 @@ const Profile = () => {
                     </motion.div>
                     <motion.button 
                         onClick={() => setProfileAvatarEdit(true)} 
-                        className='text-sm flex items-center gap-2 bg-white border border-primary-100 hover:border-primary-200 hover:bg-primary-200 hover:text-white px-4 py-2 rounded-full mt-3 shadow-sm transition-all duration-300'
+                        className='text-sm flex items-center gap-2 bg-white dark:bg-gray-700 border border-primary-100 dark:border-primary-300 hover:border-primary-200 dark:hover:border-primary-200 hover:bg-primary-200 dark:hover:bg-primary-600 hover:text-white px-4 py-2 rounded-full mt-3 shadow-sm transition-all duration-300 text-gray-700 dark:text-gray-200'
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >

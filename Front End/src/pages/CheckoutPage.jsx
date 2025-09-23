@@ -264,7 +264,7 @@ const CheckoutPage = () => {
       </AnimatePresence>
     
       <motion.section 
-        className='bg-gradient-to-b from-blue-50 via-white to-blue-50 min-h-screen py-10'
+        className='bg-gradient-to-b from-blue-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen py-10 transition-colors duration-300'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -279,14 +279,14 @@ const CheckoutPage = () => {
           <div className="flex flex-col items-center mb-6">
             <div className="flex items-center justify-center mb-2">
               <motion.div 
-                className="bg-blue-50 p-3 rounded-full shadow-md"
+                className="bg-blue-50 dark:bg-gray-700 p-3 rounded-full shadow-md transition-colors duration-300"
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
-                <MdPayment size={28} className="text-primary-200" />
+                <MdPayment size={28} className="text-primary-200 dark:text-primary-300" />
               </motion.div>
             </div>
-            <h1 className="text-3xl font-bold text-gray-800 text-center mb-2">Complete Your Purchase</h1>
-            <p className="text-gray-600 text-center max-w-lg">
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 text-center mb-2 transition-colors duration-300">Complete Your Purchase</h1>
+            <p className="text-gray-600 dark:text-gray-400 text-center max-w-lg transition-colors duration-300">
               You're just a few steps away from receiving your items.
             </p>
           </div>
@@ -294,15 +294,15 @@ const CheckoutPage = () => {
           <div className="w-full max-w-3xl mx-auto">
             <div className="flex justify-between items-center relative mb-2 px-6">
               <motion.div 
-                className="z-10 bg-primary-200 w-12 h-12 rounded-full flex items-center justify-center text-black border-4 border-white shadow-lg"
+                className="z-10 bg-primary-200 dark:bg-primary-300 w-12 h-12 rounded-full flex items-center justify-center text-black border-4 border-white dark:border-gray-600 shadow-lg transition-colors duration-300"
                 whileHover={{ scale: 1.1 }}
               >
                 <FaShoppingBag />
               </motion.div>
               
-              <div className="absolute left-0 right-0 mx-12 h-1 bg-gray-200 z-0">
+              <div className="absolute left-0 right-0 mx-12 h-1 bg-gray-200 dark:bg-gray-600 z-0 transition-colors duration-300">
                 <motion.div 
-                  className="h-full bg-primary-200"
+                  className="h-full bg-primary-200 dark:bg-primary-300"
                   initial={{ width: "50%" }}
                   animate={{ 
                     width: isPaymentProcessing ? `${loadingProgress}%` : "50%"
@@ -311,8 +311,8 @@ const CheckoutPage = () => {
               </div>
               
               <motion.div 
-                className={`z-10 w-12 h-12 rounded-full flex items-center justify-center text-black border-4 border-white shadow-lg ${
-                  isPaymentProcessing ? "bg-primary-200" : "bg-gray-300"
+                className={`z-10 w-12 h-12 rounded-full flex items-center justify-center text-black border-4 border-white dark:border-gray-600 shadow-lg transition-colors duration-300 ${
+                  isPaymentProcessing ? "bg-primary-200 dark:bg-primary-300" : "bg-gray-300 dark:bg-gray-600"
                 }`}
                 whileHover={{ scale: 1.1 }}
                 animate={{ 
@@ -327,7 +327,7 @@ const CheckoutPage = () => {
               </motion.div>
             </div>
             
-            <div className="flex justify-between px-3 text-sm text-gray-600">
+            <div className="flex justify-between px-3 text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">
               <span>Choose & Pay</span>
               <span>Confirm & Ship</span>
             </div>

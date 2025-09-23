@@ -66,14 +66,14 @@ const UserMenu = ({close}) => {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="bg-gradient-to-br from-white to-orange-50 p-4 rounded-lg shadow-lg"
+      className="bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-gray-700 p-4 rounded-lg shadow-lg transition-colors duration-300"
     >
         <motion.div 
           variants={itemVariants}
           className='flex items-center gap-3 mb-2'
         >
           {user?.profileImage ? (
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-orange-300">
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-orange-300 dark:border-orange-400">
               <img 
                 src={user.profileImage} 
                 alt={`${user?.name || 'User'}'s profile`} 
@@ -81,17 +81,17 @@ const UserMenu = ({close}) => {
               />
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-orange-300 flex items-center justify-center bg-orange-200">
-              <HiOutlineUser className="text-orange-600" size={20} />
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-orange-300 dark:border-orange-400 flex items-center justify-center bg-orange-200 dark:bg-orange-300">
+              <HiOutlineUser className="text-orange-600 dark:text-orange-700" size={20} />
             </div>
           )}
           <div>
-            <h2 className="font-semibold text-lg text-gray-800">Hello, {user?.name || user?.mobile}!</h2>
-            <p className="text-xs text-gray-500">{user?.email || "Member"}</p>
+            <h2 className="font-semibold text-lg text-gray-800 dark:text-gray-200 transition-colors duration-300">Hello, {user?.name || user?.mobile}!</h2>
+            <p className="text-xs text-gray-500 dark:text-gray-400 transition-colors duration-300">{user?.email || "Member"}</p>
           </div>
         </motion.div>
 
-        <Divider className="my-3 bg-orange-200" />
+        <Divider className="my-3 bg-orange-200 dark:bg-gray-600" />
 
         <motion.div variants={containerVariants} className='text-sm grid gap-1'>
             <MenuItem 
@@ -187,7 +187,7 @@ const UserMenu = ({close}) => {
             <motion.button 
               variants={itemVariants}
               onClick={handleLogout} 
-              className={`flex items-center gap-2 w-full text-left px-3 py-2 my-1 rounded-md transition-all duration-300 group hover:bg-gradient-to-r from-red-500 to-orange-500 hover:text-white`}
+              className={`flex items-center gap-2 w-full text-left px-3 py-2 my-1 rounded-md transition-all duration-300 group hover:bg-gradient-to-r from-red-500 to-orange-500 hover:text-white text-gray-700 dark:text-gray-200`}
               onMouseEnter={() => setHoveredItem("logout")}
               onMouseLeave={() => setHoveredItem(null)}
             >
@@ -217,10 +217,10 @@ const MenuItem = ({ to, text, icon, onClick, isHovered, onHover, onLeave }) => {
       <Link 
         to={to} 
         onClick={onClick}
-        className={`flex items-center gap-2 px-3 py-2 my-1 rounded-md transition-all duration-300 ${
+        className={`flex items-center gap-2 px-3 py-2 my-1 rounded-md transition-all duration-300 text-gray-700 dark:text-gray-200 ${
           isHovered 
             ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white shadow-md transform translate-x-1' 
-            : 'hover:bg-orange-100'
+            : 'hover:bg-orange-100 dark:hover:bg-gray-600'
         }`}
         onMouseEnter={onHover}
         onMouseLeave={onLeave}

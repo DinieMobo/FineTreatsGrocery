@@ -114,7 +114,7 @@ const ProductDisplayPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center">
+      <div className="min-h-[70vh] flex items-center justify-center bg-gradient-to-b from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
         <Loading />
       </div>
     )
@@ -123,12 +123,12 @@ const ProductDisplayPage = () => {
   if (!productId || !data.name) {
     return (
       <motion.div 
-        className="min-h-[70vh] flex flex-col items-center justify-center text-gray-500"
+        className="min-h-[70vh] flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 bg-gradient-to-b from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <FaCircleInfo size={48} className="text-blue-400 mb-4" />
-        <h2 className="text-2xl font-semibold mb-2">Product Not Found</h2>
+        <FaCircleInfo size={48} className="text-blue-400 dark:text-blue-500 mb-4 transition-colors duration-300" />
+        <h2 className="text-2xl font-semibold mb-2 text-gray-800 dark:text-gray-200 transition-colors duration-300">Product Not Found</h2>
         <p className="text-center max-w-md">Sorry, we couldn't find the product you're looking for.</p>
       </motion.div>
     )
@@ -136,7 +136,7 @@ const ProductDisplayPage = () => {
 
   return (
     <motion.section 
-      className='container mx-auto p-4 grid lg:grid-cols-2 gap-8 min-h-[70vh]'
+      className='container mx-auto p-4 grid lg:grid-cols-2 gap-8 min-h-[70vh] bg-gradient-to-b from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300'
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -149,7 +149,7 @@ const ProductDisplayPage = () => {
       >
         {/* Main product image with magnifier effect */}
         <motion.div 
-          className='bg-white lg:min-h-[65vh] lg:max-h-[65vh] rounded-xl min-h-56 max-h-56 h-full w-full relative overflow-hidden shadow-md border border-gray-100'
+          className='bg-white dark:bg-gray-800 lg:min-h-[65vh] lg:max-h-[65vh] rounded-xl min-h-56 max-h-56 h-full w-full relative overflow-hidden shadow-md border border-gray-100 dark:border-gray-700 transition-colors duration-300'
           ref={mainImageRef}
           onMouseEnter={() => setShowMagnifier(true)}
           onMouseLeave={() => setShowMagnifier(false)}
@@ -170,7 +170,7 @@ const ProductDisplayPage = () => {
               />
               {showMagnifier && (
                 <motion.div 
-                  className="absolute hidden lg:block w-36 h-36 rounded-full border-2 border-white shadow-lg pointer-events-none z-10"
+                  className="absolute hidden lg:block w-36 h-36 rounded-full border-2 border-white dark:border-gray-300 shadow-lg pointer-events-none z-10"
                   style={{
                     left: `${cursorPosition.x}%`,
                     top: `${cursorPosition.y}%`,
@@ -188,7 +188,7 @@ const ProductDisplayPage = () => {
               )}
               {/* Favorite button */}
               <motion.button 
-                className="absolute top-4 right-4 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md"
+                className="absolute top-4 right-4 z-10 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md transition-colors duration-300"
                 onClick={() => setIsFavorite(!isFavorite)}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -196,7 +196,7 @@ const ProductDisplayPage = () => {
                 {isFavorite ? (
                   <FaHeart className="text-red-500 text-xl" />
                 ) : (
-                  <FaRegHeart className="text-gray-400 hover:text-red-500 text-xl" />
+                  <FaRegHeart className="text-gray-400 dark:text-gray-500 hover:text-red-500 text-xl transition-colors duration-300" />
                 )}
               </motion.button>
             </>
@@ -213,10 +213,10 @@ const ProductDisplayPage = () => {
               whileTap={{ scale: 0.9 }}
               onClick={() => setImage(index)}
             >
-              <span className={`block w-3 h-3 lg:w-4 lg:h-4 rounded-full ${
+              <span className={`block w-3 h-3 lg:w-4 lg:h-4 rounded-full transition-colors duration-300 ${
                 index === image 
-                  ? "bg-yellow-500 shadow-md shadow-blue-200" 
-                  : "bg-gray-200"
+                  ? "bg-yellow-500 dark:bg-yellow-400 shadow-md shadow-blue-200 dark:shadow-blue-400" 
+                  : "bg-gray-200 dark:bg-gray-600"
               }`}></span>
             </motion.button>
           ))}
@@ -230,10 +230,10 @@ const ProductDisplayPage = () => {
           >
             {data.image.map((img, index) => (
               <motion.div 
-                className={`w-20 h-20 min-h-20 min-w-20 cursor-pointer rounded-lg overflow-hidden ${
+                className={`w-20 h-20 min-h-20 min-w-20 cursor-pointer rounded-lg overflow-hidden transition-colors duration-300 ${
                   index === image 
-                    ? 'ring-2 ring-blue-500 ring-offset-2' 
-                    : 'border border-gray-200'
+                    ? 'ring-2 ring-blue-500 dark:ring-blue-400 ring-offset-2 dark:ring-offset-gray-800' 
+                    : 'border border-gray-200 dark:border-gray-600'
                 }`} 
                 key={img + index}
                 onMouseEnter={() => setHoverImage(index)}
@@ -242,7 +242,7 @@ const ProductDisplayPage = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setImage(index)}
               >
-                <div className="w-full h-full relative bg-white">
+                <div className="w-full h-full relative bg-white dark:bg-gray-800 transition-colors duration-300">
                   <img
                     src={img}
                     alt={`${data.name} thumbnail ${index + 1}`}
