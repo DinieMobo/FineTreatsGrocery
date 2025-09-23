@@ -70,21 +70,21 @@ const MyOrders = () => {
     switch(status?.toLowerCase()) {
       case 'completed':
       case 'delivered':
-        return 'bg-green-500';
+        return 'bg-green-500 dark:bg-green-600';
       case 'processing':
-        return 'bg-yellow-500';
+        return 'bg-yellow-500 dark:bg-yellow-600';
       case 'shipped':
-        return 'bg-indigo-500';
+        return 'bg-indigo-500 dark:bg-indigo-600';
       case 'ordered':
-        return 'bg-blue-600';
+        return 'bg-blue-600 dark:bg-blue-700';
       case 'cancelled':
-        return 'bg-red-500';
+        return 'bg-red-500 dark:bg-red-600';
       case 'cash on delivery':
-        return 'bg-yellow-500';
+        return 'bg-yellow-500 dark:bg-yellow-600';
       case 'pending':
-        return 'bg-yellow-500';
+        return 'bg-yellow-500 dark:bg-yellow-600';
       default:
-        return 'bg-gray-500';
+        return 'bg-gray-500 dark:bg-gray-600';
     }
   }
 
@@ -364,7 +364,7 @@ const MyOrders = () => {
                   </div>
                   
                   <div className="flex items-center mt-2 md:mt-0">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(getStatusDisplayText(order))}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(getStatusDisplayText(order))} transition-colors duration-300`}>
                       {getStatusDisplayText(order)}
                     </span>
                     

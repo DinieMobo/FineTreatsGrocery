@@ -117,7 +117,7 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
     return (
         <AnimatePresence>
             <motion.section 
-                className='fixed top-0 bottom-0 left-0 right-0 p-4 bg-neutral-800 bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50'
+                className='fixed top-0 bottom-0 left-0 right-0 p-4 bg-neutral-800 dark:bg-black bg-opacity-60 dark:bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50 transition-colors duration-300'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -126,14 +126,14 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                 }}
             >
                 <motion.div 
-                    className='bg-white max-w-xl w-full p-6 rounded-lg shadow-2xl'
+                    className='bg-white dark:bg-gray-800 max-w-xl w-full p-6 rounded-lg shadow-2xl border dark:border-gray-700 transition-colors duration-300'
                     initial={{ scale: 0.9, y: 20 }}
                     animate={{ scale: 1, y: 0 }}
                     transition={{ type: "spring", damping: 25 }}
                 >
-                    <div className='flex items-center justify-between border-b pb-3 mb-4'>
+                    <div className='flex items-center justify-between border-b border-gray-200 dark:border-gray-600 pb-3 mb-4 transition-colors duration-300'>
                         <motion.h1 
-                            className='text-xl font-semibold text-primary-200 flex items-center gap-2'
+                            className='text-xl font-semibold text-primary-200 dark:text-primary-300 flex items-center gap-2 transition-colors duration-300'
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: 0.2 }}
@@ -142,7 +142,7 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                         </motion.h1>
                         <motion.button 
                             onClick={close} 
-                            className='w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-100 text-red-500 transition-all duration-300'
+                            className='w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-100 dark:hover:bg-red-900 text-red-500 dark:text-red-400 transition-all duration-300'
                             whileHover={{ rotate: 90 }}
                             whileTap={{ scale: 0.9 }}
                         >
@@ -158,14 +158,14 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                         transition={{ delay: 0.3 }}
                     >
                         <motion.div 
-                            className={`grid gap-2 ${activeField === 'name' ? 'bg-blue-50 p-3 rounded-lg' : ''} transition-all duration-300`}
+                            className={`grid gap-2 ${activeField === 'name' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
                             initial={{ y: 10, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.4 }}
                         >
                             <label 
                                 htmlFor='categoryName' 
-                                className='text-gray-700 font-medium flex items-center gap-2'
+                                className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2 transition-colors duration-300'
                             >
                                 Category Name
                             </label>
@@ -176,7 +176,7 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                                 value={data.name}
                                 name='name'
                                 onChange={handleOnChange}
-                                className='bg-white p-3 border border-gray-300 focus:border-primary-200 outline-none rounded-lg transition-all duration-300'
+                                className='bg-white dark:bg-gray-700 p-3 border border-gray-300 dark:border-gray-600 focus:border-primary-200 dark:focus:border-primary-300 outline-none rounded-lg transition-all duration-300 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400'
                                 onFocus={() => setActiveField('name')}
                                 onBlur={() => setActiveField(null)}
                             />
@@ -188,8 +188,8 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.5 }}
                         >
-                            <p className='text-gray-700 font-medium flex items-center gap-2'>
-                                <FaImage className="text-primary-200" /> Category Image
+                            <p className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2 transition-colors duration-300'>
+                                <FaImage className="text-primary-200 dark:text-primary-300" /> Category Image
                             </p>
                             <div className='flex gap-6 flex-col lg:flex-row items-center'>
                                 <motion.div 

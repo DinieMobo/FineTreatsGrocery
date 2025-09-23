@@ -49,7 +49,7 @@ const ProductCardAdmin = ({ data, fetchProductData }) => {
   return (
     <>
       <motion.div 
-        className='w-36 bg-white rounded-lg shadow-sm overflow-hidden'
+        className='w-36 bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 overflow-hidden transition-colors duration-300'
         whileHover={{ 
           y: -5,
           boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
@@ -64,7 +64,7 @@ const ProductCardAdmin = ({ data, fetchProductData }) => {
         <div className="relative h-32 overflow-hidden">
           {/* Image container with hover overlay */}
           <motion.div 
-            className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 z-10"
+            className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 dark:to-black/20 z-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: isHovered ? 1 : 0 }}
           />
@@ -82,14 +82,14 @@ const ProductCardAdmin = ({ data, fetchProductData }) => {
               transition={{ duration: 0.3 }}
             />
           ) : (
-            <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-              <FaImage className="text-gray-300 text-4xl" />
+            <div className="w-full h-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center transition-colors duration-300">
+              <FaImage className="text-gray-300 dark:text-gray-500 text-4xl" />
             </div>
           )}
           
           {/* Product details indicator */}
           <motion.div 
-            className="absolute top-2 left-2 bg-yellow-500 rounded-full p-1 z-20"
+            className="absolute top-2 left-2 bg-yellow-500 dark:bg-yellow-400 rounded-full p-1 z-20"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ 
               opacity: isHovered ? 1 : 0,
@@ -103,14 +103,14 @@ const ProductCardAdmin = ({ data, fetchProductData }) => {
         
         <div className="p-3">
           <motion.p 
-            className='text-ellipsis line-clamp-2 font-medium text-gray-800 min-h-[40px]'
-            animate={{ color: isHovered ? '#1e40af' : '#1f2937' }}
+            className='text-ellipsis line-clamp-2 font-medium text-gray-800 dark:text-gray-200 min-h-[40px] transition-colors duration-300'
+            animate={{ color: isHovered ? '#1e40af' : undefined }}
           >
             {data?.name || 'Unnamed Product'}
           </motion.p>
           
           <motion.p 
-            className='text-slate-400 text-xs my-1'
+            className='text-slate-400 dark:text-slate-500 text-xs my-1 transition-colors duration-300'
             animate={{ y: isHovered ? -2 : 0 }}
           >
             {data?.unit || 'N/A'}
@@ -119,7 +119,7 @@ const ProductCardAdmin = ({ data, fetchProductData }) => {
           <div className='grid grid-cols-2 gap-2 py-2'>
             <motion.button 
               onClick={() => setEditOpen(true)} 
-              className='px-3 py-1.5 text-sm flex items-center justify-center gap-1 border-green-600 bg-green-50 text-green-800 hover:bg-green-100 rounded-md transition-colors'
+              className='px-3 py-1.5 text-sm flex items-center justify-center gap-1 border-green-600 dark:border-green-500 bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-800 rounded-md transition-colors duration-300'
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -129,7 +129,7 @@ const ProductCardAdmin = ({ data, fetchProductData }) => {
             
             <motion.button 
               onClick={() => setOpenDelete(true)} 
-              className='px-3 py-1.5 text-sm flex items-center justify-center gap-1 border-red-600 bg-red-50 text-red-600 hover:bg-red-100 rounded-md transition-colors'
+              className='px-3 py-1.5 text-sm flex items-center justify-center gap-1 border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-800 rounded-md transition-colors duration-300'
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

@@ -64,9 +64,9 @@ const SearchPage = () => {
   }
 
   return (
-    <section className='bg-white'>
+    <section className='bg-white dark:bg-gray-900 transition-colors duration-300'>
       <div className='container mx-auto p-4'>
-        <p className='font-semibold'>Search Results: {data.length}  </p>
+        <p className='font-semibold text-gray-900 dark:text-gray-100 transition-colors duration-300'>Search Results: {data.length}  </p>
 
         <InfiniteScroll
               dataLength={data.length}
@@ -102,7 +102,7 @@ const SearchPage = () => {
                       src={noDataImage} 
                       className='w-full h-full max-w-xs max-h-xs block'
                     />
-                    <p className='font-semibold my-2'>No Data found</p>
+                    <p className='font-semibold my-2 text-gray-900 dark:text-gray-100 transition-colors duration-300'>No Data found</p>
                   </div>
                 )
               }

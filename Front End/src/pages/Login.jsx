@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { FaRegEyeSlash } from "react-icons/fa6";
-import { FaRegEye } from "react-icons/fa6";
+import React, { useState, useCallback, useMemo } from 'react'
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import toast from 'react-hot-toast';
 import Axios from '../utils/Axios';
@@ -11,6 +10,16 @@ import fetchUserDetails from '../utils/fetchUserDetails';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../store/userSlice';
 
+const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+};
+
+const contentVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { delay: 0.2 } }
+};
+
 const Login = () => {
     const [data, setData] = useState({
         email: "",
@@ -18,28 +27,34 @@ const Login = () => {
     })
     const [showPassword, setShowPassword] = useState(false)
     const [activeField, setActiveField] = useState(null)
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const handleChange = (e) => {
+    const validValue = useMemo(() => Object.values(data).every(el => el), [data]);
+
+    const handleChange = useCallback((e) => {
         const { name, value } = e.target
+        setData(prev => ({...prev, [name]: value}))
+    }, []);
 
-        setData((preve) => {
-            return {
-                ...preve,
-                [name]: value
-            }
-        })
-    }
+    const toggleShowPassword = useCallback(() => {
+        setShowPassword(prev => !prev)
+    }, []);
 
-    const validValue = Object.values(data).every(el => el)
-    const handleSubmit = async(e)=>{
+    const setFieldFocus = useCallback((field) => {
+        setActiveField(field)
+    }, []);
+
+    const handleSubmit = useCallback(async(e) => {
         e.preventDefault()
-
+        if (isSubmitting || !validValue) return;
+        
+        setIsSubmitting(true)
         try {
             const response = await Axios({
                 ...SummaryApi.login,
-                data : data
+                data
             })
             
             if(response.data.error){
@@ -60,29 +75,31 @@ const Login = () => {
                 })
                 navigate("/")
             }
-
         } catch (error) {
             AxiosToastError(error)
+        } finally {
+            setIsSubmitting(false)
         }
-    }
+    }, [data, dispatch, navigate, validValue, isSubmitting]);
+
+    const isButtonDisabled = useMemo(() => !validValue || isSubmitting, [validValue, isSubmitting]);
+
     return (
         <section className='w-full min-h-screen flex items-center justify-center py-10 bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300'>
             <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
                 className='bg-white dark:bg-gray-800 my-4 w-full max-w-lg mx-auto rounded-xl p-8 shadow-lg hover:shadow-xl dark:shadow-2xl transition-all duration-300 border dark:border-gray-700'
+                style={{willChange: 'opacity, transform'}}
             >
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                >
+                <motion.div variants={contentVariants}>
                     <h2 className="text-3xl font-bold text-green-800 dark:text-green-400 mb-2 transition-colors duration-300">Welcome Back!</h2>
                     <p className="text-gray-600 dark:text-gray-300 mb-6 transition-colors duration-300">We're so excited to see you again! Please sign in to your Fine Treats account to continue your shopping journey.</p>
                 </motion.div>
 
                 <form className='grid gap-5 mt-6' onSubmit={handleSubmit}>
+                    {/* Email field */}
                     <motion.div 
                         className='grid gap-2'
                         whileHover={{ scale: 1.01 }}
@@ -96,12 +113,14 @@ const Login = () => {
                             name='email'
                             value={data.email}
                             onChange={handleChange}
-                            onFocus={() => setActiveField('email')}
-                            onBlur={() => setActiveField(null)}
+                            onFocus={() => setFieldFocus('email')}
+                            onBlur={() => setFieldFocus(null)}
                             placeholder='Enter your email'
+                            autoComplete="email"
                         />
                     </motion.div>
                     
+                    {/* Password field */}
                     <motion.div 
                         className='grid gap-2'
                         whileHover={{ scale: 1.01 }}
@@ -116,22 +135,18 @@ const Login = () => {
                                 name='password'
                                 value={data.password}
                                 onChange={handleChange}
-                                onFocus={() => setActiveField('password')}
-                                onBlur={() => setActiveField(null)}
+                                onFocus={() => setFieldFocus('password')}
+                                onBlur={() => setFieldFocus(null)}
                                 placeholder='Enter your password'
+                                autoComplete="current-password"
                             />
                             <motion.div 
-                                onClick={() => setShowPassword(preve => !preve)} 
+                                onClick={toggleShowPassword} 
                                 className='cursor-pointer text-gray-500 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-400 transition-colors duration-300'
                                 whileTap={{ scale: 0.9 }}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
                             >
-                                {
-                                    showPassword ? (
-                                        <FaRegEye className="text-xl" />
-                                    ) : (
-                                        <FaRegEyeSlash className="text-xl" />
-                                    )
-                                }
+                                {showPassword ? <FaRegEye className="text-xl" /> : <FaRegEyeSlash className="text-xl" />}
                             </motion.div>
                         </div>
                         <Link 
@@ -142,13 +157,15 @@ const Login = () => {
                         </Link>
                     </motion.div>
 
+                    {/* Submit button */}
                     <motion.button 
-                        disabled={!validValue} 
-                        className={` ${validValue ? "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600" : "bg-gray-400 dark:bg-gray-600"} text-white py-3 rounded-lg font-semibold my-4 tracking-wide transition-colors duration-300`}
-                        whileHover={validValue ? { scale: 1.03 } : {}}
-                        whileTap={validValue ? { scale: 0.98 } : {}}
+                        type="submit"
+                        disabled={isButtonDisabled} 
+                        className={`${!isButtonDisabled ? "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600" : "bg-gray-400 dark:bg-gray-600"} text-white py-3 rounded-lg font-semibold my-4 tracking-wide transition-colors duration-300`}
+                        whileHover={!isButtonDisabled ? { scale: 1.03 } : {}}
+                        whileTap={!isButtonDisabled ? { scale: 0.98 } : {}}
                     >
-                        Login
+                        {isSubmitting ? 'Logging in...' : 'Login'}
                     </motion.button>
                 </form>
 
@@ -171,4 +188,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default React.memo(Login);

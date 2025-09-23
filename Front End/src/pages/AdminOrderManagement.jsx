@@ -94,21 +94,21 @@ const AdminOrderManagement = () => {
     switch(status?.toLowerCase()) {
       case 'completed':
       case 'delivered':
-        return 'bg-green-500';
+        return 'bg-green-500 dark:bg-green-600';
       case 'processing':
-        return 'bg-yellow-500';
+        return 'bg-yellow-500 dark:bg-yellow-600';
       case 'shipped':
-        return 'bg-indigo-500';
+        return 'bg-indigo-500 dark:bg-indigo-600';
       case 'ordered':
-        return 'bg-blue-600';
+        return 'bg-blue-600 dark:bg-blue-700';
       case 'cancelled':
-        return 'bg-red-500';
+        return 'bg-red-500 dark:bg-red-600';
       case 'cash on delivery':
-        return 'bg-yellow-500';
+        return 'bg-yellow-500 dark:bg-yellow-600';
       case 'pending':
-        return 'bg-yellow-500';
+        return 'bg-yellow-500 dark:bg-yellow-600';
       default:
-        return 'bg-gray-500';
+        return 'bg-gray-500 dark:bg-gray-600';
     }
   };
 
@@ -150,16 +150,16 @@ const AdminOrderManagement = () => {
           <input
             type="text"
             placeholder="Search orders by ID, product or customer..."
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 pl-10"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 pl-10 transition-colors duration-300"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
           />
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300" />
         </div>
 
         <div>
           <select
-            className="w-full px-4 py-2 rounded-lg border border-gray-300"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 transition-colors duration-300"
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
           >
@@ -175,7 +175,7 @@ const AdminOrderManagement = () => {
 
         <div>
           <select
-            className="w-full px-4 py-2 rounded-lg border border-gray-300"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 transition-colors duration-300"
             value={sortBy}
             onChange={e => setSortBy(e.target.value)}
           >
@@ -194,48 +194,48 @@ const AdminOrderManagement = () => {
       ) : (
         <div className="overflow-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-100">
+            <thead className="bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider transition-colors duration-300">
                   Order ID
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider transition-colors duration-300">
                   Customer
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider transition-colors duration-300">
                   Product
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider transition-colors duration-300">
                   Amount
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider transition-colors duration-300">
                   Order Date
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider transition-colors duration-300">
                   Status
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider transition-colors duration-300">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700 transition-colors duration-300">
               {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan={7} className="px-4 py-8 text-center text-gray-500 dark:text-gray-400 transition-colors duration-300">
                     No orders matching your filters
                   </td>
                 </tr>
               ) : (
                 filteredOrders.map((order) => (
-                  <tr key={order._id} className="hover:bg-gray-50">
-                    <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+                  <tr key={order._id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-300">
+                    <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-400 transition-colors duration-300">
                       {order.orderId}
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 transition-colors duration-300">
                       <div>
                         <p className="font-medium">{order.userId?.name || 'Unknown'}</p>
-                        <p className="text-gray-500 text-xs">{order.userId?.email || 'No email'}</p>
+                        <p className="text-gray-500 dark:text-gray-400 text-xs transition-colors duration-300">{order.userId?.email || 'No email'}</p>
                       </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
@@ -272,7 +272,7 @@ const AdminOrderManagement = () => {
                     <td className="px-4 py-4 whitespace-nowrap">
                       {editingOrder === order._id ? (
                         <select 
-                          className="text-sm border border-gray-300 rounded px-2 py-1"
+                          className="text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded px-2 py-1 transition-colors duration-300"
                           defaultValue={order.order_status || order.payment_status?.toLowerCase()}
                           onChange={(e) => handleUpdateStatus(order.orderId, e.target.value)}
                           autoFocus
@@ -284,7 +284,7 @@ const AdminOrderManagement = () => {
                           <option value="cancelled">Cancelled</option>
                         </select>
                       ) : (
-                        <span className={`px-2 py-1 text-xs font-medium text-white rounded-full ${getStatusColor(order.order_status || order.payment_status)}`}>
+                        <span className={`px-2 py-1 text-xs font-medium text-white rounded-full transition-colors duration-300 ${getStatusColor(order.order_status || order.payment_status)}`}>
                           {order.order_status || order.payment_status || 'Pending'}
                         </span>
                       )}

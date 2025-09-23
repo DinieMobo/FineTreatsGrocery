@@ -115,7 +115,7 @@ const UploadCategoryModel = ({close, fetchData}) => {
     return (
         <AnimatePresence>
             <motion.section 
-                className='fixed top-0 bottom-0 left-0 right-0 p-4 bg-neutral-800 bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50'
+                className='fixed top-0 bottom-0 left-0 right-0 p-4 bg-neutral-800 dark:bg-black bg-opacity-60 dark:bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50 transition-colors duration-300'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -124,14 +124,14 @@ const UploadCategoryModel = ({close, fetchData}) => {
                 }}
             >
                 <motion.div 
-                    className='bg-white max-w-4xl w-full p-6 rounded-lg shadow-2xl'
+                    className='bg-white dark:bg-gray-800 max-w-4xl w-full p-6 rounded-lg shadow-2xl border dark:border-gray-700 transition-colors duration-300'
                     initial={{ scale: 0.9, y: 20 }}
                     animate={{ scale: 1, y: 0 }}
                     transition={{ type: "spring", damping: 15 }}
                 >
-                    <div className='flex items-center justify-between border-b pb-3 mb-4'>
+                    <div className='flex items-center justify-between border-b border-gray-200 dark:border-gray-600 pb-3 mb-4 transition-colors duration-300'>
                         <motion.h1 
-                            className='text-xl font-bold text-primary-200'
+                            className='text-xl font-bold text-primary-200 dark:text-primary-300 transition-colors duration-300'
                             initial={{ x: -20 }}
                             animate={{ x: 0 }}
                         >
@@ -139,7 +139,7 @@ const UploadCategoryModel = ({close, fetchData}) => {
                         </motion.h1>
                         <motion.button 
                             onClick={close} 
-                            className='w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-100 text-red-500 transition-all duration-300'
+                            className='w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-100 dark:hover:bg-red-900 text-red-500 dark:text-red-400 transition-all duration-300'
                             whileHover={{ rotate: 90 }}
                             whileTap={{ scale: 0.9 }}
                         >

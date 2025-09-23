@@ -215,12 +215,12 @@ const UploadProduct = () => {
       animate="animate"
       exit="exit"
       variants={pageVariants}
-      className='min-h-screen bg-gradient-to-br from-blue-50 to-white'
+      className='min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300'
     >
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className='p-4 bg-gradient-to-r from-blue-600 to-indigo-700 shadow-lg flex items-center justify-between text-white mb-6 rounded-b-lg'
+        className='p-4 bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-700 dark:to-indigo-800 shadow-lg flex items-center justify-between text-white mb-6 rounded-b-lg transition-colors duration-300'
       >
         <h2 className='font-bold text-xl flex items-center gap-2'>
           <BsBoxSeam size={24} />
@@ -240,7 +240,7 @@ const UploadProduct = () => {
               className={`flex items-center gap-2 px-4 py-2 rounded-full shadow-sm transition-all duration-300 ${
                 activeSection === section.id
                   ? 'bg-blue-600 text-white font-medium'
-                  : 'bg-white hover:bg-blue-50 text-gray-700'
+                  : 'bg-white dark:bg-gray-800 hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 border dark:border-gray-600'
               }`}
             >
               <span>{section.icon}</span>
@@ -251,7 +251,7 @@ const UploadProduct = () => {
 
         <motion.div 
           variants={cardVariants}
-          className='bg-white rounded-xl shadow-lg p-6 mb-8'
+          className='bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8 transition-colors duration-300'
         >
           <form className='grid gap-6' onSubmit={handleSubmit}>
             {/* Basic Information Section */}
@@ -270,7 +270,7 @@ const UploadProduct = () => {
                   
                   <div className='grid gap-4'>
                     <div className='grid gap-1'>
-                      <label htmlFor='name' className='font-medium text-gray-700 flex items-center gap-1'>
+                      <label htmlFor='name' className='font-medium text-gray-700 dark:text-gray-300 flex items-center gap-1 transition-colors duration-300'>
                         Product Name <span className="text-red-500">*</span>
                       </label>
                       <input 
@@ -281,12 +281,12 @@ const UploadProduct = () => {
                         value={data.name}
                         onChange={handleChange}
                         required
-                        className='bg-blue-50 p-3 outline-none border border-blue-100 focus:border-blue-400 rounded-lg transition-all duration-300'
+                        className='bg-blue-50 dark:bg-gray-700 dark:text-gray-100 p-3 outline-none border border-blue-100 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-500 rounded-lg transition-all duration-300'
                       />
                     </div>
                     
                     <div className='grid gap-1'>
-                      <label htmlFor='description' className='font-medium text-gray-700 flex items-center gap-1'>
+                      <label htmlFor='description' className='font-medium text-gray-700 dark:text-gray-300 flex items-center gap-1 transition-colors duration-300'>
                         Description <span className="text-red-500">*</span>
                       </label>
                       <textarea 
@@ -297,7 +297,7 @@ const UploadProduct = () => {
                         onChange={handleChange}
                         required
                         rows={4}
-                        className='bg-blue-50 p-3 outline-none border border-blue-100 focus:border-blue-400 rounded-lg transition-all duration-300 resize-none'
+                        className='bg-blue-50 dark:bg-gray-700 dark:text-gray-100 p-3 outline-none border border-blue-100 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-500 rounded-lg transition-all duration-300 resize-none'
                       />
                     </div>
                   </div>
@@ -322,10 +322,10 @@ const UploadProduct = () => {
                   <div>
                     <div 
                       {...getRootProps()}
-                      className={`bg-blue-50 h-32 border-2 border-dashed rounded-lg flex justify-center items-center cursor-pointer transition-all duration-300 ${
+                      className={`bg-blue-50 dark:bg-gray-700 h-32 border-2 border-dashed rounded-lg flex justify-center items-center cursor-pointer transition-all duration-300 ${
                         isDragActive 
-                          ? 'border-blue-500 bg-blue-100' 
-                          : 'border-blue-200 hover:border-blue-400 hover:bg-blue-100'
+                          ? 'border-blue-500 bg-blue-100 dark:bg-gray-600' 
+                          : 'border-blue-200 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600'
                       }`}
                     >
                       <div className='text-center flex justify-center items-center flex-col'>
@@ -334,10 +334,10 @@ const UploadProduct = () => {
                             <>
                               <FaCloudUploadAlt size={40} className="text-blue-500 mb-2" />
                               <p className="font-medium text-blue-600">Upload Product Images</p>
-                              <p className="text-sm text-gray-500 mt-1">
+                              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 transition-colors duration-300">
                                 {isDragActive ? 'Drop files here' : 'Click or drag files here'}
                               </p>
-                              <p className="text-xs text-gray-400 mt-1">Supports multiple images</p>
+                              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1 transition-colors duration-300">Supports multiple images</p>
                             </>
                           )
                         }

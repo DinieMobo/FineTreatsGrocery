@@ -7,6 +7,7 @@
 :root {
   --toast-bg: #ffffff;
   --toast-color: #374151;
+  --transition-duration: 300ms;
 }
 
 .dark {
@@ -14,15 +15,24 @@
   --toast-color: #f3f4f6;
 }
 
-html{
+/* Create a smooth page transition when changing themes */
+html {
     scroll-behavior: smooth;
+    transition: background-color var(--transition-duration) ease-in-out;
 }
 
-body{
+body {
     font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-weight: 400;
     font-style: normal;
     @apply bg-blue-50 dark:bg-gray-900 text-neutral-700 dark:text-neutral-200 scroll-smooth transition-colors duration-300
+}
+
+/* Ensure all color transitions are smooth */
+*, *::before, *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: var(--transition-duration);
+    transition-timing-function: ease-in-out;
 }
 
 .scrollbar-none::-webkit-scrollbar{

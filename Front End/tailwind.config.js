@@ -11,7 +11,13 @@ export default {
         "primary-200" : "#3cce1e",
         "primary-100" : "#36d03a",
         "secondary-200" : "#0c92bf",
-        "secondary-100" : "#12269e"
+        "secondary-100" : "#12269e",
+        dark: {
+          "primary-200" : "#4adb2b",
+          "primary-100" : "#45de49", 
+          "secondary-200" : "#1aa0cd",
+          "secondary-100" : "#2034ac"
+        }
       },
       keyframes: {
         shimmer: {
