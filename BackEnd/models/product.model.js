@@ -60,6 +60,10 @@ productSchema.index({
     description : 5
 })
 
+productSchema.index({ category: 1 });
+productSchema.index({ subCategory: 1 });
+productSchema.index({ createdAt: -1 });
+
 const ProductModel = mongoose.model("Product", productSchema);
 
 export default ProductModel;

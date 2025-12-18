@@ -3,7 +3,7 @@ import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import toast, { Toaster } from 'react-hot-toast';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import fetchUserDetails from './utils/fetchUserDetails';
 import { setUserDetails } from './store/userSlice';
 import { setAllCategory,setAllSubCategory,setLoadingCategory } from './store/productSlice';
@@ -15,6 +15,7 @@ import GlobalProvider from './provider/GlobalProvider';
 import ThemeProvider from './provider/ThemeProvider';
 import { FaCartShopping } from "react-icons/fa6";
 import CartMobileLink from './components/CartMobile';
+import Loading from './components/Loading';
 
 function App() {
   const dispatch = useDispatch()
@@ -76,7 +77,9 @@ function App() {
       <GlobalProvider> 
         <Header/>
         <main className='min-h-[78vh]'>
-            <Outlet/>
+            <Suspense fallback={<Loading/>}>
+              <Outlet/>
+            </Suspense>
         </main>
         <Footer/>
         <Toaster 

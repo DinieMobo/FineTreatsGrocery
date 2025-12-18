@@ -15,6 +15,8 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
     const containerRef = useRef()
     const subCategoryData = useSelector(state => state.product.allSubCategory)
     const loadingCardNumber = new Array(6).fill(null)
+    const [hasFetched, setHasFetched] = useState(false);
+    const observerRef = useRef();
 
     const fetchCategoryWiseProduct = async () => {
         try {
@@ -39,8 +41,27 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
     }
 
     useEffect(() => {
-        fetchCategoryWiseProduct()
-    }, [])
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !hasFetched) {
+                    fetchCategoryWiseProduct();
+                    setHasFetched(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.1 } 
+        );
+
+        if (observerRef.current) {
+            observer.observe(observerRef.current);
+        }
+
+        return () => {
+            if (observerRef.current) {
+                observer.unobserve(observerRef.current);
+            }
+        };
+    }, [hasFetched, id]);
 
     const handleScrollRight = () => {
         containerRef.current.scrollLeft += 200
@@ -65,7 +86,7 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
 
   const redirectURL =  handleRedirectProductListpage()
     return (
-        <div>
+        <div ref={observerRef}>
             <div className='container mx-auto p-4 flex items-center justify-between gap-4'>
                 <h3 className='font-semibold text-lg md:text-xl text-gray-900 dark:text-gray-100 transition-colors duration-300'>{name}</h3>
                 <Link  to={redirectURL} className='text-green-600 dark:text-green-400 hover:text-green-400 dark:hover:text-green-300 transition-colors duration-300'>See All</Link>
