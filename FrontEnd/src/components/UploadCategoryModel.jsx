@@ -160,7 +160,7 @@ const UploadCategoryModel = ({close, fetchData}) => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
                         >
-                            <label id='categoryName' className='text-gray-700 font-medium'>Category Name</label>
+                            <label id='categoryName' className='text-gray-700 dark:text-gray-300 font-medium transition-colors duration-300'>Category Name</label>
                             <motion.input
                                 type='text'
                                 id='categoryName'
@@ -168,7 +168,7 @@ const UploadCategoryModel = ({close, fetchData}) => {
                                 value={data.name}
                                 name='name'
                                 onChange={handleOnChange}
-                                className='bg-blue-50 p-3 border border-blue-100 focus:border-primary-200 outline-none rounded-lg transition-all duration-300'
+                                className='bg-blue-50 dark:bg-gray-700 p-3 border border-blue-100 dark:border-gray-600 focus:border-primary-200 dark:focus:border-primary-300 outline-none rounded-lg text-gray-800 dark:text-gray-200 transition-all duration-300'
                                 whileFocus={{ scale: 1.01 }}
                             />
                         </motion.div>
@@ -179,12 +179,12 @@ const UploadCategoryModel = ({close, fetchData}) => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
                         >
-                            <p className='text-gray-700 font-medium'>Category Image</p>
+                            <p className='text-gray-700 dark:text-gray-300 font-medium transition-colors duration-300'>Category Image</p>
                             <div className='flex gap-6 flex-col lg:flex-row items-center'>
                                 <motion.div 
                                     className={`
                                         border-2 rounded-lg overflow-hidden
-                                        ${isDragging ? 'border-primary-200 bg-blue-100' : 'border-dashed border-blue-200 bg-blue-50'} 
+                                        ${isDragging ? 'border-primary-200 bg-blue-100 dark:bg-gray-600' : 'border-dashed border-blue-200 dark:border-gray-600 bg-blue-50 dark:bg-gray-700'} 
                                         h-52 w-full lg:w-52 flex flex-col items-center justify-center transition-all duration-300
                                     `}
                                     onDragOver={handleDragOver}
@@ -206,8 +206,8 @@ const UploadCategoryModel = ({close, fetchData}) => {
                                             </motion.div>
                                         ) : (
                                             <>
-                                                <FaCamera className='text-4xl text-blue-300 mb-2' />
-                                                <p className='text-sm text-neutral-500 text-center px-3'>
+                                                <FaCamera className='text-4xl text-blue-300 dark:text-gray-500 mb-2 transition-colors duration-300' />
+                                                <p className='text-sm text-neutral-500 dark:text-gray-400 text-center px-3 transition-colors duration-300'>
                                                     Drag & Drop image here<br />or click to browse
                                                 </p>
                                             </>
@@ -219,7 +219,7 @@ const UploadCategoryModel = ({close, fetchData}) => {
                                     <label htmlFor='uploadCategoryImage'>
                                         <motion.div
                                             className={`
-                                                ${!data.name ? "bg-gray-300 cursor-not-allowed" : "border-primary-200 bg-white hover:bg-primary-100 cursor-pointer"} 
+                                                ${!data.name ? "bg-gray-300 dark:bg-gray-600 cursor-not-allowed" : "border-primary-200 dark:border-primary-300 bg-white dark:bg-gray-700 hover:bg-primary-100 dark:hover:bg-gray-600 cursor-pointer text-gray-700 dark:text-gray-200"} 
                                                 px-5 py-3 rounded-lg border-2 font-medium flex items-center justify-center gap-2 transition-all duration-300
                                             `}
                                             whileHover={data.name ? { scale: 1.03 } : {}}
@@ -232,7 +232,7 @@ const UploadCategoryModel = ({close, fetchData}) => {
                                     </label>
                                     
                                     {data.image && (
-                                        <p className='text-xs text-green-600 flex items-center gap-1'>
+                                        <p className='text-xs text-green-600 dark:text-green-400 flex items-center gap-1 transition-colors duration-300'>
                                             <FaCheck size={10} /> Image uploaded successfully
                                         </p>
                                     )}

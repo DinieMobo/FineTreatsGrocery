@@ -138,13 +138,13 @@ const EditAddressDetails = ({close, data}) => {
                 }}
             >
                 <motion.div 
-                    className='bg-white w-full max-w-lg mx-auto rounded-lg shadow-2xl overflow-hidden'
+                    className='bg-white dark:bg-gray-800 w-full max-w-lg mx-auto rounded-lg shadow-2xl overflow-hidden'
                     variants={modalVariants}
                     initial="hidden"
                     animate="visible"
                     exit="exit"
                 >
-                    <div className='bg-gradient-to-r from-primary-200 to-blue-500 p-4 text-black flex justify-between items-center'>
+                    <div className='bg-gradient-to-r from-primary-200 to-blue-500 p-4 text-black dark:text-white flex justify-between items-center'>
                         <motion.h2 
                             className='font-semibold text-xl flex items-center gap-2'
                             initial={{ x: -20, opacity: 0 }}
@@ -155,7 +155,7 @@ const EditAddressDetails = ({close, data}) => {
                         </motion.h2>
                         <motion.button 
                             onClick={close} 
-                            className='p-1.5 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 text-black transition-all duration-300'
+                            className='p-1.5 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 text-black dark:text-white transition-all duration-300'
                             whileHover={{ rotate: 90 }}
                             whileTap={{ scale: 0.9 }}
                         >
@@ -172,7 +172,7 @@ const EditAddressDetails = ({close, data}) => {
                             transition={{ delay: 0.3 }}
                         >
                             <motion.div 
-                                className={`cursor-pointer flex-1 p-3 text-center rounded-lg border-2 flex items-center justify-center gap-2 ${addressType === 'home' ? 'bg-primary-100 text-white border-primary-200' : 'border-gray-200 hover:border-primary-100'}`}
+                                className={`cursor-pointer flex-1 p-3 text-center rounded-lg border-2 flex items-center justify-center gap-2 ${addressType === 'home' ? 'bg-primary-100 dark:bg-primary-900 text-white border-primary-200' : 'border-gray-200 dark:border-gray-600 hover:border-primary-100 dark:hover:border-primary-800 dark:text-gray-200'}`}
                                 onClick={() => setAddressType('home')}
                                 whileHover={{ y: -2 }}
                                 whileTap={{ scale: 0.98 }}
@@ -181,7 +181,7 @@ const EditAddressDetails = ({close, data}) => {
                                 <span className="font-medium">Home</span>
                             </motion.div>
                             <motion.div 
-                                className={`cursor-pointer flex-1 p-3 text-center rounded-lg border-2 flex items-center justify-center gap-2 ${addressType === 'work' ? 'bg-primary-100 text-white border-primary-200' : 'border-gray-200 hover:border-primary-100'}`}
+                                className={`cursor-pointer flex-1 p-3 text-center rounded-lg border-2 flex items-center justify-center gap-2 ${addressType === 'work' ? 'bg-primary-100 dark:bg-primary-900 text-white border-primary-200' : 'border-gray-200 dark:border-gray-600 hover:border-primary-100 dark:hover:border-primary-800 dark:text-gray-200'}`}
                                 onClick={() => setAddressType('work')}
                                 whileHover={{ y: -2 }}
                                 whileTap={{ scale: 0.98 }}
@@ -193,19 +193,19 @@ const EditAddressDetails = ({close, data}) => {
 
                         <form className='grid gap-4' onSubmit={handleSubmit(onSubmit)}>
                             <motion.div 
-                                className={`grid gap-2 ${activeField === 'address_line1' ? 'bg-blue-50 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                className={`grid gap-2 ${activeField === 'address_line1' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
                                 custom={0}
                                 variants={formItemVariants}
                                 initial="hidden"
                                 animate="visible"
                             >
-                                <label htmlFor='addressline1' className='text-gray-700 font-medium flex items-center gap-2'>
+                                <label htmlFor='addressline1' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                                     <FaMapMarkedAlt className="text-primary-200" /> Address Line 1
                                 </label>
                                 <input
                                     type='text'
                                     id='addressline1' 
-                                    className='border border-gray-300 p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                    className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
                                     {...register("address_line1", {required: true})}
                                     onFocus={() => setActiveField('address_line1')}
                                     onBlur={() => setActiveField(null)}
@@ -213,19 +213,19 @@ const EditAddressDetails = ({close, data}) => {
                             </motion.div>
                             
                             <motion.div 
-                                className={`grid gap-2 ${activeField === 'address_line2' ? 'bg-blue-50 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                className={`grid gap-2 ${activeField === 'address_line2' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
                                 custom={1}
                                 variants={formItemVariants}
                                 initial="hidden"
                                 animate="visible"
                             >
-                                <label htmlFor='addressline2' className='text-gray-700 font-medium flex items-center gap-2'>
+                                <label htmlFor='addressline2' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                                     <FaMapMarkedAlt className="text-primary-200" /> Address Line 2
                                 </label>
                                 <input
                                     type='text'
                                     id='addressline2' 
-                                    className='border border-gray-300 p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                    className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
                                     {...register("address_line2", {required: true})}
                                     onFocus={() => setActiveField('address_line2')}
                                     onBlur={() => setActiveField(null)}
@@ -234,19 +234,19 @@ const EditAddressDetails = ({close, data}) => {
                             
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                 <motion.div 
-                                    className={`grid gap-2 ${activeField === 'city' ? 'bg-blue-50 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                    className={`grid gap-2 ${activeField === 'city' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
                                     custom={2}
                                     variants={formItemVariants}
                                     initial="hidden"
                                     animate="visible"
                                 >
-                                    <label htmlFor='city' className='text-gray-700 font-medium flex items-center gap-2'>
+                                    <label htmlFor='city' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                                         <FaCity className="text-primary-200" /> City
                                     </label>
                                     <input
                                         type='text'
                                         id='city' 
-                                        className='border border-gray-300 p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                        className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
                                         {...register("city", {required: true})}
                                         onFocus={() => setActiveField('city')}
                                         onBlur={() => setActiveField(null)}
@@ -254,19 +254,19 @@ const EditAddressDetails = ({close, data}) => {
                                 </motion.div>
                                 
                                 <motion.div 
-                                    className={`grid gap-2 ${activeField === 'state' ? 'bg-blue-50 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                    className={`grid gap-2 ${activeField === 'state' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
                                     custom={3}
                                     variants={formItemVariants}
                                     initial="hidden"
                                     animate="visible"
                                 >
-                                    <label htmlFor='state' className='text-gray-700 font-medium flex items-center gap-2'>
+                                    <label htmlFor='state' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                                         <FaMapPin className="text-primary-200" /> State
                                     </label>
                                     <input
                                         type='text'
                                         id='state' 
-                                        className='border border-gray-300 p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                        className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
                                         {...register("state", {required: true})}
                                         onFocus={() => setActiveField('state')}
                                         onBlur={() => setActiveField(null)}
@@ -276,19 +276,19 @@ const EditAddressDetails = ({close, data}) => {
                             
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                 <motion.div 
-                                    className={`grid gap-2 ${activeField === 'zipcode' ? 'bg-blue-50 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                    className={`grid gap-2 ${activeField === 'zipcode' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
                                     custom={4}
                                     variants={formItemVariants}
                                     initial="hidden"
                                     animate="visible"
                                 >
-                                    <label htmlFor='zipcode' className='text-gray-700 font-medium flex items-center gap-2'>
+                                    <label htmlFor='zipcode' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                                         <FaMapPin className="text-primary-200" /> Zipcode
                                     </label>
                                     <input
                                         type='text'
                                         id='zipcode' 
-                                        className='border border-gray-300 p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                        className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
                                         {...register("zipcode", {required: true})}
                                         onFocus={() => setActiveField('zipcode')}
                                         onBlur={() => setActiveField(null)}
@@ -296,29 +296,31 @@ const EditAddressDetails = ({close, data}) => {
                                 </motion.div>
                                 
                                 <motion.div 
-                                    className={`grid gap-2 ${activeField === 'country' ? 'bg-blue-50 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                    className={`grid gap-2 ${activeField === 'country' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
                                     custom={5}
                                     variants={formItemVariants}
                                     initial="hidden"
                                     animate="visible"
                                 >
-                                    <label htmlFor='country' className='text-gray-700 font-medium flex items-center gap-2'>
+                                    <label htmlFor='country' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                                         <FaGlobeAmericas className="text-primary-200" /> Country
                                     </label>
-                                    <Select
-                                        id="country"
-                                        options={countryOptions}
-                                        value={selectedCountry}
-                                        onChange={option => {
-                                            setSelectedCountry(option)
-                                            document.getElementById('country-hidden').value = option.label
-                                        }}
-                                        onFocus={() => setActiveField('country')}
-                                        onBlur={() => setActiveField(null)}
-                                        classNamePrefix="react-select"
-                                        placeholder="Select a country"
-                                        isSearchable
-                                    />
+                                    <div className="dark:text-black">
+                                        <Select
+                                            id="country"
+                                            options={countryOptions}
+                                            value={selectedCountry}
+                                            onChange={option => {
+                                                setSelectedCountry(option)
+                                                document.getElementById('country-hidden').value = option.label
+                                            }}
+                                            onFocus={() => setActiveField('country')}
+                                            onBlur={() => setActiveField(null)}
+                                            classNamePrefix="react-select"
+                                            placeholder="Select a country"
+                                            isSearchable
+                                        />
+                                    </div>
                                     <input
                                         type='hidden'
                                         id='country-hidden' 
@@ -330,19 +332,19 @@ const EditAddressDetails = ({close, data}) => {
                             </div>
                             
                             <motion.div 
-                                className={`grid gap-2 ${activeField === 'phone' ? 'bg-blue-50 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                className={`grid gap-2 ${activeField === 'phone' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
                                 custom={6}
                                 variants={formItemVariants}
                                 initial="hidden"
                                 animate="visible"
                             >
-                                <label htmlFor='phone' className='text-gray-700 font-medium flex items-center gap-2'>
+                                <label htmlFor='phone' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                                     <FaPhone className="text-primary-200" /> Phone No.
                                 </label>
                                 <input
                                     type='text'
                                     id='phone' 
-                                    className='border border-gray-300 p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                    className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
                                     {...register("phone", {required: true})}
                                     onFocus={() => setActiveField('phone')}
                                     onBlur={() => setActiveField(null)}

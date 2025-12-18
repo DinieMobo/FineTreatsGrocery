@@ -349,7 +349,7 @@ const CheckoutPage = () => {
               className='flex items-center justify-between mb-4'
               whileHover={{ x: 2 }}
             >
-              <h3 className='text-xl font-bold text-gray-800 flex items-center gap-2'>
+              <h3 className='text-xl font-bold text-gray-800 flex dark:text-white items-center gap-2'>
                 <FaMapMarkerAlt className="text-primary-200" />
                 Delivery Address
               </h3>
@@ -365,7 +365,7 @@ const CheckoutPage = () => {
             </motion.div>
             
             <motion.div 
-              className='bg-white p-6 grid gap-4 rounded-lg shadow-md border border-gray-100'
+              className='bg-white dark:bg-gray-800 p-6 grid gap-4 rounded-lg shadow-md border border-gray-100 dark:border-gray-700'
               variants={containerVariants}
               whileHover={{ boxShadow: "0 8px 30px rgba(0,0,0,0.05)" }}
             >
@@ -391,10 +391,10 @@ const CheckoutPage = () => {
                         className={`
                           border-2 rounded-lg p-5 transition-all duration-300
                           ${Number(selectAddress) === index 
-                            ? 'border-primary-200 bg-gradient-to-r from-blue-50 to-white shadow-md' 
+                            ? 'border-primary-200 bg-gradient-to-r from-blue-50 to-white dark:from-gray-700 dark:to-gray-800 shadow-md' 
                             : hoverAddress === index 
-                              ? 'border-blue-200 bg-blue-50/30' 
-                              : 'border-gray-100'
+                              ? 'border-blue-200 bg-blue-50/30 dark:bg-gray-700/30' 
+                              : 'border-gray-100 dark:border-gray-700'
                           }
                         `}
                       >
@@ -412,11 +412,11 @@ const CheckoutPage = () => {
                           </div>
                           <div className='space-y-2 flex-1'>
                             <div className="flex justify-between items-start">
-                              <p className='font-semibold text-gray-800 text-lg leading-tight'>{address?.address_line1 || 'No address line'}</p>
+                              <p className='font-semibold text-gray-800 dark:text-gray-100 text-lg leading-tight'>{address?.address_line1 || 'No address line'}</p>
                               
                               {Number(selectAddress) === index && (
                                 <motion.div 
-                                  className='flex items-center gap-1 text-primary-200 bg-blue-100 px-2 py-1 rounded-full text-sm font-medium'
+                                  className='flex items-center gap-1 text-primary-200 bg-blue-100 dark:bg-gray-600 px-2 py-1 rounded-full text-sm font-medium'
                                   initial={{ opacity: 0, scale: 0.8 }}
                                   animate={{ opacity: 1, scale: 1 }}
                                   transition={{ type: 'spring', stiffness: 500, damping: 17 }}
@@ -426,14 +426,14 @@ const CheckoutPage = () => {
                               )}
                             </div>
                             
-                            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-gray-600">
+                            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-gray-600 dark:text-gray-300">
                               <p>{address?.city || 'N/A'}</p>
                               <p>{address?.state || 'N/A'}</p>
                               <p>{address?.country || 'N/A'}</p>
                               <p>{address?.zipcode || 'N/A'}</p>
                             </div>
                             
-                            <p className='inline-flex items-center gap-2 font-medium mt-1 px-2 py-1 bg-gray-100 rounded-full text-sm'>
+                            <p className='inline-flex items-center gap-2 font-medium mt-1 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm dark:text-gray-300'>
                               <FaRegCreditCard className="text-primary-200" />
                               {address?.phone || 'No phone number'}
                             </p>
@@ -445,12 +445,12 @@ const CheckoutPage = () => {
                 })
               ) : (
                 <motion.div 
-                  className="text-gray-500 text-center py-8 px-4 rounded-lg bg-blue-50/50 border border-dashed border-blue-200"
+                  className="text-gray-500 dark:text-gray-400 text-center py-8 px-4 rounded-lg bg-blue-50/50 dark:bg-gray-700/50 border border-dashed border-blue-200 dark:border-gray-600"
                   variants={itemVariants}
                 >
                   <div className="flex justify-center mb-4">
                     <motion.div 
-                      className="bg-white p-3 rounded-full shadow"
+                      className="bg-white dark:bg-gray-600 p-3 rounded-full shadow"
                       animate={{ y: [0, -5, 0] }}
                       transition={{ repeat: Infinity, duration: 2 }}
                     >
@@ -464,14 +464,14 @@ const CheckoutPage = () => {
               
               <motion.button
                 onClick={() => setOpenAddress(true)} 
-                className='h-16 bg-gradient-to-r from-blue-50 to-white border-2 border-dashed border-primary-100 rounded-lg flex justify-center items-center cursor-pointer transition-all duration-300 group'
+                className='h-16 bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-900 border-2 border-dashed border-primary-100 dark:border-primary-900 rounded-lg flex justify-center items-center cursor-pointer transition-all duration-300 group'
                 whileHover={{ scale: 1.02, borderColor: '#3b82f6' }}
                 whileTap={{ scale: 0.98 }}
                 variants={itemVariants}
                 onMouseEnter={() => setActiveElement('addAddress')}
                 onMouseLeave={() => setActiveElement(null)}
               >
-                <div className='flex items-center gap-2 text-primary-200 font-medium group-hover:text-blue-600 transition-colors'>
+                <div className='flex items-center gap-2 text-primary-200 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'>
                   <motion.div
                     animate={{ rotate: [0, 180] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
@@ -485,33 +485,33 @@ const CheckoutPage = () => {
             
             {/* Security features banner */}
             <motion.div 
-              className="mt-8 bg-gradient-to-r from-blue-50 to-white rounded-lg p-4 border border-blue-100 shadow-sm"
+              className="mt-8 bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-lg p-4 border border-blue-100 dark:border-gray-700 shadow-sm"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
             >
-              <h4 className="font-medium text-gray-700 mb-2 flex items-center gap-2">
+              <h4 className="font-medium text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
                 <MdSecurity className="text-primary-200" />
                 Secure Checkout Guarantee
               </h4>
-              <div className="grid grid-cols-3 gap-4 text-xs text-gray-600 mt-2">
+              <div className="grid grid-cols-3 gap-4 text-xs text-gray-600 dark:text-gray-400 mt-2">
                 <div>
                   <div className="flex items-center gap-1 mb-1">
-                    <FaLock className="text-green-600" />
+                    <FaLock className="text-green-600 dark:text-green-400" />
                     <span className="font-medium">Encrypted payments</span>
                   </div>
                   <p className="text-xs">All transactions are secure and encrypted. Your card information is never stored on our servers.</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-1 mb-1">
-                    <FaShippingFast className="text-green-600" />
+                    <FaShippingFast className="text-green-600 dark:text-green-400" />
                     <span className="font-medium">Fast delivery</span>
                   </div>
                   <p className="text-xs">We deliver your orders quickly and efficiently, so you can get what you need when you need it.</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-1 mb-1">
-                    <FaBox className="text-green-600" />
+                    <FaBox className="text-green-600 dark:text-green-400" />
                     <span className="font-medium">Quality guaranteed</span>
                   </div>
                   <p className="text-xs">We ensure that all products are of the highest quality and meet your expectations.</p>
@@ -526,7 +526,7 @@ const CheckoutPage = () => {
           >
             {/**summary**/}
             <motion.div 
-              className='bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100'
+              className='bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700'
               whileHover={{ 
                 y: -5,
                 boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
@@ -539,28 +539,28 @@ const CheckoutPage = () => {
                 transition={{ duration: 0.8 }}
                 style={{ backgroundSize: '200% 100%' }}
               >
-                <h3 className='text-xl font-bold flex items-center gap-2 text-black'>
+                <h3 className='text-xl font-bold flex items-center gap-2 text-white'>
                   <FaShoppingBag />
                   Order Summary
                 </h3>
-                <p className="text-black-100 text-sm mt-1">Complete your purchase to Enjoy the items you needed.</p>
+                <p className="text-blue-100 text-sm mt-1">Complete your purchase to Enjoy the items you needed.</p>
               </motion.div>
               
               <div className='p-6'>
                 <motion.div 
-                  className='border-b border-gray-100 pb-5 space-y-3'
+                  className='border-b border-gray-100 dark:border-gray-700 pb-5 space-y-3'
                   variants={containerVariants}
                 >
                   <motion.h4 
-                    className='font-semibold text-lg text-gray-800 mb-3 flex items-center gap-2'
+                    className='font-semibold text-lg text-gray-800 dark:text-gray-100 mb-3 flex items-center gap-2'
                     variants={itemVariants}
                   >
-                    <span className="w-5 h-5 bg-blue-100 flex items-center justify-center rounded-full text-primary-200 font-bold text-xs">1</span>
+                    <span className="w-5 h-5 bg-blue-100 dark:bg-gray-600 flex items-center justify-center rounded-full text-primary-200 font-bold text-xs">1</span>
                     Bill Details
                   </motion.h4>
                   
                   <motion.div 
-                    className='flex justify-between text-gray-600 items-center' 
+                    className='flex justify-between text-gray-600 dark:text-gray-300 items-center' 
                     variants={itemVariants}
                     whileHover={{ x: 2 }}
                   >
@@ -568,7 +568,7 @@ const CheckoutPage = () => {
                     <div className='flex items-center gap-2'>
                       <span className='line-through text-neutral-400 text-sm'>{DisplayPriceInRupees(notDiscountTotalPrice)}</span>
                       <motion.span 
-                        className='font-medium text-black'
+                        className='font-medium text-black dark:text-white'
                         animate={{ scale: [1, 1.03, 1] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
@@ -578,27 +578,27 @@ const CheckoutPage = () => {
                   </motion.div>
                   
                   <motion.div 
-                    className='flex justify-between text-gray-600 items-center' 
+                    className='flex justify-between text-gray-600 dark:text-gray-300 items-center' 
                     variants={itemVariants}
                     whileHover={{ x: 2 }}
                   >
                     <p>Quantity total</p>
                     <motion.div 
-                      className='flex items-center gap-2 bg-blue-50 px-2 py-0.5 rounded-full'
+                      className='flex items-center gap-2 bg-blue-50 dark:bg-gray-700 px-2 py-0.5 rounded-full'
                       whileHover={{ scale: 1.05 }}
                     >
-                      <span className='font-medium text-blue-700'>{totalQty} item{totalQty > 1 ? 's' : ''}</span>
+                      <span className='font-medium text-blue-700 dark:text-blue-300'>{totalQty} item{totalQty > 1 ? 's' : ''}</span>
                     </motion.div>
                   </motion.div>
                   
                   <motion.div 
-                    className='flex justify-between text-gray-600 items-center' 
+                    className='flex justify-between text-gray-600 dark:text-gray-300 items-center' 
                     variants={itemVariants}
                     whileHover={{ x: 2 }}
                   >
                     <p>Delivery Charge</p>
                     <motion.p 
-                      className='flex items-center gap-1 text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded-full'
+                      className='flex items-center gap-1 text-green-600 dark:text-green-400 font-medium bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded-full'
                       whileHover={{ scale: 1.05 }}
                     >
                       <FaCheck size={10} />
@@ -608,20 +608,20 @@ const CheckoutPage = () => {
                   
                   {notDiscountTotalPrice - totalPrice > 0 && (
                     <motion.div 
-                      className='flex justify-between text-gray-600 bg-green-50 p-2 rounded-lg' 
+                      className='flex justify-between text-gray-600 dark:text-gray-300 bg-green-50 dark:bg-green-900/20 p-2 rounded-lg' 
                       variants={itemVariants}
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       whileHover={{ scale: 1.01 }}
                     >
-                      <p className="text-green-700">Your savings</p>
-                      <p className='text-green-700 font-medium'>{DisplayPriceInRupees(notDiscountTotalPrice - totalPrice)}</p>
+                      <p className="text-green-700 dark:text-green-400">Your savings</p>
+                      <p className='text-green-700 dark:text-green-400 font-medium'>{DisplayPriceInRupees(notDiscountTotalPrice - totalPrice)}</p>
                     </motion.div>
                   )}
                 </motion.div>
                 
                 <motion.div 
-                  className='font-bold flex items-center justify-between gap-4 mt-5 text-lg'
+                  className='font-bold flex items-center justify-between gap-4 mt-5 text-lg dark:text-white'
                   variants={itemVariants}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -629,7 +629,7 @@ const CheckoutPage = () => {
                 >
                   <p>Grand total</p>
                   <motion.p 
-                    className='text-primary-200 bg-blue-50 px-3 py-1 rounded-lg'
+                    className='text-primary-200 bg-blue-50 dark:bg-gray-700 px-3 py-1 rounded-lg'
                     whileHover={{ scale: 1.05 }}
                   >
                     {DisplayPriceInRupees(totalPrice)}
@@ -641,10 +641,10 @@ const CheckoutPage = () => {
                   variants={containerVariants}
                 >
                   <motion.h4 
-                    className='font-semibold text-lg text-gray-800 mb-1 flex items-center gap-2'
+                    className='font-semibold text-lg text-gray-800 dark:text-gray-100 mb-1 flex items-center gap-2'
                     variants={itemVariants}
                   >
-                    <span className="w-5 h-5 bg-blue-100 flex items-center justify-center rounded-full text-primary-200 font-bold text-xs">2</span>
+                    <span className="w-5 h-5 bg-blue-100 dark:bg-gray-600 flex items-center justify-center rounded-full text-primary-200 font-bold text-xs">2</span>
                     Select Payment Method
                   </motion.h4>
                   <motion.button 
@@ -701,13 +701,11 @@ const CheckoutPage = () => {
                   </motion.button>
 
                   <motion.button 
-                    className='relative overflow-hidden py-3.5 px-5 rounded-lg font-semibold flex items-center gap-3'
+                    className={`relative overflow-hidden py-3.5 px-5 rounded-lg font-semibold flex items-center gap-3 border-2 ${hoverCOD ? 'text-white border-emerald-700' : 'text-emerald-700 dark:text-emerald-400 border-emerald-700 dark:border-emerald-400'}`}
                     style={{
-                      color: hoverCOD ? 'white' : '#047857',
                       background: hoverCOD 
                         ? 'linear-gradient(90deg, #047857 0%, #065f46 100%)' 
                         : 'transparent',
-                      border: `2px solid #047857`,
                       boxShadow: hoverCOD ? '0 4px 15px -3px rgba(4, 120, 87, 0.3)' : 'none'
                     }}
                     onClick={handleCashOnDelivery}
@@ -735,7 +733,7 @@ const CheckoutPage = () => {
                     ) : (
                       <>
                         <motion.div
-                          className={`p-2 rounded-full ${hoverCOD ? 'bg-white/20' : 'bg-green-50'}`}
+                          className={`p-2 rounded-full ${hoverCOD ? 'bg-white/20' : 'bg-green-50 dark:bg-green-900/30'}`}
                           animate={{
                             boxShadow: hoverCOD 
                               ? ['0 0 0 0 rgba(255,255,255,0.7)', '0 0 0 8px rgba(255,255,255,0)'] 
@@ -748,7 +746,7 @@ const CheckoutPage = () => {
                         <div className="flex-1">Cash on Delivery</div>
                         <motion.div 
                           className={`rounded-full w-6 h-6 flex items-center justify-center ${
-                            hoverCOD ? 'bg-white/10' : 'bg-green-50'
+                            hoverCOD ? 'bg-white/10' : 'bg-green-50 dark:bg-green-900/30'
                           }`}
                           animate={{ x: hoverCOD ? 5 : 0 }}
                         >
@@ -761,14 +759,14 @@ const CheckoutPage = () => {
                 
                 {cartItemsList.length === 0 && (
                   <motion.div 
-                    className="mt-6 px-5 py-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-700 text-sm"
+                    className="mt-6 px-5 py-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700/50 rounded-lg text-yellow-700 dark:text-yellow-400 text-sm"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    whileHover={{ scale: 1.01, backgroundColor: '#fef3c7' }}
+                    whileHover={{ scale: 1.01 }}
                   >
                     <div className="flex gap-2 items-center">
-                      <div className="p-1 bg-yellow-100 rounded-full">
-                        <FaShoppingBag className="text-yellow-600" />
+                      <div className="p-1 bg-yellow-100 dark:bg-yellow-800 rounded-full">
+                        <FaShoppingBag className="text-yellow-600 dark:text-yellow-300" />
                       </div>
                       <p>Your cart is empty. Please add items before checkout.</p>
                     </div>
@@ -777,21 +775,21 @@ const CheckoutPage = () => {
               </div>
               
               <motion.div 
-                className="bg-gradient-to-r from-blue-50 to-white p-4 border-t border-blue-100 text-sm text-gray-600"
+                className="bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-900 p-4 border-t border-blue-100 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-300"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
                 <div className="flex items-center gap-3">
                   <motion.div 
-                    className="bg-blue-100 p-1.5 rounded-full text-primary-200"
+                    className="bg-blue-100 dark:bg-gray-700 p-1.5 rounded-full text-primary-200"
                     whileHover={{ rotate: 15 }}
                   >
                     <FaBox />
                   </motion.div>
                   <div>
                     <p className="font-medium">After the Checkout Process is complete, Your order will be processed as soon as possible</p>
-                    <p className="text-xs mt-0.5 text-gray-500">Orders are usually shipped within same day from the Physical Stores, and 3-5 business days from the Online Store.</p>
+                    <p className="text-xs mt-0.5 text-gray-500 dark:text-gray-400">Orders are usually shipped within same day from the Physical Stores, and 3-5 business days from the Online Store.</p>
                   </div>
                 </div>
               </motion.div>

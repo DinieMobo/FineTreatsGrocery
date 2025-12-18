@@ -7,7 +7,7 @@ import CardLoading from './CardLoading'
 import CardProduct from './CardProduct'
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { useSelector } from 'react-redux'
-import { validURLConvert } from '../utils/valideURLConvert'
+import { validURLConvert } from '../utils/validURLConvert'
 
 const CategoryWiseProductDisplay = ({ id, name }) => {
     const [data, setData] = useState([])

@@ -209,13 +209,13 @@ const EditSubCategory = ({close, data, fetchData}) => {
             }}
         >
             <motion.div 
-                className='w-full max-w-3xl bg-white p-6 rounded-lg shadow-2xl'
+                className='w-full max-w-3xl bg-white dark:bg-gray-800 p-6 rounded-lg shadow-2xl'
                 variants={modalVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
             >
-                <div className='flex items-center justify-between gap-3 border-b pb-4 mb-5'>
+                <div className='flex items-center justify-between gap-3 border-b dark:border-gray-700 pb-4 mb-5'>
                     <motion.h1 
                         className='text-xl font-semibold text-primary-200 flex items-center gap-2'
                         initial={{ x: -20, opacity: 0 }}
@@ -226,7 +226,7 @@ const EditSubCategory = ({close, data, fetchData}) => {
                     </motion.h1>
                     <motion.button 
                         onClick={close}
-                        className='w-9 h-9 rounded-full flex items-center justify-center hover:bg-red-100 text-red-500 transition-all duration-300'
+                        className='w-9 h-9 rounded-full flex items-center justify-center hover:bg-red-100 text-red-500 dark:text-gray-400 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-all duration-300'
                         whileHover={{ rotate: 90 }}
                         whileTap={{ scale: 0.9 }}
                     >
@@ -241,12 +241,12 @@ const EditSubCategory = ({close, data, fetchData}) => {
                     transition={{ delay: 0.3 }}
                 >
                     <motion.div 
-                        className={`grid gap-2 ${activeField === 'name' ? 'bg-blue-50 p-3 rounded-lg' : ''} transition-all duration-300`}
+                        className={`grid gap-2 ${activeField === 'name' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
                         variants={itemVariants}
                     >
                         <label 
                             htmlFor='name' 
-                            className='text-gray-700 font-medium flex items-center gap-2'
+                            className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'
                         >
                             <FaTag className="text-primary-200" /> Sub-Category Name
                         </label>
@@ -255,7 +255,7 @@ const EditSubCategory = ({close, data, fetchData}) => {
                             name='name'
                             value={subCategoryData.name}
                             onChange={handleChange}
-                            className='p-3 bg-white border border-gray-300 outline-none focus:border-primary-200 rounded-lg transition-all duration-300'
+                            className='p-3 bg-white dark:bg-gray-700 dark:text-white border border-gray-300 dark:border-gray-600 outline-none focus:border-primary-200 rounded-lg transition-all duration-300'
                             placeholder="Enter subcategory name"
                             onFocus={() => setActiveField('name')}
                             onBlur={() => setActiveField(null)}
@@ -267,15 +267,15 @@ const EditSubCategory = ({close, data, fetchData}) => {
                         className='grid gap-2'
                         variants={itemVariants}
                     >
-                        <p className='text-gray-700 font-medium flex items-center gap-2'>
+                        <p className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                             <FaCamera className="text-primary-200" /> Sub-Category Image
                         </p>
                         <div className='flex flex-col lg:flex-row items-center gap-4'>
                             <motion.div 
                                 className={`
                                     border-2 rounded-lg overflow-hidden
-                                    ${isDragging ? 'border-primary-200 bg-blue-100' : 'border-gray-200'} 
-                                    h-40 w-full lg:w-40 flex items-center justify-center cursor-pointer transition-all duration-300
+                                    ${isDragging ? 'border-primary-200 bg-blue-100 dark:bg-gray-600' : 'border-gray-200 dark:border-gray-600'} 
+                                    h-40 w-full lg:w-40 flex items-center justify-center cursor-pointer transition-all duration-300 bg-white dark:bg-gray-700
                                     ${loading ? 'animate-pulse' : ''}
                                 `}
                                 onDragOver={handleDragOver}
@@ -301,7 +301,7 @@ const EditSubCategory = ({close, data, fetchData}) => {
                                 ) : !subCategoryData.image ? (
                                     <div className="flex flex-col items-center text-center">
                                         <FaCamera className='text-3xl text-blue-300 mb-2' />
-                                        <p className='text-sm text-gray-500 px-2'>
+                                        <p className='text-sm text-gray-500 dark:text-gray-400 px-2'>
                                             Drag & Drop image<br/>or click to browse
                                         </p>
                                     </div>
@@ -335,7 +335,7 @@ const EditSubCategory = ({close, data, fetchData}) => {
                                     whileHover={{ scale: 1.03 }}
                                     whileTap={{ scale: 0.97 }}
                                 >
-                                    <div className='px-5 py-3 bg-blue-50 border-2 border-primary-100 text-primary-200 rounded-lg hover:bg-primary-100 hover:text-white cursor-pointer transition-all duration-300 font-medium flex items-center justify-center gap-2 shadow-sm'>
+                                    <div className='px-5 py-3 bg-blue-50 dark:bg-gray-700 border-2 border-primary-100 dark:border-primary-900 text-primary-200 rounded-lg hover:bg-primary-100 hover:text-white cursor-pointer transition-all duration-300 font-medium flex items-center justify-center gap-2 shadow-sm'>
                                         <FaCamera size={16} />
                                         {subCategoryData.image ? 'Change Image' : 'Upload Image'}
                                     </div>
@@ -350,7 +350,7 @@ const EditSubCategory = ({close, data, fetchData}) => {
 
                                 {subCategoryData.image && (
                                     <motion.div 
-                                        className="flex items-center text-sm text-green-600 gap-1 ml-2"
+                                        className="flex items-center text-sm text-green-600 dark:text-green-400 gap-1 ml-2"
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                     >
@@ -365,31 +365,31 @@ const EditSubCategory = ({close, data, fetchData}) => {
                     </motion.div>
 
                     <motion.div 
-                        className={`grid gap-2 ${activeField === 'category' ? 'bg-blue-50 p-3 rounded-lg' : ''} transition-all duration-300`}
+                        className={`grid gap-2 ${activeField === 'category' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
                         variants={itemVariants}
                     >
-                        <label className='text-gray-700 font-medium flex items-center gap-2'>
+                        <label className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                             <FaTags className="text-primary-200" /> Select Parent Categories
                         </label>
-                        <div className='border border-gray-300 focus-within:border-primary-200 rounded-lg overflow-hidden'>
+                        <div className='border border-gray-300 dark:border-gray-600 focus-within:border-primary-200 rounded-lg overflow-hidden'>
                             {/* Display selected categories */}
                             <motion.div 
-                                className='flex flex-wrap gap-2 p-3 min-h-12 bg-white'
+                                className='flex flex-wrap gap-2 p-3 min-h-12 bg-white dark:bg-gray-800'
                                 layout
                             >
                                 <AnimatePresence>
                                     {subCategoryData.category.map((cat) => (
                                         <motion.div 
                                             key={cat._id + "selectedValue"} 
-                                            className='bg-green-50 border border-green-200 px-3 py-1 rounded-full flex items-center gap-2 shadow-sm'
+                                            className='bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 px-3 py-1 rounded-full flex items-center gap-2 shadow-sm'
                                             initial={{ opacity: 0, scale: 0.8 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
                                             whileHover={{ scale: 1.05 }}
                                         >
-                                            <span className="text-sm">{cat.name}</span>
+                                            <span className="text-sm dark:text-gray-200">{cat.name}</span>
                                             <motion.div 
-                                                className='cursor-pointer text-gray-500 hover:text-red-600 rounded-full p-1'
+                                                className='cursor-pointer text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-full p-1'
                                                 whileHover={{ rotate: 90 }} 
                                                 whileTap={{ scale: 0.9 }}
                                                 onClick={() => handleRemoveCategorySelected(cat._id)}
@@ -403,7 +403,7 @@ const EditSubCategory = ({close, data, fetchData}) => {
 
                             {/* Category selector */}
                             <motion.select
-                                className='w-full p-3 bg-white outline-none border-t border-gray-200'
+                                className='w-full p-3 bg-white dark:bg-gray-800 dark:text-white outline-none border-t border-gray-200 dark:border-gray-700'
                                 onChange={(e) => {
                                     const value = e.target.value
                                     if (!value) return
@@ -426,19 +426,20 @@ const EditSubCategory = ({close, data, fetchData}) => {
                                 onFocus={() => setActiveField('category')}
                                 onBlur={() => setActiveField(null)}
                             >
-                                <option value="">Select Category</option>
+                                <option value="" className="dark:bg-gray-800">Select Category</option>
                                 {allCategory.map((category) => (
                                     <option 
                                         value={category?._id} 
                                         key={category._id + "subcategory"}
                                         disabled={subCategoryData.category.some(cat => cat._id === category._id)}
+                                        className="dark:bg-gray-800"
                                     >
                                         {category?.name}
                                     </option>
                                 ))}
                             </motion.select>
                         </div>
-                        <p className="text-xs text-gray-500 ml-1">Select one or more parent categories</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 ml-1">Select one or more parent categories</p>
                     </motion.div>
 
                     <motion.button
@@ -446,7 +447,7 @@ const EditSubCategory = ({close, data, fetchData}) => {
                             mt-4 py-3 px-6 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-md
                             ${subCategoryData?.name && subCategoryData?.image && subCategoryData?.category.length > 0 && !loading
                                 ? "bg-primary-200 hover:bg-primary-100 text-black cursor-pointer" 
-                                : "bg-gray-200 text-gray-500 cursor-not-allowed"}    
+                                : "bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"}    
                         `}
                         disabled={!subCategoryData?.name || !subCategoryData?.image || subCategoryData?.category.length === 0 || loading}
                         whileHover={subCategoryData?.name && subCategoryData?.image && subCategoryData?.category.length > 0 && !loading ? { scale: 1.02 } : {}}

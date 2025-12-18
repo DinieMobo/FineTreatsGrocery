@@ -129,10 +129,10 @@ const Profile = () => {
                     transition={{ delay: 0.2, duration: 0.5 }}
                 >
                     <motion.div 
-                        className={`grid transition-all duration-300 ${activeField === 'name' ? 'bg-blue-50 rounded-lg p-2' : ''}`}
+                        className={`grid transition-all duration-300 ${activeField === 'name' ? 'bg-blue-50 dark:bg-gray-700 rounded-lg p-2' : ''}`}
                         whileHover={{ scale: 1.01 }}
                     >
-                        <label className="flex items-center gap-2 text-gray-700 mb-1">
+                        <label className="flex items-center gap-2 text-gray-700 dark:text-gray-300 mb-1">
                             <FaUser className="text-primary-200" /> 
                             <span>Full Name</span>
                         </label>
@@ -140,7 +140,7 @@ const Profile = () => {
                             <input
                                 type='text'
                                 placeholder='Enter your name'
-                                className='w-full p-3 bg-white outline-none border border-gray-300 focus:border-primary-200 rounded-lg shadow-sm transition-all duration-300'
+                                className='w-full p-3 bg-white dark:bg-gray-700 outline-none border border-gray-300 dark:border-gray-600 focus:border-primary-200 dark:text-gray-100 rounded-lg shadow-sm transition-all duration-300'
                                 value={userData.name}
                                 name='name'
                                 onChange={handleOnChange}
@@ -152,10 +152,10 @@ const Profile = () => {
                     </motion.div>
 
                     <motion.div 
-                        className={`grid transition-all duration-300 ${activeField === 'email' ? 'bg-blue-50 rounded-lg p-2' : ''}`}
+                        className={`grid transition-all duration-300 ${activeField === 'email' ? 'bg-blue-50 dark:bg-gray-700 rounded-lg p-2' : ''}`}
                         whileHover={{ scale: 1.01 }}
                     >
-                        <label htmlFor='email' className="flex items-center gap-2 text-gray-700 mb-1">
+                        <label htmlFor='email' className="flex items-center gap-2 text-gray-700 dark:text-gray-300 mb-1">
                             <FaEnvelope className="text-primary-200" /> 
                             <span>Email Address</span>
                         </label>
@@ -164,7 +164,7 @@ const Profile = () => {
                                 type='email'
                                 id='email'
                                 placeholder='Enter your email'
-                                className='w-full p-3 bg-white outline-none border border-gray-300 focus:border-primary-200 rounded-lg shadow-sm transition-all duration-300'
+                                className='w-full p-3 bg-white dark:bg-gray-700 outline-none border border-gray-300 dark:border-gray-600 focus:border-primary-200 dark:text-gray-100 rounded-lg shadow-sm transition-all duration-300'
                                 value={userData.email}
                                 name='email'
                                 onChange={handleOnChange}
@@ -176,10 +176,10 @@ const Profile = () => {
                     </motion.div>
 
                     <motion.div 
-                        className={`grid transition-all duration-300 ${activeField === 'phone' ? 'bg-blue-50 rounded-lg p-2' : ''}`}
+                        className={`grid transition-all duration-300 ${activeField === 'phone' ? 'bg-blue-50 dark:bg-gray-700 rounded-lg p-2' : ''}`}
                         whileHover={{ scale: 1.01 }}
                     >
-                        <label htmlFor='phone' className="flex items-center gap-2 text-gray-700 mb-1">
+                        <label htmlFor='phone' className="flex items-center gap-2 text-gray-700 dark:text-gray-300 mb-1">
                             <FaPhone className="text-primary-200" /> 
                             <span>Phone Number</span>
                         </label>
@@ -188,7 +188,7 @@ const Profile = () => {
                                 type='text'
                                 id='phone'
                                 placeholder='Enter your phone'
-                                className='w-full p-3 bg-white outline-none border border-gray-300 focus:border-primary-200 rounded-lg shadow-sm transition-all duration-300'
+                                className='w-full p-3 bg-white dark:bg-gray-700 outline-none border border-gray-300 dark:border-gray-600 focus:border-primary-200 dark:text-gray-100 rounded-lg shadow-sm transition-all duration-300'
                                 value={userData.phone}
                                 name='phone'
                                 onChange={handleOnChange}

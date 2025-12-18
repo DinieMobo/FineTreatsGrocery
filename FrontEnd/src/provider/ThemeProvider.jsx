@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useLayoutEffect, useState, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import Axios from '../utils/Axios';
 import SummaryApi from '../common/SummaryApi';
@@ -48,7 +48,7 @@ const ThemeProvider = ({ children }) => {
     [user?._id]
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = window.document.documentElement;
     
     if (isDarkMode) {
@@ -58,7 +58,9 @@ const ThemeProvider = ({ children }) => {
       root.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
-    
+  }, [isDarkMode]);
+
+  useEffect(() => {
     if (window.innerWidth < 768) {
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));

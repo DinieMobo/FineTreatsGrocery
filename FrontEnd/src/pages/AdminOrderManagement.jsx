@@ -137,7 +137,7 @@ const AdminOrderManagement = () => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="max-w-6xl mx-auto bg-white/30 rounded-lg shadow-xl p-4 mt-4"
+      className="max-w-6xl mx-auto bg-white/30 dark:bg-gray-800/30 rounded-lg shadow-xl p-4 mt-4 transition-colors duration-300"
     >
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-md p-5 rounded-lg mb-6">
         <h1 className="text-2xl font-bold">Admin Order Management</h1>
@@ -193,7 +193,7 @@ const AdminOrderManagement = () => {
         </div>
       ) : (
         <div className="overflow-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead className="bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider transition-colors duration-300">
@@ -248,25 +248,25 @@ const AdminOrderManagement = () => {
                               alt={order.product_details.name}
                             />
                           ) : (
-                            <div className="h-10 w-10 rounded-md bg-gray-100 flex items-center justify-center">
-                              <FaBox className="text-gray-400" />
+                            <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                              <FaBox className="text-gray-400 dark:text-gray-500" />
                             </div>
                           )}
                         </div>
                         <div className="ml-3">
-                          <p className="text-sm font-medium text-gray-700 truncate max-w-xs">
+                          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate max-w-xs">
                             {order.product_details?.name || 'Unknown Product'}
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
                             Qty: {order.quantity || 1}
                           </p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-700">
+                    <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300">
                       {DisplayPriceInRupees(order.totalAmt)}
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                       {getFormattedDate(order.createdAt)}
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
@@ -289,12 +289,12 @@ const AdminOrderManagement = () => {
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                       <div className="flex items-center space-x-2">
                         {editingOrder === order._id ? (
                           <button
                             onClick={() => setEditingOrder(null)}
-                            className="text-gray-500 hover:text-gray-700"
+                            className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                             title="Cancel"
                           >
                             <FaTimes />
@@ -302,7 +302,7 @@ const AdminOrderManagement = () => {
                         ) : (
                           <button
                             onClick={() => setEditingOrder(order._id)}
-                            className="text-blue-500 hover:text-blue-700"
+                            className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                             title="Update Status"
                           >
                             <FaEdit />
@@ -310,7 +310,7 @@ const AdminOrderManagement = () => {
                         )}
                         <Link 
                           to={`/dashboard/orderdetails/${order._id}`}
-                          className="text-indigo-500 hover:text-indigo-700"
+                          className="text-indigo-500 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
                           title="View Order Details"
                         >
                           <FaSearch />

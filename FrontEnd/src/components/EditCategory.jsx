@@ -165,7 +165,7 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                         >
                             <label 
                                 htmlFor='categoryName' 
-                                className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2 transition-colors duration-300'
+                                className='text-gray-700 dark:text-gray-300 font-medium flex items-center gap-2 transition-colors duration-300'
                             >
                                 Category Name
                             </label>
@@ -188,14 +188,14 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.5 }}
                         >
-                            <p className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2 transition-colors duration-300'>
+                            <p className='text-gray-700 dark:text-gray-300 font-medium flex items-center gap-2 transition-colors duration-300'>
                                 <FaImage className="text-primary-200 dark:text-primary-300" /> Category Image
                             </p>
                             <div className='flex gap-6 flex-col lg:flex-row items-center'>
                                 <motion.div 
                                     className={`
                                         border-2 rounded-lg overflow-hidden cursor-pointer
-                                        ${isDragging ? 'border-primary-200 bg-blue-100' : data.image ? 'border-gray-200' : 'border-dashed border-blue-300 bg-blue-50'} 
+                                        ${isDragging ? 'border-primary-200 bg-blue-100 dark:bg-gray-600' : data.image ? 'border-gray-200 dark:border-gray-600' : 'border-dashed border-blue-300 dark:border-gray-600 bg-blue-50 dark:bg-gray-700'} 
                                         h-40 w-full lg:w-40 flex items-center justify-center transition-all duration-300
                                         ${loading ? 'animate-pulse' : ''}
                                     `}
@@ -241,8 +241,8 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                                         </motion.div>
                                     ) : (
                                         <div className='text-center p-2'>
-                                            <FaCamera className="text-3xl text-blue-300 mb-2 mx-auto" />
-                                            <p className='text-sm text-gray-500'>
+                                            <FaCamera className="text-3xl text-blue-300 dark:text-gray-500 mb-2 mx-auto transition-colors duration-300" />
+                                            <p className='text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300'>
                                                 Drop image here<br />or click to browse
                                             </p>
                                         </div>
@@ -256,7 +256,7 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                                         whileTap={{ scale: 0.97 }}
                                     >
                                         <motion.div className={`
-                                            ${!data.name ? "bg-gray-200 cursor-not-allowed" : "bg-blue-50 border-2 border-primary-100 text-primary-200 hover:bg-primary-100 hover:text-white cursor-pointer"}  
+                                            ${!data.name ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed" : "bg-blue-50 dark:bg-gray-700 border-2 border-primary-100 dark:border-primary-300 text-primary-200 dark:text-primary-300 hover:bg-primary-100 dark:hover:bg-gray-600 hover:text-white cursor-pointer"}  
                                             px-5 py-3 rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-2 shadow-sm
                                         `}>
                                             <FaCamera size={16} />
@@ -274,7 +274,7 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                                     
                                     {data.image && (
                                         <motion.div 
-                                            className="flex items-center gap-1 text-green-600 text-sm"
+                                            className="flex items-center gap-1 text-green-600 dark:text-green-400 text-sm transition-colors duration-300"
                                             initial={{ opacity: 0, y: 5 }}
                                             animate={{ opacity: 1, y: 0 }}
                                         >
@@ -289,8 +289,8 @@ const EditCategory = ({close, fetchData, data: CategoryData}) => {
                         <motion.button
                             className={`
                                 ${data.name && data.image && !loading 
-                                    ? "bg-primary-200 hover:bg-primary-100 text-black cursor-pointer" 
-                                    : "bg-gray-200 text-gray-500 cursor-not-allowed"}
+                                    ? "bg-primary-200 hover:bg-primary-100 dark:bg-primary-300 dark:hover:bg-primary-400 text-black dark:text-white cursor-pointer" 
+                                    : "bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"}
                                 py-3 px-6 rounded-lg mt-4 font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-md
                             `}
                             disabled={!data.name || !data.image || loading}

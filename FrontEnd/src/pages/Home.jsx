@@ -6,7 +6,7 @@ import bannerMobile from '../assets/banner-mobile.jpg';
 import banner2 from '../assets/banner-2.jpg';
 import banner3 from '../assets/banner-3.jpg';
 import { useSelector } from 'react-redux';
-import { validURLConvert } from '../utils/valideURLConvert';
+import { validURLConvert } from '../utils/validURLConvert';
 import { useNavigate } from 'react-router-dom';
 import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay';
 import { motion } from 'framer-motion';
@@ -52,20 +52,19 @@ const CategoryCard = ({ category, onClick }) => {
             transition={{ type: 'tween', duration: 0.3 }}
           />
         </div>
-        <motion.div 
-          className="w-full bg-blue-50 dark:bg-gray-700 rounded-lg py-2 mt-1 transition-colors duration-300"
-          animate={{ 
-            backgroundColor: isHovered ? 'rgba(59, 130, 246, 0.1)' : undefined
-          }}
+        <div 
+          className={`w-full rounded-lg py-2 mt-1 transition-colors duration-300 ${
+            isHovered ? 'bg-blue-500/10' : 'bg-blue-50 dark:bg-gray-700'
+          }`}
         >
-          <motion.span 
+          <span 
             className={`text-center block text-sm font-medium transition-colors duration-300 ${
               isHovered ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'
             }`}
           >
             {category.name}
-          </motion.span>
-        </motion.div>
+          </span>
+        </div>
         
         {isHovered && (
           <motion.div 
@@ -186,7 +185,7 @@ const Home = () => {
               <img
                 key={idx}
                 src={img}
-                className={`absolute top-0 left-0 w-full h-[250px] object-cover transition-opacity duration-1000 ${
+                className={`absolute top-0 left-0 w-full h-[250px] object-cover transition-opacity duration-1000 dark:brightness-90 ${
                   currentBannerIndex === idx ? 'opacity-100' : 'opacity-0'
                 }`}
                 alt={`Banner slide ${idx + 1}`}
@@ -199,7 +198,7 @@ const Home = () => {
       {/* Enhanced Categories Section */}
       <div className="container mx-auto px-4 my-8">
         <motion.h2 
-          className="text-2xl font-semibold mb-6 text-gray-800 relative inline-block"
+          className="text-2xl font-semibold mb-6 text-gray-800 dark:text-white relative inline-block"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -253,14 +252,13 @@ const Home = () => {
         {categoryData?.map((c, index) => (
           <motion.div 
             key={`${c?._id}-CategorywiseProduct`}
-            className="py-6 px-4 relative overflow-hidden group"
+            className="py-6 px-4 relative overflow-hidden group rounded-xl hover:bg-blue-50/70 dark:hover:bg-gray-800/50 transition-colors duration-300"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 * index }}
-            whileHover={{ backgroundColor: 'rgba(239, 246, 255, 0.7)' }}
           >
             <motion.div 
-              className="absolute inset-x-0 h-0.5 bg-blue-100 top-0" 
+              className="absolute inset-x-0 h-0.5 bg-blue-100 dark:bg-gray-700 top-0" 
               initial={{ width: 0 }}
               whileInView={{ width: '100%' }}
               viewport={{ once: true }}
@@ -275,7 +273,7 @@ const Home = () => {
             </div>
             
             <motion.div 
-              className="absolute inset-x-0 h-0.5 bg-blue-100 bottom-0" 
+              className="absolute inset-x-0 h-0.5 bg-blue-100 dark:bg-gray-700 bottom-0" 
               initial={{ width: 0 }}
               whileInView={{ width: '100%' }}
               viewport={{ once: true }}

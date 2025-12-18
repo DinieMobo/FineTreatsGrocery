@@ -58,7 +58,7 @@ const SubCategoryPage = () => {
       header: "Name",
       cell: ({ row }) => (
         <div
-          className="font-medium text-gray-800 py-2 px-3 rounded-md transition-colors duration-200"
+          className="font-medium text-gray-800 dark:text-gray-200 py-2 px-3 rounded-md transition-colors duration-200"
           style={{
             backgroundColor: hoveredRow === row.id ? 'rgba(59, 130, 246, 0.05)' : 'transparent'
           }}
@@ -103,7 +103,7 @@ const SubCategoryPage = () => {
                 return (
                   <span
                     key={c._id + "table"}
-                    className="px-3 py-1 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-600 text-sm font-medium rounded-full border border-blue-100 transition-all duration-300 hover:shadow-md hover:scale-105"
+                    className="px-3 py-1 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-600 dark:text-blue-300 text-sm font-medium rounded-full border border-blue-100 dark:border-blue-800 transition-all duration-300 hover:shadow-md hover:scale-105"
                     onMouseEnter={() => setHoveredRow(row.id)}
                     onMouseLeave={() => setHoveredRow(null)}
                   >
@@ -128,7 +128,7 @@ const SubCategoryPage = () => {
                 setOpenEdit(true)
                 setEditData(row.original)
               }}
-              className='p-2 bg-gradient-to-br from-emerald-50 to-green-100 rounded-full text-green-600 hover:text-white hover:bg-gradient-to-br hover:from-emerald-400 hover:to-green-500 transition-all duration-300 shadow-sm hover:shadow-md'
+              className='p-2 bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/30 dark:to-green-900/30 rounded-full text-green-600 dark:text-green-400 hover:text-white hover:bg-gradient-to-br hover:from-emerald-400 hover:to-green-500 transition-all duration-300 shadow-sm hover:shadow-md'
               onMouseEnter={() => setHoveredRow(row.id)}
               onMouseLeave={() => setHoveredRow(null)}
             >
@@ -141,7 +141,7 @@ const SubCategoryPage = () => {
                 setOpenDeleteConfirmBox(true)
                 setDeleteSubCategory(row.original)
               }}
-              className='p-2 bg-gradient-to-br from-rose-50 to-red-100 rounded-full text-red-500 hover:text-white hover:bg-gradient-to-br hover:from-rose-400 hover:to-red-500 transition-all duration-300 shadow-sm hover:shadow-md'
+              className='p-2 bg-gradient-to-br from-rose-50 to-red-100 dark:from-rose-900/30 dark:to-red-900/30 rounded-full text-red-500 dark:text-red-400 hover:text-white hover:bg-gradient-to-br hover:from-rose-400 hover:to-red-500 transition-all duration-300 shadow-sm hover:shadow-md'
               onMouseEnter={() => setHoveredRow(row.id)}
               onMouseLeave={() => setHoveredRow(null)}
             >
@@ -177,15 +177,15 @@ const SubCategoryPage = () => {
     <motion.section 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className='bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen p-4'
+      className='bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 min-h-screen p-4 transition-colors duration-300'
     >
       <motion.div 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.1 }}
-        className='p-4 bg-white rounded-lg shadow-md flex items-center justify-between mb-6 sticky top-0 z-10'
+        className='p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md flex items-center justify-between mb-6 sticky top-0 z-10 transition-colors duration-300'
       >
-        <h2 className='font-bold text-xl text-gray-800 flex items-center'>
+        <h2 className='font-bold text-xl text-gray-800 dark:text-gray-200 flex items-center transition-colors duration-300'>
           <span className="inline-block w-2 h-6 bg-yellow-500 rounded-full mr-2"></span>
           Sub-Categories Management
         </h2>
@@ -204,7 +204,7 @@ const SubCategoryPage = () => {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className='bg-white rounded-lg shadow-md p-4 overflow-hidden'
+        className='bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 overflow-hidden transition-colors duration-300'
       >
         {loading ? (
           <div className="w-full py-20 flex justify-center">
@@ -217,8 +217,8 @@ const SubCategoryPage = () => {
               column={column}
             />
             {data.length === 0 && (
-              <div className="text-center py-16 text-gray-500">
-                <FaImage className="mx-auto text-gray-300 text-5xl mb-3" />
+              <div className="text-center py-16 text-gray-500 dark:text-gray-400 transition-colors duration-300">
+                <FaImage className="mx-auto text-gray-300 dark:text-gray-600 text-5xl mb-3 transition-colors duration-300" />
                 <p className="text-lg">No sub-categories available</p>
                 <p className="text-sm">Add a new sub-category to get started</p>
               </div>

@@ -273,7 +273,7 @@ const ProductDisplayPage = () => {
             <div className='w-full -ml-3 h-full hidden lg:flex justify-between absolute items-center'>
               <motion.button 
                 onClick={handleScrollLeft} 
-                className='z-10 bg-white p-2 rounded-full shadow-lg text-gray-700 hover:bg-gray-100'
+                className='z-10 bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300'
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -281,7 +281,7 @@ const ProductDisplayPage = () => {
               </motion.button>
               <motion.button 
                 onClick={handleScrollRight} 
-                className='z-10 bg-white p-2 rounded-full shadow-lg text-gray-700 hover:bg-gray-100'
+                className='z-10 bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300'
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -293,25 +293,25 @@ const ProductDisplayPage = () => {
 
         {/* Desktop version product details */}
         <motion.div 
-          className='my-4 hidden lg:grid gap-4 bg-white p-6 rounded-xl shadow-sm border border-gray-100'
+          className='my-4 hidden lg:grid gap-4 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700'
           variants={fadeIn}
         >
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">Product Details</h3>
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">Product Details</h3>
           
           <div>
-            <p className='font-medium text-gray-600'>Description</p>
-            <p className='text-base text-gray-700'>{data.description}</p>
+            <p className='font-medium text-gray-600 dark:text-gray-400'>Description</p>
+            <p className='text-base text-gray-700 dark:text-gray-300'>{data.description}</p>
           </div>
           
           <div>
-            <p className='font-medium text-gray-600'>Unit</p>
-            <p className='text-base text-gray-700'>{data.unit}</p>
+            <p className='font-medium text-gray-600 dark:text-gray-400'>Unit</p>
+            <p className='text-base text-gray-700 dark:text-gray-300'>{data.unit}</p>
           </div>
           
           {data?.more_details && Object.keys(data?.more_details).map((element, index) => (
             <div key={element + index}>
-              <p className='font-medium text-gray-600 capitalize'>{element}</p>
-              <p className='text-base text-gray-700'>{data?.more_details[element]}</p>
+              <p className='font-medium text-gray-600 dark:text-gray-400 capitalize'>{element}</p>
+              <p className='text-base text-gray-700 dark:text-gray-300'>{data?.more_details[element]}</p>
             </div>
           ))}
         </motion.div>
@@ -331,7 +331,7 @@ const ProductDisplayPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <span className='bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1'>
+          <span className='bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1'>
             <FaShippingFast />
             <span>Same Day Delivery</span>
           </span>
@@ -339,14 +339,14 @@ const ProductDisplayPage = () => {
         
         {/* Product name and unit */}
         <motion.h2 
-          className='text-xl font-semibold lg:text-3xl text-gray-800'
+          className='text-xl font-semibold lg:text-3xl text-gray-800 dark:text-gray-100'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >{data.name}</motion.h2>
         
         <motion.p 
-          className='text-gray-500 mb-3'
+          className='text-gray-500 dark:text-gray-400 mb-3'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
@@ -361,21 +361,21 @@ const ProductDisplayPage = () => {
           initial="hidden"
           animate="visible"
         >
-          <p className='text-gray-600 mb-2'>Price</p> 
+          <p className='text-gray-600 dark:text-gray-400 mb-2'>Price</p> 
           <div className='flex items-center gap-2 lg:gap-4'>
             <motion.div 
-              className='border-2 border-green-100 px-4 py-2 rounded-lg bg-green-50 w-fit'
+              className='border-2 border-green-100 dark:border-green-800 px-4 py-2 rounded-lg bg-green-50 dark:bg-green-900/30 w-fit'
               whileHover={{ scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 400, damping: 10 }}
             >
-              <p className='font-semibold text-lg lg:text-xl text-green-700'>
+              <p className='font-semibold text-lg lg:text-xl text-green-700 dark:text-green-400'>
                 {DisplayPriceInRupees(pricewithDiscount(data.price, data.discount))}
               </p>
             </motion.div>
             
             {data.discount > 0 && (
               <motion.p 
-                className='line-through text-gray-400'
+                className='line-through text-gray-400 dark:text-gray-500'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
@@ -384,14 +384,14 @@ const ProductDisplayPage = () => {
             
             {data.discount > 0 && (
               <motion.div 
-                className="bg-red-50 px-3 py-1 rounded-lg"
+                className="bg-red-50 dark:bg-red-900/30 px-3 py-1 rounded-lg"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6, type: 'spring' }}
                 whileHover={{ scale: 1.05 }}
               >
-                <p className="font-bold text-red-600 lg:text-xl">
-                  {data.discount}% <span className='text-sm text-red-500'>OFF</span>
+                <p className="font-bold text-red-600 dark:text-red-400 lg:text-xl">
+                  {data.discount}% <span className='text-sm text-red-500 dark:text-red-400'>OFF</span>
                 </p>
               </motion.div>
             )}
@@ -407,14 +407,14 @@ const ProductDisplayPage = () => {
           transition={{ delay: 0.7 }}
         >
           {data.stock === 0 ? (
-            <div className='bg-red-50 border border-red-100 rounded-lg p-4 text-center'>
-              <p className='text-lg text-red-600 font-medium'>Out of Stock</p>
-              <p className='text-sm text-red-500 mt-1'>This item is currently unavailable</p>
+            <div className='bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800 rounded-lg p-4 text-center'>
+              <p className='text-lg text-red-600 dark:text-red-400 font-medium'>Out of Stock</p>
+              <p className='text-sm text-red-500 dark:text-red-400 mt-1'>This item is currently unavailable</p>
             </div>
           ) : data.stock < 5 ? (
             <>
               <div className='flex items-center gap-2 mb-2'>
-                <p className='text-amber-600 text-sm font-medium'>Only {data.stock} left in stock - order soon</p>
+                <p className='text-amber-600 dark:text-amber-500 text-sm font-medium'>Only {data.stock} left in stock - order soon</p>
               </div>
               <div>
                 <AddToCartButton data={data}/>
@@ -422,7 +422,7 @@ const ProductDisplayPage = () => {
             </>
           ) : (
             <div>
-              <p className='text-green-600 text-sm font-medium mb-2'>In Stock</p>
+              <p className='text-green-600 dark:text-green-400 text-sm font-medium mb-2'>In Stock</p>
               <AddToCartButton data={data}/>
             </div>
           )}
@@ -436,7 +436,7 @@ const ProductDisplayPage = () => {
           animate="visible"
           transition={{ delay: 0.8 }}
         >
-          <h2 className='font-semibold text-lg text-gray-700 mb-4'>Why shop from Fine Treats? </h2>
+          <h2 className='font-semibold text-lg text-gray-700 dark:text-gray-200 mb-4'>Why shop from Fine Treats? </h2>
           <motion.div 
             className="space-y-4"
             variants={{
@@ -452,35 +452,35 @@ const ProductDisplayPage = () => {
             animate="visible"
           >
             <motion.div 
-              className='flex items-center gap-4 p-3 rounded-lg transition-all duration-300 hover:bg-blue-50'
+              className='flex items-center gap-4 p-3 rounded-lg transition-all duration-300 hover:bg-blue-50 dark:hover:bg-blue-900/20'
               variants={fadeIn}
               whileHover={{ x: 5 }}
             >
               <div>
-                <div className='font-semibold text-gray-800'>Delivery at the Earliest Time</div>
-                <p className='text-sm text-gray-600'>Get your order delivered to your doorstep in within 24 hours of our stores. Or within 48 hours if you are in a remote area.</p>
+                <div className='font-semibold text-gray-800 dark:text-gray-200'>Delivery at the Earliest Time</div>
+                <p className='text-sm text-gray-600 dark:text-gray-400'>Get your order delivered to your doorstep in within 24 hours of our stores. Or within 48 hours if you are in a remote area.</p>
               </div>
             </motion.div>
             
             <motion.div 
-              className='flex items-center gap-4 p-3 rounded-lg transition-all duration-300 hover:bg-green-50'
+              className='flex items-center gap-4 p-3 rounded-lg transition-all duration-300 hover:bg-green-50 dark:hover:bg-green-900/20'
               variants={fadeIn}
               whileHover={{ x: 5 }}
             >
               <div>
-                <div className='font-semibold text-gray-800'>Find the Best Prices & Offers you need</div>
-                <p className='text-sm text-gray-600'>Find the best price for your needs including the offers from the Manufacturers.</p>
+                <div className='font-semibold text-gray-800 dark:text-gray-200'>Find the Best Prices & Offers you need</div>
+                <p className='text-sm text-gray-600 dark:text-gray-400'>Find the best price for your needs including the offers from the Manufacturers.</p>
               </div>
             </motion.div>
             
             <motion.div 
-              className='flex items-center gap-4 p-3 rounded-lg transition-all duration-300 hover:bg-purple-50'
+              className='flex items-center gap-4 p-3 rounded-lg transition-all duration-300 hover:bg-purple-50 dark:hover:bg-purple-900/20'
               variants={fadeIn}
               whileHover={{ x: 5 }}
             >
               <div>
-                <div className='font-semibold text-gray-800'>Huge Selection of your Favourite Products</div>
-                <p className='text-sm text-gray-600'>Choose from more 4000 products across Foods, Beverages, Sweets, Personal Care and other categories you love.</p>
+                <div className='font-semibold text-gray-800 dark:text-gray-200'>Huge Selection of your Favourite Products</div>
+                <p className='text-sm text-gray-600 dark:text-gray-400'>Choose from more 4000 products across Foods, Beverages, Sweets, Personal Care and other categories you love.</p>
               </div>
             </motion.div>
           </motion.div>
@@ -488,28 +488,28 @@ const ProductDisplayPage = () => {
 
         {/* Mobile product details */}
         <motion.div 
-          className='my-8 grid gap-3 lg:hidden bg-white p-4 rounded-lg shadow-sm border border-gray-100'
+          className='my-8 grid gap-3 lg:hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700'
           variants={fadeIn}
           initial="hidden"
           animate="visible"
           transition={{ delay: 1 }}
         >
-          <h3 className="font-semibold text-gray-700 mb-2">Product Details</h3>
+          <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">Product Details</h3>
           
           <div>
-            <p className='font-medium text-gray-600'>Description</p>
-            <p className='text-base text-gray-700'>{data.description}</p>
+            <p className='font-medium text-gray-600 dark:text-gray-400'>Description</p>
+            <p className='text-base text-gray-700 dark:text-gray-300'>{data.description}</p>
           </div>
           
           <div>
-            <p className='font-medium text-gray-600'>Unit</p>
-            <p className='text-base text-gray-700'>{data.unit}</p>
+            <p className='font-medium text-gray-600 dark:text-gray-400'>Unit</p>
+            <p className='text-base text-gray-700 dark:text-gray-300'>{data.unit}</p>
           </div>
           
           {data?.more_details && Object.keys(data?.more_details).map((element, index) => (
             <div key={element + index + "-mobile"}>
-              <p className='font-medium text-gray-600 capitalize'>{element}</p>
-              <p className='text-base text-gray-700'>{data?.more_details[element] || "-"}</p>
+              <p className='font-medium text-gray-600 dark:text-gray-400 capitalize'>{element}</p>
+              <p className='text-base text-gray-700 dark:text-gray-300'>{data?.more_details[element] || "-"}</p>
             </div>
           ))}
         </motion.div>

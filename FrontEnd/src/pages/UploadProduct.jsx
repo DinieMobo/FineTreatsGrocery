@@ -263,7 +263,7 @@ const UploadProduct = () => {
                   exit={{ height: 0, opacity: 0 }}
                   className='overflow-hidden'
                 >
-                  <h3 className='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2'>
+                  <h3 className='text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2 transition-colors duration-300'>
                     <FaInfoCircle className="text-blue-500" /> 
                     Basic Information
                   </h3>
@@ -314,7 +314,7 @@ const UploadProduct = () => {
                   exit={{ height: 0, opacity: 0 }}
                   className='overflow-hidden'
                 >
-                  <h3 className='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2'>
+                  <h3 className='text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2 transition-colors duration-300'>
                     <FaCloudUploadAlt className="text-blue-500" /> 
                     Product Images
                   </h3>
@@ -333,7 +333,7 @@ const UploadProduct = () => {
                           imageLoading ? <Loading /> : (
                             <>
                               <FaCloudUploadAlt size={40} className="text-blue-500 mb-2" />
-                              <p className="font-medium text-blue-600">Upload Product Images</p>
+                              <p className="font-medium text-blue-600 dark:text-blue-400">Upload Product Images</p>
                               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 transition-colors duration-300">
                                 {isDragActive ? 'Drop files here' : 'Click or drag files here'}
                               </p>
@@ -424,17 +424,17 @@ const UploadProduct = () => {
                   exit={{ height: 0, opacity: 0 }}
                   className='overflow-hidden'
                 >
-                  <h3 className='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2'>
+                  <h3 className='text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2 transition-colors duration-300'>
                     <MdCategory className="text-blue-500" /> 
                     Categories
                   </h3>
                   
                   <div className='grid md:grid-cols-2 gap-6'>
                     <div className='grid gap-2'>
-                      <label className='font-medium text-gray-700'>Product Category</label>
+                      <label className='font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'>Product Category</label>
                       <div>
                         <select
-                          className='bg-blue-50 border border-blue-100 w-full p-3 rounded-lg focus:border-blue-400 focus:outline-none transition-all duration-300'
+                          className='bg-blue-50 dark:bg-gray-700 dark:text-gray-100 border border-blue-100 dark:border-gray-600 w-full p-3 rounded-lg focus:border-blue-400 dark:focus:border-blue-500 focus:outline-none transition-all duration-300'
                           value={selectCategory}
                           onChange={(e) => {
                             const value = e.target.value 
@@ -451,10 +451,10 @@ const UploadProduct = () => {
                             setSelectCategory("")
                           }}
                         >
-                          <option value={""}>Select a Category</option>
+                          <option value={""} className="dark:bg-gray-800">Select a Category</option>
                           {
                             allCategory.map((c) => (
-                              <option key={c._id} value={c?._id}>{c.name}</option>
+                              <option key={c._id} value={c?._id} className="dark:bg-gray-800">{c.name}</option>
                             ))
                           }
                         </select>
@@ -464,7 +464,7 @@ const UploadProduct = () => {
                             data.category.map((c, index) => (
                               <motion.div 
                                 key={c._id+index+"productsection"} 
-                                className='flex items-center gap-1 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full transition-all duration-300 hover:bg-blue-200 hover:shadow-md'
+                                className='flex items-center gap-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1.5 rounded-full transition-all duration-300 hover:bg-blue-200 dark:hover:bg-blue-900/50 hover:shadow-md'
                                 initial={{ scale: 0, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 exit={{ scale: 0, opacity: 0 }}
@@ -472,7 +472,7 @@ const UploadProduct = () => {
                                 <p className="text-sm font-medium">{c.name}</p>
                                 <motion.div 
                                   whileHover={{ scale: 1.2, rotate: 90 }}
-                                  className='text-blue-700 hover:text-red-500 cursor-pointer' 
+                                  className='text-blue-700 dark:text-blue-300 hover:text-red-500 dark:hover:text-red-400 cursor-pointer' 
                                   onClick={() => handleRemoveCategory(index)}
                                 >
                                   <IoClose size={18} />
@@ -485,10 +485,10 @@ const UploadProduct = () => {
                     </div>
                     
                     <div className='grid gap-2'>
-                      <label className='font-medium text-gray-700'>Sub Category</label>
+                      <label className='font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'>Sub Category</label>
                       <div>
                         <select
-                          className='bg-blue-50 border border-blue-100 w-full p-3 rounded-lg focus:border-blue-400 focus:outline-none transition-all duration-300'
+                          className='bg-blue-50 dark:bg-gray-700 dark:text-gray-100 border border-blue-100 dark:border-gray-600 w-full p-3 rounded-lg focus:border-blue-400 dark:focus:border-blue-500 focus:outline-none transition-all duration-300'
                           value={selectSubCategory}
                           onChange={(e) => {
                             const value = e.target.value 
@@ -505,10 +505,10 @@ const UploadProduct = () => {
                             setSelectSubCategory("")
                           }}
                         >
-                          <option value={""}>Select a Sub Category</option>
+                          <option value={""} className="dark:bg-gray-800">Select a Sub Category</option>
                           {
                           allSubCategory?.map((c) => (
-                            <option key={c._id} value={c?._id}>{c?.name}</option>
+                            <option key={c._id} value={c?._id} className="dark:bg-gray-800">{c?.name}</option>
                           ))
                           }
                         </select>
@@ -518,7 +518,7 @@ const UploadProduct = () => {
                             data.subCategory.map((c, index) => (
                               <motion.div 
                                 key={c._id+index+"productsection"} 
-                                className='flex items-center gap-1 bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full transition-all duration-300 hover:bg-indigo-200 hover:shadow-md'
+                                className='flex items-center gap-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-3 py-1.5 rounded-full transition-all duration-300 hover:bg-indigo-200 dark:hover:bg-indigo-900/50 hover:shadow-md'
                                 initial={{ scale: 0, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 exit={{ scale: 0, opacity: 0 }}
@@ -526,7 +526,7 @@ const UploadProduct = () => {
                                 <p className="text-sm font-medium">{c.name}</p>
                                 <motion.div 
                                   whileHover={{ scale: 1.2, rotate: 90 }}
-                                  className='text-indigo-700 hover:text-red-500 cursor-pointer' 
+                                  className='text-indigo-700 dark:text-indigo-300 hover:text-red-500 dark:hover:text-red-400 cursor-pointer' 
                                   onClick={() => handleRemoveSubCategory(index)}
                                 >
                                   <IoClose size={18} />
@@ -551,14 +551,14 @@ const UploadProduct = () => {
                   exit={{ height: 0, opacity: 0 }}
                   className='overflow-hidden'
                 >
-                  <h3 className='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2'>
+                  <h3 className='text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2 transition-colors duration-300'>
                     <BsCurrencyDollar className="text-blue-500" /> 
                     Pricing & Inventory
                   </h3>
                   
                   <div className='grid md:grid-cols-2 gap-6'>
                     <div className='grid gap-2'>
-                      <label htmlFor='unit' className='font-medium text-gray-700'>Unit</label>
+                      <label htmlFor='unit' className='font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'>Unit</label>
                       <div className="relative">
                         <input 
                           id='unit'
@@ -568,13 +568,13 @@ const UploadProduct = () => {
                           value={data.unit}
                           onChange={handleChange}
                           required
-                          className='bg-blue-50 p-3 outline-none border border-blue-100 focus:border-blue-400 rounded-lg transition-all duration-300 w-full'
+                          className='bg-blue-50 dark:bg-gray-700 dark:text-gray-100 p-3 outline-none border border-blue-100 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-500 rounded-lg transition-all duration-300 w-full'
                         />
                       </div>
                     </div>
                     
                     <div className='grid gap-2'>
-                      <label htmlFor='stock' className='font-medium text-gray-700'>Stock Quantity</label>
+                      <label htmlFor='stock' className='font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'>Stock Quantity</label>
                       <div className="relative">
                         <input 
                           id='stock'
@@ -585,15 +585,15 @@ const UploadProduct = () => {
                           onChange={handleChange}
                           required
                           min="0"
-                          className='bg-blue-50 p-3 outline-none border border-blue-100 focus:border-blue-400 rounded-lg transition-all duration-300 w-full'
+                          className='bg-blue-50 dark:bg-gray-700 dark:text-gray-100 p-3 outline-none border border-blue-100 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-500 rounded-lg transition-all duration-300 w-full'
                         />
                       </div>
                     </div>
                     
                     <div className='grid gap-2'>
-                      <label htmlFor='price' className='font-medium text-gray-700'>Price (Rs.)</label>
+                      <label htmlFor='price' className='font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'>Price (Rs.)</label>
                       <div className="relative">
-                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">
                           Rs.
                         </div>
                         <input 
@@ -606,13 +606,13 @@ const UploadProduct = () => {
                           required
                           min="0"
                           step="0.01"
-                          className='bg-blue-50 p-3 pl-8 outline-none border border-blue-100 focus:border-blue-400 rounded-lg transition-all duration-300 w-full'
+                          className='bg-blue-50 dark:bg-gray-700 dark:text-gray-100 p-3 pl-8 outline-none border border-blue-100 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-500 rounded-lg transition-all duration-300 w-full'
                         />
                       </div>
                     </div>
                     
                     <div className='grid gap-2'>
-                      <label htmlFor='discount' className='font-medium text-gray-700'>Discount (%)</label>
+                      <label htmlFor='discount' className='font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'>Discount (%)</label>
                       <div className="relative">
                         <input 
                           id='discount'
@@ -624,9 +624,9 @@ const UploadProduct = () => {
                           required
                           min="0"
                           max="100"
-                          className='bg-blue-50 p-3 outline-none border border-blue-100 focus:border-blue-400 rounded-lg transition-all duration-300 w-full'
+                          className='bg-blue-50 dark:bg-gray-700 dark:text-gray-100 p-3 outline-none border border-blue-100 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-500 rounded-lg transition-all duration-300 w-full'
                         />
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">
                           %
                         </div>
                       </div>
@@ -645,7 +645,7 @@ const UploadProduct = () => {
                   exit={{ height: 0, opacity: 0 }}
                   className='overflow-hidden'
                 >
-                  <h3 className='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2'>
+                  <h3 className='text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2 transition-colors duration-300'>
                     <BsTagFill className="text-blue-500" /> 
                     Additional Details
                   </h3>
@@ -653,7 +653,7 @@ const UploadProduct = () => {
                   <div className='grid gap-4'>
                     {Object.keys(data.more_details).map((k, index) => (
                       <div key={k+index} className='grid gap-2'>
-                        <label htmlFor={k} className='font-medium text-gray-700 capitalize'>{k}</label>
+                        <label htmlFor={k} className='font-medium text-gray-700 dark:text-gray-300 capitalize transition-colors duration-300'>{k}</label>
                         <input 
                           id={k}
                           type='text'
@@ -671,7 +671,7 @@ const UploadProduct = () => {
                             })
                           }}
                           required
-                          className='bg-blue-50 p-3 outline-none border border-blue-100 focus:border-blue-400 rounded-lg transition-all duration-300'
+                          className='bg-blue-50 dark:bg-gray-700 dark:text-gray-100 p-3 outline-none border border-blue-100 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-500 rounded-lg transition-all duration-300'
                         />
                       </div>
                     ))}
@@ -681,7 +681,7 @@ const UploadProduct = () => {
                       whileHover={{ scale: 1.02, backgroundColor: '#e0e7ff' }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setOpenAddField(true)}
-                      className='flex items-center justify-center gap-2 bg-indigo-50 text-indigo-600 py-2.5 px-4 rounded-lg hover:shadow-md transition-all duration-300 font-medium border border-indigo-200'
+                      className='flex items-center justify-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 py-2.5 px-4 rounded-lg hover:shadow-md transition-all duration-300 font-medium border border-indigo-200 dark:border-indigo-800'
                     >
                       <FaPlus size={14} />
                       Add Custom Field

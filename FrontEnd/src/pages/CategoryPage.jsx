@@ -289,13 +289,13 @@ const CategoryPage = () => {
                             <AnimatePresence>
                                 {hoveredCard === category._id && (
                                     <motion.div 
-                                        className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg z-20"
+                                        className="absolute top-3 right-3 bg-white dark:bg-gray-700 rounded-full p-2 shadow-lg z-20"
                                         initial={{ opacity: 0, scale: 0, rotate: -45 }}
                                         animate={{ opacity: 1, scale: 1, rotate: 0 }}
                                         exit={{ opacity: 0, scale: 0, rotate: 45 }}
                                         transition={{ type: "spring", stiffness: 500 }}
                                     >
-                                        <FaEye className="text-blue-500" size={16} />
+                                        <FaEye className="text-blue-500 dark:text-blue-400" size={16} />
                                     </motion.div>
                                 )}
                             </AnimatePresence>

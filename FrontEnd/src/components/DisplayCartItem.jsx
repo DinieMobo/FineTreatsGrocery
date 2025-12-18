@@ -202,11 +202,11 @@ const DisplayCartItem = ({close}) => {
                             </motion.div>
                             
                             <motion.div 
-                                className='bg-white p-4 mt-3 rounded-lg shadow-md'
+                                className='bg-white dark:bg-gray-800 p-4 mt-3 rounded-lg shadow-md transition-colors duration-300'
                                 variants={itemVariants}
                             >
                                 <motion.h3 
-                                    className='font-semibold text-gray-800 border-b pb-2 mb-3'
+                                    className='font-semibold text-gray-800 dark:text-gray-200 border-b dark:border-gray-700 pb-2 mb-3'
                                     whileHover={{ scale: 1.01, x: 2 }}
                                 >
                                     Bill Details
@@ -214,26 +214,26 @@ const DisplayCartItem = ({close}) => {
                                 
                                 <motion.div className='space-y-3 mb-4'>
                                     <div className='flex justify-between text-sm'>
-                                        <p className="text-gray-600">Items total</p>
+                                        <p className="text-gray-600 dark:text-gray-400">Items total</p>
                                         <div className='flex items-center gap-2'>
-                                            <span className='line-through text-gray-400 text-xs'>{DisplayPriceInRupees(notDiscountTotalPrice)}</span>
-                                            <span className="font-medium">{DisplayPriceInRupees(totalPrice)}</span>
+                                            <span className='line-through text-gray-400 dark:text-gray-500 text-xs'>{DisplayPriceInRupees(notDiscountTotalPrice)}</span>
+                                            <span className="font-medium dark:text-gray-200">{DisplayPriceInRupees(totalPrice)}</span>
                                         </div>
                                     </div>
                                     
                                     <div className='flex justify-between text-sm'>
-                                        <p className="text-gray-600">Quantity total</p>
-                                        <p className="font-medium">{totalQty} item{totalQty !== 1 ? 's' : ''}</p>
+                                        <p className="text-gray-600 dark:text-gray-400">Quantity total</p>
+                                        <p className="font-medium dark:text-gray-200">{totalQty} item{totalQty !== 1 ? 's' : ''}</p>
                                     </div>
                                     
                                     <div className='flex justify-between text-sm'>
-                                        <p className="text-gray-600">Delivery Charge</p>
+                                        <p className="text-gray-600 dark:text-gray-400">Delivery Charge</p>
                                         <p className="text-green-500 font-medium">Rs.0.00</p>
                                     </div>
                                 </motion.div>
                                 
                                 <motion.div 
-                                    className='font-bold flex items-center justify-between gap-4 pt-3 border-t text-gray-800'
+                                    className='font-bold flex items-center justify-between gap-4 pt-3 border-t dark:border-gray-700 text-gray-800 dark:text-gray-200'
                                     whileHover={{ scale: 1.01 }}
                                 >
                                     <p>Grand Total</p>
@@ -243,7 +243,7 @@ const DisplayCartItem = ({close}) => {
                         </motion.div>
                     ) : (
                         <motion.div 
-                            className='bg-white flex flex-col justify-center items-center p-6 rounded-lg shadow-md text-center h-full'
+                            className='bg-white dark:bg-gray-800 flex flex-col justify-center items-center p-6 rounded-lg shadow-md text-center h-full transition-colors duration-300'
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                         >
@@ -255,7 +255,7 @@ const DisplayCartItem = ({close}) => {
                                 animate={{ y: [0, -10, 0] }}
                                 transition={{ repeat: Infinity, duration: 3 }}
                             />
-                            <motion.p className="text-gray-500 mb-6">Your cart is empty. Let's add some items!</motion.p>
+                            <motion.p className="text-gray-500 dark:text-gray-400 mb-6">Your cart is empty. Let's add some items!</motion.p>
                             <motion.div
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
@@ -275,7 +275,7 @@ const DisplayCartItem = ({close}) => {
 
                 {cartItem[0] && (
                     <motion.div 
-                        className='p-3 bg-white border-t shadow-inner'
+                        className='p-3 bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-inner transition-colors duration-300'
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}

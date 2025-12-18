@@ -1,7 +1,7 @@
 import React from 'react'
 import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees'
 import { Link } from 'react-router-dom'
-import { validURLConvert } from '../utils/valideURLConvert'
+import { validURLConvert } from '../utils/validURLConvert'
 import { pricewithDiscount } from '../utils/PriceWithDiscount'
 import SummaryApi from '../common/SummaryApi'
 import AxiosToastError from '../utils/AxiosToastError'

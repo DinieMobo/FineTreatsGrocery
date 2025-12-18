@@ -186,7 +186,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
       }}
     >
       <motion.div 
-        className='bg-white w-full md:w-[95vw] p-0 max-w-4xl mx-auto rounded-lg overflow-hidden min-h-[60vh] max-h-[90vh] shadow-2xl relative will-change-transform'
+        className='bg-white dark:bg-gray-800 w-full md:w-[95vw] p-0 max-w-4xl mx-auto rounded-lg overflow-hidden min-h-[60vh] max-h-[90vh] shadow-2xl relative will-change-transform'
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         transition={{ type: 'spring', damping: 15 }}
@@ -206,16 +206,16 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
           </motion.button>
         </header>
         
-        <div className="flex border-b overflow-x-auto">
+        <div className="flex border-b dark:border-gray-700 overflow-x-auto">
           {formSections.map((section, index) => (
             <motion.button
               key={section.id}
               className={`py-3 px-4 flex items-center gap-2 transition-all whitespace-nowrap ${
                 activeSection === section.id 
-                ? 'bg-indigo-50 border-b-2 border-indigo-600 text-indigo-600 font-medium' 
-                : 'hover:bg-gray-50'
+                ? 'bg-indigo-50 dark:bg-indigo-900/30 border-b-2 border-indigo-600 dark:border-indigo-400 text-indigo-600 dark:text-indigo-400 font-medium' 
+                : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300'
               }`}
-              whileHover={{ backgroundColor: activeSection === section.id ? '#EEF2FF' : '#F9FAFB' }}
+              whileHover={{ backgroundColor: activeSection === section.id ? 'rgba(99, 102, 241, 0.1)' : 'rgba(243, 244, 246, 0.1)' }}
               onClick={() => setActiveSection(section.id)}
             >
               {section.icon}
@@ -245,7 +245,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                     animate={cardVariants.animate}
                     transition={{ duration: 0.3 }}
                   >
-                    <label htmlFor='name' className='text-gray-700 font-medium flex items-center gap-2'>
+                    <label htmlFor='name' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                       <BsBoxSeam /> Product Name
                     </label>
                     <motion.input
@@ -256,7 +256,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                       value={data.name}
                       onChange={handleChange}
                       required
-                      className='bg-gray-50 p-3 outline-none border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-300 transition-all'
+                      className='bg-gray-50 dark:bg-gray-700 dark:text-white p-3 outline-none border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-300 transition-all'
                       whileFocus={inputVariants.focused}
                       whileTap={{ scale: 0.995 }}
                     />
@@ -269,7 +269,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                     animate={cardVariants.animate}
                     transition={{ duration: 0.3, delay: 0.1 }}
                   >
-                    <label htmlFor='description' className='text-gray-700 font-medium flex items-center gap-2'>
+                    <label htmlFor='description' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
                       <MdDescription /> Description
                     </label>
                     <motion.textarea
@@ -280,7 +280,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                       onChange={handleChange}
                       required
                       rows={4}
-                      className='bg-gray-50 p-3 outline-none border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-300 transition-all resize-none'
+                      className='bg-gray-50 dark:bg-gray-700 dark:text-white p-3 outline-none border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-300 transition-all resize-none'
                       whileFocus={inputVariants.focused}
                       whileTap={{ scale: 0.995 }}
                     />
@@ -304,15 +304,15 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                     whileHover={cardVariants.hover}
                     initial={cardVariants.initial}
                     animate={cardVariants.animate}
-                    className='bg-gray-50 p-6 rounded-lg border border-gray-200'
+                    className='bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600'
                   >
-                    <h3 className='text-lg font-medium mb-4 flex items-center gap-2 text-gray-700'>
+                    <h3 className='text-lg font-medium mb-4 flex items-center gap-2 text-gray-700 dark:text-gray-200'>
                       <BsImage /> Product Images
                     </h3>
                     
                     <label 
                       htmlFor='productImage' 
-                      className='bg-gradient-to-r from-blue-50 to-indigo-50 h-32 border-2 border-dashed border-indigo-200 rounded-lg flex justify-center items-center cursor-pointer hover:border-indigo-400 transition-all'
+                      className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 h-32 border-2 border-dashed border-indigo-200 dark:border-indigo-700 rounded-lg flex justify-center items-center cursor-pointer hover:border-indigo-400 dark:hover:border-indigo-500 transition-all'
                     >
                       <div className='text-center flex flex-col items-center justify-center gap-2 p-4'>
                         {imageLoading ? 
@@ -331,10 +331,10 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                               }}
                               className="flex justify-center"
                             >
-                              <FaCloudUploadAlt size={40} className="text-indigo-500"/>
+                              <FaCloudUploadAlt size={40} className="text-indigo-500 dark:text-indigo-400"/>
                             </motion.div>
-                            <p className="font-medium text-gray-600 mt-2">Click or drop files to upload</p>
-                            <p className="text-sm text-gray-500">PNG, JPG, GIF up to 5MB</p>
+                            <p className="font-medium text-gray-600 dark:text-gray-300 mt-2">Click or drop files to upload</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">PNG, JPG, GIF up to 5MB</p>
                           </motion.div>
                         }
                       </div>
@@ -349,7 +349,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
 
                     {data.image.length > 0 && (
                       <div className='mt-6'>
-                        <h4 className='text-sm font-medium text-gray-500 mb-3'>
+                        <h4 className='text-sm font-medium text-gray-500 dark:text-gray-400 mb-3'>
                           Product Images ({data.image.length})
                         </h4>
                         <motion.div 
@@ -360,7 +360,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                           {data.image.map((img, index) => (
                             <motion.div 
                               key={img + index} 
-                              className='relative group rounded-lg overflow-hidden shadow-sm border border-gray-200 bg-white'
+                              className='relative group rounded-lg overflow-hidden shadow-sm border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800'
                               initial={{ opacity: 0, scale: 0.9 }}
                               animate={{ opacity: 1, scale: 1 }}
                               whileHover={{ 
@@ -429,20 +429,20 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                   className="space-y-6"
                 >
                   <motion.div 
-                    className='grid gap-4 bg-gray-50 p-6 rounded-lg border border-gray-200'
+                    className='grid gap-4 bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600'
                     whileHover={cardVariants.hover}
                     initial={cardVariants.initial}
                     animate={cardVariants.animate}
                   >
-                    <h3 className='text-lg font-medium mb-1 text-gray-700 flex items-center gap-2'>
+                    <h3 className='text-lg font-medium mb-1 text-gray-700 dark:text-gray-200 flex items-center gap-2'>
                       <MdCategory /> Categories
                     </h3>
                     
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <label className='text-sm font-medium text-gray-600'>Main Category</label>
+                        <label className='text-sm font-medium text-gray-600 dark:text-gray-300'>Main Category</label>
                         <motion.select
-                          className='bg-white border w-full p-3 rounded-lg appearance-none focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
+                          className='bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-600 w-full p-3 rounded-lg appearance-none focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
                           value={selectCategory}
                           whileTap={{ scale: 0.995 }}
                           whileFocus={inputVariants.focused}
@@ -464,9 +464,9 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             setSelectCategory("")
                           }}
                         >
-                          <option value="">Select a Category</option>
+                          <option value="" className="dark:bg-gray-800">Select a Category</option>
                           {allCategory.map((c) => (
-                            <option key={c._id} value={c._id}>{c.name}</option>
+                            <option key={c._id} value={c._id} className="dark:bg-gray-800">{c.name}</option>
                           ))}
                         </motion.select>
                         
@@ -479,7 +479,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             {data.category.map((c, index) => (
                               <motion.div 
                                 key={c._id + index}
-                                className='flex items-center gap-1 bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-full text-sm font-medium'
+                                className='flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 px-3 py-1.5 rounded-full text-sm font-medium'
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 whileHover={{ scale: 1.05 }}
@@ -487,7 +487,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                                 <span>{c.name}</span>
                                 <button 
                                   type="button"
-                                  className='hover:bg-indigo-200 rounded-full p-0.5 transition-colors'
+                                  className='hover:bg-indigo-200 dark:hover:bg-indigo-800 rounded-full p-0.5 transition-colors'
                                   onClick={() => handleRemoveCategory(index)}
                                 >
                                   <IoClose size={16} />
@@ -499,9 +499,9 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                       </div>
                       
                       <div className="space-y-2">
-                        <label className='text-sm font-medium text-gray-600'>Sub Category</label>
+                        <label className='text-sm font-medium text-gray-600 dark:text-gray-300'>Sub Category</label>
                         <motion.select
-                          className='bg-white border w-full p-3 rounded-lg appearance-none focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
+                          className='bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-600 w-full p-3 rounded-lg appearance-none focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
                           value={selectSubCategory}
                           whileTap={{ scale: 0.995 }}
                           whileFocus={inputVariants.focused}
@@ -523,9 +523,9 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             setSelectSubCategory("")
                           }}
                         >
-                          <option value="">Select a Sub Category</option>
+                          <option value="" className="dark:bg-gray-800">Select a Sub Category</option>
                           {allSubCategory.map((c) => (
-                            <option key={c._id} value={c._id}>{c.name}</option>
+                            <option key={c._id} value={c._id} className="dark:bg-gray-800">{c.name}</option>
                           ))}
                         </motion.select>
                         
@@ -538,7 +538,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             {data.subCategory.map((c, index) => (
                               <motion.div 
                                 key={c._id + index}
-                                className='flex items-center gap-1 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium'
+                                className='flex items-center gap-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1.5 rounded-full text-sm font-medium'
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 whileHover={{ scale: 1.05 }}
@@ -546,7 +546,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                                 <span>{c.name}</span>
                                 <button 
                                   type="button"
-                                  className='hover:bg-blue-200 rounded-full p-0.5 transition-colors'
+                                  className='hover:bg-blue-200 dark:hover:bg-blue-800 rounded-full p-0.5 transition-colors'
                                   onClick={() => handleRemoveSubCategory(index)}
                                 >
                                   <IoClose size={16} />
@@ -574,21 +574,21 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                   className="space-y-6"
                 >
                   <motion.div 
-                    className='grid md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-lg border border-gray-200'
+                    className='grid md:grid-cols-2 gap-6 bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600'
                     whileHover={cardVariants.hover}
                     initial={cardVariants.initial}
                     animate={cardVariants.animate}
                   >
                     <div>
-                      <h3 className='text-lg font-medium mb-4 text-gray-700 flex items-center gap-2'>
+                      <h3 className='text-lg font-medium mb-4 text-gray-700 dark:text-gray-200 flex items-center gap-2'>
                         <BsCurrencyDollar /> Pricing
                       </h3>
                       
                       <div className="space-y-4">
                         <div className="space-y-2">
-                          <label htmlFor='price' className='text-sm font-medium text-gray-600'>Regular Price</label>
+                          <label htmlFor='price' className='text-sm font-medium text-gray-600 dark:text-gray-300'>Regular Price</label>
                           <motion.div className="relative">
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none dark:text-gray-400">
                               Rs.
                             </div>
                             <motion.input
@@ -601,7 +601,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                               required
                               min="0"
                               step="0.01"
-                              className='bg-white border pl-9 py-3 w-full rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
+                              className='bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-600 pl-9 py-3 w-full rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
                               whileFocus={inputVariants.focused}
                               whileTap={{ scale: 0.995 }}
                             />
@@ -609,7 +609,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                         </div>
                         
                         <div className="space-y-2">
-                          <label htmlFor='discount' className='text-sm font-medium text-gray-600'>Discount (%)</label>
+                          <label htmlFor='discount' className='text-sm font-medium text-gray-600 dark:text-gray-300'>Discount (%)</label>
                           <motion.input
                             id='discount'
                             type='number'
@@ -619,7 +619,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             onChange={handleChange}
                             min="0"
                             max="100"
-                            className='bg-white border py-3 px-4 w-full rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
+                            className='bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-600 py-3 px-4 w-full rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
                             whileFocus={inputVariants.focused}
                             whileTap={{ scale: 0.995 }}
                           />
@@ -627,7 +627,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
 
                         {data.price && data.discount > 0 && (
                           <motion.div 
-                            className="mt-3 p-3 bg-green-50 rounded-lg border border-green-100 text-green-700"
+                            className="mt-3 p-3 bg-green-50 dark:bg-green-900/30 rounded-lg border border-green-100 dark:border-green-800 text-green-700 dark:text-green-400"
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
@@ -636,7 +636,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                               <span>Sale Price:</span>
                               <span>Rs.{(data.price - (data.price * data.discount / 100)).toFixed(2)}</span>
                             </p>
-                            <p className="text-xs mt-1 text-green-600">
+                            <p className="text-xs mt-1 text-green-600 dark:text-green-500">
                               Customers save: Rs.{(data.price * data.discount / 100).toFixed(2)}
                             </p>
                           </motion.div>
@@ -645,13 +645,13 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                     </div>
                     
                     <div>
-                      <h3 className='text-lg font-medium mb-4 text-gray-700 flex items-center gap-2'>
+                      <h3 className='text-lg font-medium mb-4 text-gray-700 dark:text-gray-200 flex items-center gap-2'>
                         <BsBoxSeam /> Inventory
                       </h3>
                       
                       <div className="space-y-4">
                         <div className="space-y-2">
-                          <label htmlFor='unit' className='text-sm font-medium text-gray-600'>Unit</label>
+                          <label htmlFor='unit' className='text-sm font-medium text-gray-600 dark:text-gray-300'>Unit</label>
                           <motion.input
                             id='unit'
                             type='text'
@@ -660,14 +660,14 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             value={data.unit}
                             onChange={handleChange}
                             required
-                            className='bg-white border py-3 px-4 w-full rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
+                            className='bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-600 py-3 px-4 w-full rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
                             whileFocus={inputVariants.focused}
                             whileTap={{ scale: 0.995 }}
                           />
                         </div>
                         
                         <div className="space-y-2">
-                          <label htmlFor='stock' className='text-sm font-medium text-gray-600'>Stock Quantity</label>
+                          <label htmlFor='stock' className='text-sm font-medium text-gray-600 dark:text-gray-300'>Stock Quantity</label>
                           <motion.input
                             id='stock'
                             type='number'
@@ -676,7 +676,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             value={data.stock}
                             onChange={handleChange}
                             min="0"
-                            className='bg-white border py-3 px-4 w-full rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
+                            className='bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-600 py-3 px-4 w-full rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
                             whileFocus={inputVariants.focused}
                             whileTap={{ scale: 0.995 }}
                           />
@@ -686,10 +686,10 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                           <motion.div 
                             className={`mt-3 p-3 rounded-lg border ${
                               Number(data.stock) > 10 
-                                ? 'bg-green-50 border-green-100 text-green-700' 
+                                ? 'bg-green-50 dark:bg-green-900/30 border-green-100 dark:border-green-800 text-green-700 dark:text-green-400' 
                                 : Number(data.stock) > 0 
-                                  ? 'bg-yellow-50 border-yellow-100 text-yellow-700'
-                                  : 'bg-red-50 border-red-100 text-red-700'
+                                  ? 'bg-yellow-50 dark:bg-yellow-900/30 border-yellow-100 dark:border-yellow-800 text-yellow-700 dark:text-yellow-400'
+                                  : 'bg-red-50 dark:bg-red-900/30 border-red-100 dark:border-red-800 text-red-700 dark:text-red-400'
                             }`}
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
@@ -723,20 +723,20 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                   className="space-y-6"
                 >
                   <motion.div 
-                    className='bg-gray-50 p-6 rounded-lg border border-gray-200'
+                    className='bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600'
                     whileHover={cardVariants.hover}
                     initial={cardVariants.initial}
                     animate={cardVariants.animate}
                   >
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className='text-lg font-medium text-gray-700 flex items-center gap-2'>
+                      <h3 className='text-lg font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2'>
                         <BsTagFill /> Additional Details
                       </h3>
                       
                       <motion.button
                         type="button"
                         onClick={() => setOpenAddField(true)}
-                        className='inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 py-2 px-4 rounded-lg transition-colors text-sm font-medium'
+                        className='inline-flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-800 text-indigo-600 dark:text-indigo-400 py-2 px-4 rounded-lg transition-colors text-sm font-medium'
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}
                       >
@@ -747,7 +747,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                     
                     {Object.keys(data?.more_details || {}).length === 0 ? (
                       <motion.div 
-                        className="p-8 text-center text-gray-500"
+                        className="p-8 text-center text-gray-500 dark:text-gray-400"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                       >
@@ -768,7 +768,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                             transition={{ delay: index * 0.05 }}
                           >
                             <div className="flex justify-between">
-                              <label htmlFor={k} className='text-sm font-medium text-gray-600'>
+                              <label htmlFor={k} className='text-sm font-medium text-gray-600 dark:text-gray-300'>
                                 {k.charAt(0).toUpperCase() + k.slice(1)}
                               </label>
                               <motion.button
@@ -781,7 +781,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                                     more_details: newDetails
                                   });
                                 }}
-                                className="text-gray-400 hover:text-red-500 p-1 rounded hover:bg-red-50 transition-colors"
+                                className="text-gray-400 hover:text-red-500 p-1 rounded hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors"
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                               >
@@ -804,7 +804,7 @@ const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
                                   }
                                 })
                               }}
-                              className='bg-white border py-3 px-4 rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
+                              className='bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-600 py-3 px-4 rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none transition-all'
                               whileFocus={inputVariants.focused}
                               whileTap={{ scale: 0.995 }}
                             />

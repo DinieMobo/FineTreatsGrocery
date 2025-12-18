@@ -100,7 +100,7 @@ const MyOrders = () => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="max-w-4xl mx-auto bg-white/30 rounded-lg shadow-xl p-4 mt-4"
+      className="max-w-4xl mx-auto bg-white/30 dark:bg-gray-800/30 rounded-lg shadow-xl p-4 mt-4 transition-colors duration-300"
     >
       <motion.div 
         initial={{ y: -20, opacity: 0 }}
@@ -110,7 +110,7 @@ const MyOrders = () => {
         <h1 className='text-xl md:text-2xl font-bold flex items-center'>
           <FaShoppingBag className="mr-3" /> My Orders
         </h1>
-        <span className="text-sm bg-white text-indigo-600 px-3 py-1 rounded-full font-medium">
+        <span className="text-sm bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 px-3 py-1 rounded-full font-medium transition-colors duration-300">
           {filteredOrders.length} {filteredOrders.length === 1 ? 'Order' : 'Orders'}
         </span>
       </motion.div>
@@ -125,7 +125,7 @@ const MyOrders = () => {
           <input
             type="text"
             placeholder="Search orders by ID or product name..."
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10 transition-colors duration-300"
             value={localFilter.searchQuery}
             onChange={e => setLocalFilter({...localFilter, searchQuery: e.target.value})}
             onKeyDown={e => e.key === 'Enter' && handleApplyFilter()}
@@ -147,33 +147,33 @@ const MyOrders = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg flex items-center gap-2"
+              className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg flex items-center gap-2 transition-colors duration-300"
               onClick={() => document.getElementById('sortDropdown').classList.toggle('hidden')}
             >
               <FaSortAmountDown /> Sort
             </motion.button>
-            <div id="sortDropdown" className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 hidden">
+            <div id="sortDropdown" className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 hidden border dark:border-gray-700">
               <div className="py-1">
                 <button 
-                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 ${sortBy === 'date-desc' ? 'bg-blue-50 text-blue-700' : ''}`}
+                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ${sortBy === 'date-desc' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : ''}`}
                   onClick={() => {setSortBy('date-desc'); document.getElementById('sortDropdown').classList.add('hidden')}}
                 >
                   Date (Newest First)
                 </button>
                 <button 
-                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 ${sortBy === 'date-asc' ? 'bg-blue-50 text-blue-700' : ''}`}
+                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ${sortBy === 'date-asc' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : ''}`}
                   onClick={() => {setSortBy('date-asc'); document.getElementById('sortDropdown').classList.add('hidden')}}
                 >
                   Date (Oldest First)
                 </button>
                 <button 
-                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 ${sortBy === 'price-desc' ? 'bg-blue-50 text-blue-700' : ''}`}
+                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ${sortBy === 'price-desc' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : ''}`}
                   onClick={() => {setSortBy('price-desc'); document.getElementById('sortDropdown').classList.add('hidden')}}
                 >
                   Price (High to Low)
                 </button>
                 <button 
-                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 ${sortBy === 'price-asc' ? 'bg-blue-50 text-blue-700' : ''}`}
+                  className={`block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ${sortBy === 'price-asc' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : ''}`}
                   onClick={() => {setSortBy('price-asc'); document.getElementById('sortDropdown').classList.add('hidden')}}
                 >
                   Price (Low to High)
@@ -191,13 +191,13 @@ const MyOrders = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mb-6 bg-gray-50 p-4 rounded-lg overflow-hidden"
+            className="mb-6 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg overflow-hidden transition-colors duration-300"
           >
             <div className="flex justify-between items-center mb-3">
-              <h3 className="font-medium">Filter Orders</h3>
+              <h3 className="font-medium text-gray-800 dark:text-gray-200">Filter Orders</h3>
               <button 
                 onClick={() => setShowFilters(false)}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
               >
                 <FaTimes />
               </button>
@@ -205,9 +205,9 @@ const MyOrders = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
                 <select
-                  className="w-full rounded-md border border-gray-300 p-2"
+                  className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-2"
                   value={localFilter.status}
                   onChange={e => setLocalFilter({...localFilter, status: e.target.value})}
                 >
@@ -223,9 +223,9 @@ const MyOrders = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date Range</label>
                 <select
-                  className="w-full rounded-md border border-gray-300 p-2"
+                  className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-2"
                   value={localFilter.dateRange}
                   onChange={e => setLocalFilter({...localFilter, dateRange: e.target.value})}
                 >
@@ -241,13 +241,13 @@ const MyOrders = () => {
             <div className="flex gap-2 justify-end">
               <button 
                 onClick={handleResetFilter}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-300"
               >
                 Reset
               </button>
               <button 
                 onClick={handleApplyFilter}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 transition-colors duration-300"
               >
                 Apply Filters
               </button>
@@ -303,7 +303,7 @@ const MyOrders = () => {
               initial={{ scale: 0.7 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.7 }}
-              className="relative max-w-2xl max-h-[80vh] rounded-lg overflow-hidden bg-white p-2"
+              className="relative max-w-2xl max-h-[80vh] rounded-lg overflow-hidden bg-white dark:bg-gray-800 p-2 transition-colors duration-300"
               onClick={e => e.stopPropagation()}
             >
               <img 
@@ -313,7 +313,7 @@ const MyOrders = () => {
                 loading="lazy"
               />
               <button 
-                className="absolute top-2 right-2 bg-white/80 rounded-full p-1 text-gray-800 hover:bg-white"
+                className="absolute top-2 right-2 bg-white/80 dark:bg-gray-800/80 rounded-full p-1 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-colors duration-300"
                 onClick={() => setViewImage(null)}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -342,7 +342,7 @@ const MyOrders = () => {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: index * 0.1 }}
-              className={`bg-white rounded-lg overflow-hidden transition-all duration-300 ${
+              className={`bg-white dark:bg-gray-800 rounded-lg overflow-hidden transition-all duration-300 ${
                 isHovered ? 'shadow-lg' : 'shadow-md'
               }`}
               onMouseEnter={() => setHoveredOrder(order._id)}
@@ -355,11 +355,11 @@ const MyOrders = () => {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 cursor-pointer"
                      onClick={() => setExpandedOrder(isExpanded ? null : order._id)}>
                   <div>
-                    <h3 className="font-semibold text-lg text-gray-800 mb-1">
+                    <h3 className="font-semibold text-lg text-gray-800 dark:text-gray-100 mb-1">
                       {order.product_details?.name || "Product"}
                     </h3>
-                    <p className="text-gray-500 text-sm flex items-center gap-1">
-                      <span className="font-medium text-blue-600">Order ID:</span> {order.orderId}
+                    <p className="text-gray-500 dark:text-gray-400 text-sm flex items-center gap-1">
+                      <span className="font-medium text-blue-600 dark:text-blue-400">Order ID:</span> {order.orderId}
                     </p>
                   </div>
                   
@@ -368,8 +368,8 @@ const MyOrders = () => {
                       {getStatusDisplayText(order)}
                     </span>
                     
-                    <div className="ml-4 flex items-center gap-2 text-gray-500">
-                      <FaCalendarAlt className="text-blue-500" />
+                    <div className="ml-4 flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                      <FaCalendarAlt className="text-blue-500 dark:text-blue-400" />
                       <span className="text-sm">{getFormattedDate(order.createdAt)}</span>
                     </div>
                   </div>
@@ -400,8 +400,8 @@ const MyOrders = () => {
                           }}
                         />
                       ) : (
-                        <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                          <FaBox className="text-gray-400" />
+                        <div className="w-full h-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                          <FaBox className="text-gray-400 dark:text-gray-500" />
                         </div>
                       )}
                     </div>
@@ -423,18 +423,18 @@ const MyOrders = () => {
                   <div className="flex-1">
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                       <div>
-                        <p className="text-xs text-gray-500">Price</p>
-                        <p className="font-medium text-gray-800">
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Price</p>
+                        <p className="font-medium text-gray-800 dark:text-gray-200">
                           Rs.{order.subTotalAmt?.toFixed(2) || "N/A"}
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">Quantity</p>
-                        <p className="font-medium text-gray-800">{order.quantity || 1}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Quantity</p>
+                        <p className="font-medium text-gray-800 dark:text-gray-200">{order.quantity || 1}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">Total</p>
-                        <p className="font-medium text-gray-800">
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Total</p>
+                        <p className="font-medium text-gray-800 dark:text-gray-200">
                           Rs.{order.totalAmt?.toFixed(2) || "N/A"}
                         </p>
                       </div>
@@ -445,7 +445,7 @@ const MyOrders = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className={`h-8 w-8 rounded-full flex items-center justify-center transition-colors duration-300 ${
-                      isExpanded ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500'
+                      isExpanded ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
                     }`}
                     onClick={() => setExpandedOrder(isExpanded ? null : order._id)}
                   >
@@ -466,34 +466,34 @@ const MyOrders = () => {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden mt-4 pt-4 border-t border-gray-100"
+                      className="overflow-hidden mt-4 pt-4 border-t border-gray-100 dark:border-gray-700"
                     >
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
-                            <FaTruck className="text-blue-500" /> Delivery Details
+                          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1">
+                            <FaTruck className="text-blue-500 dark:text-blue-400" /> Delivery Details
                           </h4>
-                          <div className="bg-gray-50 p-3 rounded-md">
+                          <div className="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-md">
                             {order.delivery_address ? (
-                              <p className="text-sm text-gray-600">
+                              <p className="text-sm text-gray-600 dark:text-gray-400">
                                 {order.delivery_address.address_line1}, {order.delivery_address.address_line2}<br />
                                 {order.delivery_address.city}, {order.delivery_address.state}, {order.delivery_address.zipcode}<br />
                                 {order.delivery_address.country}<br />
                                 Phone: {order.delivery_address.phone}
                               </p>
                             ) : (
-                              <p className="text-sm text-gray-500">Delivery details not available</p>
+                              <p className="text-sm text-gray-500 dark:text-gray-400">Delivery details not available</p>
                             )}
                           </div>
                         </div>
                         
                         <div>
-                          <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
-                            <FaBox className="text-blue-500" /> Product Details
+                          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1">
+                            <FaBox className="text-blue-500 dark:text-blue-400" /> Product Details
                           </h4>
-                          <div className="bg-gray-50 p-3 rounded-md">
-                            <p className="text-sm text-gray-700 font-medium">{order.product_details?.name}</p>
-                            <p className="text-xs text-gray-500 mt-1">{order.product_details?.description?.substring(0, 100) || 'No description available'}</p>
+                          <div className="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-md">
+                            <p className="text-sm text-gray-700 dark:text-gray-300 font-medium">{order.product_details?.name}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{order.product_details?.description?.substring(0, 100) || 'No description available'}</p>
                           </div>
                         </div>
                       </div>
@@ -503,7 +503,7 @@ const MyOrders = () => {
                           <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-blue-50 hover:bg-blue-100 text-blue-600 text-sm font-medium px-4 py-2 rounded-lg transition-colors duration-300"
+                            className="bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 text-sm font-medium px-4 py-2 rounded-lg transition-colors duration-300"
                           >
                             View Details
                           </motion.button>

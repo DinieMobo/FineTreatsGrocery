@@ -6,7 +6,7 @@ import AxiosToastError from '../utils/AxiosToastError'
 import Loading from '../components/Loading'
 import CardProduct from '../components/CardProduct'
 import { useSelector } from 'react-redux'
-import { validURLConvert } from '../utils/valideURLConvert'
+import { validURLConvert } from '../utils/validURLConvert'
 import { motion } from 'framer-motion'
 import { FaAngleRight, FaSearch } from 'react-icons/fa'
 
@@ -26,6 +26,10 @@ const ProductListPage = () => {
 
   const categoryId = params.category.split("-").slice(-1)[0]
   const subCategoryId = params.subCategory.split("-").slice(-1)[0]
+
+  // Find the actual subcategory name from the store to handle special characters like '&' correctly
+  const currentSubCategory = AllSubCategory.find(s => s._id === subCategoryId)
+  const displaySubCategoryName = currentSubCategory ? currentSubCategory.name : subCategoryName
 
   // Animation variants
   const containerVariants = {
@@ -109,17 +113,17 @@ const ProductListPage = () => {
     >
       <div className='container sticky top-24 mx-auto grid grid-cols-[90px,1fr] md:grid-cols-[200px,1fr] lg:grid-cols-[280px,1fr]'>
         {/**Sub Categories **/}
-        <div className='bg-white rounded-lg shadow-lg min-h-[88vh] max-h-[88vh] overflow-y-scroll grid gap-1 py-2 scrollbarCustom'>
-          <div className="px-3 py-2 sticky top-0 bg-white z-10">
+        <div className='bg-white dark:bg-gray-800 rounded-lg shadow-lg min-h-[88vh] max-h-[88vh] overflow-y-scroll grid gap-1 py-2 scrollbarCustom transition-colors duration-300'>
+          <div className="px-3 py-2 sticky top-0 bg-white dark:bg-gray-800 z-10 transition-colors duration-300">
             <div className="relative">
               <input 
                 type="text"
                 placeholder="Search categories..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-3 py-2 pl-9 text-sm bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all"
+                className="w-full px-3 py-2 pl-9 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-200 dark:text-gray-200 transition-all duration-300"
               />
-              <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
             </div>
           </div>
           
@@ -142,17 +146,17 @@ const ProductListPage = () => {
                 >
                   <Link 
                     to={link} 
-                    className={`w-full p-2 lg:flex items-center lg:w-full lg:h-16 box-border lg:gap-4 border-b 
+                    className={`w-full p-2 lg:flex items-center lg:w-full lg:h-16 box-border lg:gap-4 border-b dark:border-gray-700
                       relative transition-all duration-300
                       ${isActive 
-                        ? "bg-green-100 border-l-4 border-l-primary-200" 
+                        ? "bg-green-100 dark:bg-green-900 dark:bg-opacity-20 border-l-4 border-l-primary-200" 
                         : hoverItem === s._id 
-                          ? "bg-green-50" 
-                          : ""
+                          ? "bg-green-50 dark:bg-gray-700" 
+                          : "bg-white dark:bg-gray-800"
                       }
                     `}
                   >
-                    <div className={`w-fit max-w-28 mx-auto lg:mx-0 bg-white rounded box-border transition-all duration-300
+                    <div className={`w-fit max-w-28 mx-auto lg:mx-0 bg-white dark:bg-gray-700 rounded box-border transition-all duration-300
                       ${hoverItem === s._id ? "scale-105" : ""}
                     `}>
                       <motion.img
@@ -164,7 +168,7 @@ const ProductListPage = () => {
                       />
                     </div>
                     <div className="flex-1">
-                      <p className='-mt-6 lg:mt-0 text-xs text-center lg:text-left lg:text-base'>{s.name}</p>
+                      <p className='-mt-6 lg:mt-0 text-xs text-center lg:text-left lg:text-base dark:text-gray-200'>{s.name}</p>
                     </div>
                     {hoverItem === s._id && !isActive && (
                       <motion.div 
@@ -186,17 +190,17 @@ const ProductListPage = () => {
         {/**Products **/}
         <div className='sticky top-20'>
           <motion.div 
-            className='bg-white shadow-md p-4 z-10 rounded-t-lg'
+            className='bg-white dark:bg-gray-800 shadow-md p-4 z-10 rounded-t-lg transition-colors duration-300'
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <h3 className='font-semibold text-lg text-primary-200'>{subCategoryName}</h3>
+            <h3 className='font-semibold text-lg text-primary-200 dark:text-primary-400'>{displaySubCategoryName}</h3>
             <div className="h-1 w-20 bg-primary-100 mt-1 rounded-full"></div>
           </motion.div>
           
           <div>
-            <div className='min-h-[80vh] max-h-[80vh] overflow-y-auto relative'>
+            <div className='min-h-[80vh] max-h-[80vh] overflow-y-auto relative bg-gray-50 dark:bg-gray-900 transition-colors duration-300'>
               <motion.div 
                 className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4'
                 variants={containerVariants}
@@ -245,7 +249,7 @@ const ProductListPage = () => {
                     alt="No products" 
                     className="w-24 h-24 opacity-40 mb-4"
                   />
-                  <p className="text-gray-500">No products found in this category</p>
+                  <p className="text-gray-500 dark:text-gray-400">No products found in this category</p>
                 </motion.div>
               )}
             </div>
