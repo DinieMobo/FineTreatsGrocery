@@ -10,7 +10,7 @@ import { validURLConvert } from '../utils/validURLConvert';
 import { useNavigate } from 'react-router-dom';
 import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay';
 import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 const DEFAULT_BANNER = '/default-banner.jpg';
 const DEFAULT_BANNER_MOBILE = '/default-banner-mobile.jpg';
