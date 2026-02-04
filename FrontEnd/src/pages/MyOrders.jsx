@@ -273,12 +273,12 @@ const MyOrders = () => {
         >
           {order.length > 0 ? (
             <div>
-              <FaFilter className="mx-auto text-3xl text-gray-400 mb-2" />
-              <h3 className="text-lg font-medium text-gray-700 mb-1">No matching orders found</h3>
-              <p className="text-gray-500 mb-4">Try changing your filters or search terms</p>
+              <FaFilter className="mx-auto text-3xl text-gray-400 dark:text-gray-500 mb-2 transition-colors duration-300" />
+              <h3 className="text-lg font-medium text-gray-700 dark:text-gray-200 mb-1 transition-colors duration-300">No matching orders found</h3>
+              <p className="text-gray-500 dark:text-gray-400 mb-4 transition-colors duration-300">Try changing your filters or search terms</p>
               <button 
                 onClick={handleResetFilter}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-300"
               >
                 Clear Filters
               </button>

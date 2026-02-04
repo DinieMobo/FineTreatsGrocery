@@ -11,7 +11,6 @@ const uploadImageController = async (request, response) => {
             success : true,
             error : false
         })
-        console.log(file)
     } catch (error) {
         return response.status(500).json({
             message : error.message || error,

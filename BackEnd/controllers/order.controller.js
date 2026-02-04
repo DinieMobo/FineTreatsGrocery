@@ -3,6 +3,7 @@ import ProductCartModel from "../models/product_cart.model.js";
 import OrderModel from "../models/order.model.js";
 import UserModel from "../models/user.model.js";
 import ProductModel from "../models/product.model.js";
+import AddressModel from "../models/address.model.js";
 import mongoose from "mongoose";
 
 export async function CashOnDeliveryOrderController(request, response) {
@@ -234,7 +235,7 @@ export async function WebhookStripe(request, response) {
                     });
                 }
 
-                const address = await mongoose.model('Address').findById(addressId);
+                const address = await AddressModel.findById(addressId);
                 if (!address) {
                     console.error("Address not found:", addressId);
                     return response.status(400).json({ 

@@ -40,10 +40,10 @@ export async function registerUserController(request, response) {
             password: hashedPassword
         };
 
-        const newUser  = new UserModel(payload);
-        const savedUser  = await newUser .save();
+        const newUser = new UserModel(payload);
+        const savedUser = await newUser.save();
 
-        const verifyEmailUrl = `${process.env.FRONTEND_URL}/verify-email?code=${savedUser ._id}`;
+        const verifyEmailUrl = `${process.env.FRONTEND_URL}/verify-email?code=${savedUser._id}`;
 
         await sendEmail({
             sendTo: email,
@@ -58,7 +58,7 @@ export async function registerUserController(request, response) {
             message: "User registered successfully",
             error: false,
             success: true,
-            data: savedUser 
+            data: savedUser
         });
 
     } catch (error) {
@@ -95,7 +95,7 @@ export async function verifyEmailController(request, response) {
         return response.status(500).json({
             message: error.message || error,
             error: true,
-            success: true
+            success: false
         });
     }
 }
@@ -414,7 +414,7 @@ export async function resetPasswordController(request, response) {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-        const update = await UserModel.findOneAndUpdate(user._id,{
+        const update = await UserModel.findOneAndUpdate({ _id: user._id },{
             password: hashedPassword
         });
 

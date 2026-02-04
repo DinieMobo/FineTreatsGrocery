@@ -122,7 +122,7 @@ const EditAddressDetails = ({close, data}) => {
     return (
         <AnimatePresence>
             <motion.section 
-                className='fixed top-0 left-0 right-0 bottom-0 z-50 bg-neutral-800 bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto'
+                className='fixed top-0 left-0 right-0 bottom-0 z-50 bg-neutral-800 dark:bg-black bg-opacity-60 dark:bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto transition-colors duration-300'
                 variants={overlayVariants}
                 initial="hidden"
                 animate="visible"

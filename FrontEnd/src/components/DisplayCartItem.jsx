@@ -180,14 +180,14 @@ const DisplayCartItem = ({close}) => {
                                         </motion.div>
                                         
                                         <div className='w-full max-w-sm'>
-                                            <p className='text-sm font-medium text-ellipsis line-clamp-2'>{item?.productId?.name}</p>
-                                            <p className='text-xs text-gray-500'>{item?.productId?.unit}</p>
+                                            <p className='text-sm font-medium text-ellipsis line-clamp-2 dark:text-gray-200 transition-colors duration-300'>{item?.productId?.name}</p>
+                                            <p className='text-xs text-gray-500 dark:text-gray-400 transition-colors duration-300'>{item?.productId?.unit}</p>
                                             <div className="flex items-baseline mt-1">
-                                                <p className='font-bold text-blue-700'>
+                                                <p className='font-bold text-blue-700 dark:text-blue-400 transition-colors duration-300'>
                                                     {DisplayPriceInRupees(pricewithDiscount(item?.productId?.price,item?.productId?.discount))}
                                                 </p>
                                                 {item?.productId?.discount > 0 && (
-                                                    <p className='ml-2 text-xs line-through text-gray-400'>
+                                                    <p className='ml-2 text-xs line-through text-gray-400 dark:text-gray-500 transition-colors duration-300'>
                                                         {DisplayPriceInRupees(item?.productId?.price)}
                                                     </p>
                                                 )}

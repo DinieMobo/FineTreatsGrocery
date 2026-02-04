@@ -4,8 +4,8 @@ export const AddSubCategoryController = async(request,response)=>{
     try {
         const { name, image, category } = request.body;
 
-        if(!name && !image && !category[0] ){
-            return response.status(500).json({
+        if(!name || !image || !category || !category[0] ){
+            return response.status(400).json({
                 message: "All fields are required",
                 error: true,
                 success: false

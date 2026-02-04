@@ -7,10 +7,12 @@ const auth = async (request, response, next) => {
         if (!token) {
             return response.status(401).json({
                 message: "Provide Token",
+                error: true,
+                success: false
             });
         }
 
-        const decode = await jwt.verify(token, process.env.SECRET_KEY_ACCESS_TOKEN);
+        const decode = jwt.verify(token, process.env.SECRET_KEY_ACCESS_TOKEN);
 
         if (!decode) {
             return response.status(401).json({
@@ -24,8 +26,8 @@ const auth = async (request, response, next) => {
         next();
 
     } catch (error) {
-        return response.status(500).json({
-            message: "You don't have access to login",
+        return response.status(401).json({
+            message: "Invalid or expired token. Please login again.",
             error: true,
             success: false
         });

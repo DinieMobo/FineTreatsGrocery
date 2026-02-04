@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { pricewithDiscount } from "../utils/PriceWithDiscount";
 import { handleAddAddress } from "../store/addressSlice";
 import { setOrder, setLoading, setError, setCurrentOrder } from "../store/orderSlice";
+import { store } from "../store/store";
 
 export const GlobalContext = createContext(null)
 
@@ -141,30 +142,19 @@ const GlobalProvider = ({children}) => {
       }
     }, [user, dispatch])
     
-    const fetchOrderById = useCallback(async(orderId) => {
+    const fetchOrderById = useCallback((orderId) => {
       if (!user?._id || !orderId) return null;
       
-      try {
-        dispatch(setLoading(true));
-        const response = await Axios({
-          ...SummaryApi.getSingleOrder,
-          method: 'GET',
-          params: { orderId }
-        });
-        
-        if (response.data.success) {
-          dispatch(setCurrentOrder(response.data.data));
-          return response.data.data;
-        } else {
-          toast.error(response.data.message || "Failed to fetch order details");
-          return null;
-        }
-      } catch (error) {
-        console.log(error);
-        AxiosToastError(error);
+      // Find order from already-fetched orders (no separate API endpoint exists)
+      const orders = store.getState().orders.order;
+      const foundOrder = orders.find(order => order._id === orderId || order.orderId === orderId);
+      
+      if (foundOrder) {
+        dispatch(setCurrentOrder(foundOrder));
+        return foundOrder;
+      } else {
+        toast.error("Order not found");
         return null;
-      } finally {
-        dispatch(setLoading(false));
       }
     }, [user, dispatch])
 

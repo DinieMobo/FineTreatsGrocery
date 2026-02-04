@@ -196,7 +196,7 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
     return (
         <AnimatePresence>
             <motion.section 
-                className='fixed top-0 right-0 bottom-0 left-0 bg-neutral-800 bg-opacity-60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto'
+                className='fixed top-0 right-0 bottom-0 left-0 bg-neutral-800 dark:bg-black bg-opacity-60 dark:bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto transition-colors duration-300'
                 variants={overlayVariants}
                 initial="hidden"
                 animate="visible"
@@ -214,7 +214,7 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
                 >
                     <div className='flex items-center justify-between gap-3 border-b dark:border-gray-700 pb-3 mb-4'>
                         <motion.h1 
-                            className='text-xl font-semibold text-primary-200'
+                            className='text-xl font-semibold text-primary-200 dark:text-primary-300 transition-colors duration-300'
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: 0.2 }}

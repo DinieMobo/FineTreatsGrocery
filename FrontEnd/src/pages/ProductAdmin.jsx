@@ -202,10 +202,10 @@ const ProductAdmin = () => {
               <img 
                 src="https://cdn-icons-png.flaticon.com/512/6028/6028541.png" 
                 alt="No products" 
-                className="w-24 h-24 opacity-30 mb-4" 
+                className="w-24 h-24 opacity-30 mb-4 dark:opacity-20" 
               />
-              <p className="text-gray-500 text-lg">No products found</p>
-              <p className="text-gray-400 text-sm mt-2">Try adjusting your search or add a new product</p>
+              <p className="text-gray-500 dark:text-gray-400 text-lg transition-colors duration-300">No products found</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm mt-2 transition-colors duration-300">Try adjusting your search or add a new product</p>
             </motion.div>
           )}
         </div>
@@ -221,7 +221,7 @@ const ProductAdmin = () => {
             <motion.button 
               onClick={handlePrevious} 
               className={`relative overflow-hidden px-5 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 ${
-                page > 1 ? "border-primary-200 text-primary-200 hover:bg-primary-200 hover:text-white" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                page > 1 ? "border-primary-200 dark:border-primary-300 text-primary-200 dark:text-primary-300 hover:bg-primary-200 hover:text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
               }`}
               disabled={page <= 1}
               whileHover={page > 1 ? { scale: 1.05 } : {}}
@@ -251,8 +251,8 @@ const ProductAdmin = () => {
               <div className='bg-primary-100 text-white w-8 h-8 rounded-full flex items-center justify-center font-semibold'>
                 {page}
               </div>
-              <span className='text-gray-500'>of</span>
-              <div className='bg-gray-100 text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-semibold'>
+              <span className='text-gray-500 dark:text-gray-400 transition-colors duration-300'>of</span>
+              <div className='bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 w-8 h-8 rounded-full flex items-center justify-center font-semibold transition-colors duration-300'>
                 {totalPageCount}
               </div>
             </motion.div>
@@ -260,7 +260,7 @@ const ProductAdmin = () => {
             <motion.button 
               onClick={handleNext} 
               className={`relative overflow-hidden px-5 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 ${
-                page !== totalPageCount ? "border-primary-200 text-primary-200 hover:bg-primary-200 hover:text-white" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                page !== totalPageCount ? "border-primary-200 dark:border-primary-300 text-primary-200 dark:text-primary-300 hover:bg-primary-200 hover:text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
               }`}
               disabled={page === totalPageCount}
               whileHover={page !== totalPageCount ? { scale: 1.05 } : {}}
