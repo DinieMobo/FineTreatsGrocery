@@ -1,4 +1,4 @@
-import { createContext,useContext, useEffect, useState } from "react";
+import { createContext,useContext, useEffect, useState, useCallback } from "react";
 import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,7 @@ const GlobalProvider = ({children}) => {
     const cartItem = useSelector(state => state.cartItem.cart)
     const user = useSelector(state => state?.user)
 
-    const fetchCartItem = async()=>{
+    const fetchCartItem = useCallback(async()=>{
         if (!user?._id) return; 
         try {
           const response = await Axios({
@@ -37,9 +37,9 @@ const GlobalProvider = ({children}) => {
         } catch (error) {
           console.log(error)
         }
-    }
+    }, [user, dispatch])
 
-    const updateCartItem = async(id,qty)=>{
+    const updateCartItem = useCallback(async(id,qty)=>{
       if (!user?._id) return; 
       try {
           const response = await Axios({
@@ -60,8 +60,8 @@ const GlobalProvider = ({children}) => {
         AxiosToastError(error)
         return error
       }
-    }
-    const deleteCartItem = async(cartId)=>{
+    }, [user, fetchCartItem])
+    const deleteCartItem = useCallback(async(cartId)=>{
       if (!user?._id) return; 
       try {
           const response = await Axios({
@@ -79,7 +79,7 @@ const GlobalProvider = ({children}) => {
       } catch (error) {
          AxiosToastError(error)
       }
-    }
+    }, [user, fetchCartItem])
 
     useEffect(()=>{
       const qty = cartItem.reduce((preve,curr)=>{
@@ -105,7 +105,7 @@ const GlobalProvider = ({children}) => {
          dispatch(handleAddItemCart([]))
      }
 
-    const fetchAddress = async()=>{
+    const fetchAddress = useCallback(async()=>{
       if (!user?._id) return; 
       try {
         const response = await Axios({
@@ -119,8 +119,8 @@ const GlobalProvider = ({children}) => {
       } catch (error) {
           AxiosToastError(error)
       }
-    }
-    const fetchOrder = async() => {
+    }, [user, dispatch])
+    const fetchOrder = useCallback(async() => {
       if (!user?._id) return; 
       try {
         dispatch(setLoading(true));
@@ -139,9 +139,9 @@ const GlobalProvider = ({children}) => {
       } finally {
         dispatch(setLoading(false));
       }
-    }
+    }, [user, dispatch])
     
-    const fetchOrderById = async(orderId) => {
+    const fetchOrderById = useCallback(async(orderId) => {
       if (!user?._id || !orderId) return null;
       
       try {
@@ -166,7 +166,7 @@ const GlobalProvider = ({children}) => {
       } finally {
         dispatch(setLoading(false));
       }
-    }
+    }, [user, dispatch])
 
     useEffect(()=>{
       if (user && user._id) { 

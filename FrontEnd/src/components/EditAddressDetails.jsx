@@ -12,7 +12,7 @@ import { useGlobalContext } from '../provider/GlobalProvider'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const EditAddressDetails = ({close, data}) => {
-    const { register, handleSubmit, reset } = useForm({
+    const { register, handleSubmit, reset, setValue } = useForm({
         defaultValues : {
             _id : data._id,
             userId : data.userId,
@@ -30,20 +30,14 @@ const EditAddressDetails = ({close, data}) => {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [addressType, setAddressType] = useState('home')
 
-    const onSubmit = async(data) => {
+    const onSubmit = async(formData) => {
         try {
             setIsSubmitting(true)
             const response = await Axios({
                 ...SummaryApi.updateAddress,
                 data : {
-                    ...data,
-                    address_line1 : data.address_line1,
-                    address_line2 : data.address_line2,
-                    city : data.city,
-                    state : data.state,
-                    country : data.country,
-                    zipcode : data.zipcode,
-                    phone : data.phone
+                    ...formData,
+                    country : selectedCountry ? selectedCountry.label : formData.country
                 }
             })
 
@@ -312,7 +306,10 @@ const EditAddressDetails = ({close, data}) => {
                                             value={selectedCountry}
                                             onChange={option => {
                                                 setSelectedCountry(option)
-                                                document.getElementById('country-hidden').value = option.label
+                                                setValue('country', option ? option.label : '', { 
+                                                    shouldValidate: true,
+                                                    shouldDirty: true 
+                                                })
                                             }}
                                             onFocus={() => setActiveField('country')}
                                             onBlur={() => setActiveField(null)}
@@ -323,10 +320,7 @@ const EditAddressDetails = ({close, data}) => {
                                     </div>
                                     <input
                                         type='hidden'
-                                        id='country-hidden' 
-                                        {...register("country", { required: true })}
-                                        value={selectedCountry ? selectedCountry.label : ''}
-                                        readOnly
+                                        {...register("country", { required: "Country is required" })}
                                     />
                                 </motion.div>
                             </div>

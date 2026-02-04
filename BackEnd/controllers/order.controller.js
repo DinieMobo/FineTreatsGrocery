@@ -2,6 +2,7 @@ import Stripe from "../config/stripe.js";
 import ProductCartModel from "../models/product_cart.model.js";
 import OrderModel from "../models/order.model.js";
 import UserModel from "../models/user.model.js";
+import ProductModel from "../models/product.model.js";
 import mongoose from "mongoose";
 
 export async function CashOnDeliveryOrderController(request, response) {
@@ -9,7 +10,6 @@ export async function CashOnDeliveryOrderController(request, response) {
     const userId = request.userId
     const { list_items, totalAmt, addressId, subTotalAmt } = request.body
 
-    // Validate required fields
     if (!list_items || !list_items.length || !addressId) {
       return response.status(400).json({
         message: "Missing required order information",
@@ -43,14 +43,18 @@ export async function CashOnDeliveryOrderController(request, response) {
 
     const generatedOrder = await OrderModel.insertMany(payload)
 
+    for(const order of generatedOrder){
+        await ProductModel.updateOne({ _id : order.productId }, { $inc : { stock : -order.quantity } })
+    }
+
     const removeCartItems = await ProductCartModel.deleteMany({ userId : userId })
     const updateInUser = await UserModel.updateOne({ _id : userId }, { shopping_cart : []})
-
-    return response.json({
-        message : "Order successfully",
-        error : false,
-        success : true,
-        data : generatedOrder
+    
+    return response.status(200).json({
+      message : "Order successfully",
+      error : false,
+      success : true,
+      data : generatedOrder
     })
 
   } catch (error) {
@@ -73,7 +77,23 @@ export async function PaymentController(request,response){
         const userId = request.userId
         const { list_items, totalAmt, addressId, subTotalAmt } = request.body 
 
+        if (!list_items || !list_items.length || !addressId) {
+            return response.status(400).json({
+                message: "Missing required payment information",
+                error: true,
+                success: false
+            });
+        }
+
         const user = await UserModel.findById(userId)
+
+        if (!user) {
+            return response.status(404).json({
+                message: "User not found",
+                error: true,
+                success: false
+            });
+        }
 
         const line_items = list_items.map(item => {
             return{
@@ -112,22 +132,6 @@ export async function PaymentController(request,response){
 
         const session = await Stripe.checkout.sessions.create(params)
 
-        const lineItems = await Stripe.checkout.sessions.listLineItems(session.id);
-        
-        const orderProducts = await GetOrderProductItems({
-            lineItems,
-            userId,
-            addressId,
-            paymentId: session.payment_intent,
-            payment_status: session.payment_status
-        });
-
-        if (orderProducts.length > 0) {
-            await OrderModel.insertMany(orderProducts);
-            await ProductCartModel.deleteMany({ userId: userId });
-            await UserModel.findByIdAndUpdate(userId, { shopping_cart: [] });
-        }
-
         return response.status(200).json(session)
 
     } catch (error) {
@@ -160,6 +164,11 @@ const GetOrderProductItems = async ({
             try {
                 const product = await Stripe.products.retrieve(item.price.product);
                 
+                if (!product || !product.metadata || !product.metadata.productId) {
+                    console.error(`Missing product data for item ${item.id}`);
+                    continue;
+                }
+                
                 const amount = item.amount_total / 100;
                 
                 const payload = {
@@ -167,14 +176,15 @@ const GetOrderProductItems = async ({
                     orderId: `ORD-${new mongoose.Types.ObjectId()}`,
                     productId: product.metadata.productId, 
                     product_details: {
-                        name: product.name,
-                        image: product.images
+                        name: product.name || 'Unknown Product',
+                        image: product.images || []
                     },
-                    paymentId: paymentId,
+                    paymentId: paymentId || "",
                     payment_status: payment_status || "paid",
                     delivery_address: addressId,
                     subTotalAmt: amount,
                     totalAmt: amount,
+                    quantity: item.quantity || 1,
                     invoice_receipt: `INV-${new mongoose.Types.ObjectId()}`
                 };
 
@@ -224,9 +234,26 @@ export async function WebhookStripe(request, response) {
                     });
                 }
 
+                const address = await mongoose.model('Address').findById(addressId);
+                if (!address) {
+                    console.error("Address not found:", addressId);
+                    return response.status(400).json({ 
+                        error: true, 
+                        message: "Invalid address" 
+                    });
+                }
+
                 const lineItems = await Stripe.checkout.sessions.listLineItems(session.id, { 
                     expand: ['data.price.product'] 
                 });
+                
+                if (!lineItems || !lineItems.data || lineItems.data.length === 0) {
+                    console.error("No line items found for session:", session.id);
+                    return response.status(400).json({ 
+                        error: true, 
+                        message: "No items found in order" 
+                    });
+                }
                 
                 const orderProducts = await GetOrderProductItems({
                     lineItems,
@@ -241,14 +268,23 @@ export async function WebhookStripe(request, response) {
                 if (orderProducts.length > 0) {
                     const savedOrders = await OrderModel.insertMany(orderProducts);
                     console.log(`Saved ${savedOrders.length} orders to database`);
+
+                    for(const order of savedOrders){
+                        await ProductModel.updateOne({ _id : order.productId }, { $inc : { stock : -order.quantity } })
+                    }
                     
-                    await UserModel.findByIdAndUpdate(userId, { shopping_cart: [] });
                     await ProductCartModel.deleteMany({ userId: userId });
+                    await UserModel.findByIdAndUpdate(userId, { shopping_cart: [] });
+                    console.log("Cart cleared for user:", userId);
                 } else {
                     console.warn("No order products generated from session:", session.id);
                 }
             } catch (err) {
                 console.error("Stripe webhook order save error:", err);
+                return response.status(500).json({ 
+                    error: true, 
+                    message: "Failed to process order" 
+                });
             }
             break;
             
@@ -285,7 +321,6 @@ export async function UpdateOrderStatusController(request, response) {
   try {
     const { orderId, status } = request.body;
 
-    // Validate status
     const validStatuses = ["ordered", "processing", "shipped", "delivered", "cancelled"];
     if (!validStatuses.includes(status)) {
       return response.status(400).json({
@@ -295,7 +330,6 @@ export async function UpdateOrderStatusController(request, response) {
       });
     }
 
-    // Update the order
     const updatedOrder = await OrderModel.findOneAndUpdate(
       { orderId: orderId },
       { 
@@ -330,7 +364,6 @@ export async function UpdateOrderStatusController(request, response) {
 
 export async function GetAllOrdersController(request, response) {
   try {
-    // Get all orders with user and address info
     const allOrders = await OrderModel.find()
       .sort({ createdAt: -1 })
       .populate('delivery_address')

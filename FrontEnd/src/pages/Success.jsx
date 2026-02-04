@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaBox, FaHome } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
 import { useGlobalContext } from '../provider/GlobalProvider';
 import Axios from '../utils/Axios';
 import SummaryApi from '../common/SummaryApi';
@@ -12,26 +11,21 @@ const SuccessPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { fetchCartItem, fetchOrder } = useGlobalContext();
+  const processedRef = useRef(false);
   
   useEffect(() => {
+    if (processedRef.current) return;
+    processedRef.current = true;
+
     const processPaymentSuccess = async () => {
       try {
         setIsLoading(true);
         
-        const clearResponse = await Axios({
-          ...SummaryApi.clearCart,
-          method: 'POST'
-        });
-        
-        if (clearResponse.data.success) {
-          if (fetchCartItem) fetchCartItem();
-        }
+        await new Promise(resolve => setTimeout(resolve, 2000));
         
         const ordersResponse = await Axios({
-          ...SummaryApi.getOrderList,
-          method: 'GET'
+          ...SummaryApi.getOrderList
         });
         
         if (ordersResponse.data.success && ordersResponse.data.data.length > 0) {
@@ -43,10 +37,23 @@ const SuccessPage = () => {
           
           if (recentOrders.length > 0) {
             setOrderPlaced(true);
+            
+            try {
+              await Axios({
+                ...SummaryApi.clearCart
+              });
+            } catch (clearError) {
+              console.error("Cart clear error:", clearError);
+            }
+            
+            if (fetchCartItem) fetchCartItem();
             if (fetchOrder) fetchOrder();
             toast.success("Your order has been placed successfully!");
           } else {
-            toast.success("Payment successful! Your order is being processed.");
+            toast("Your payment was processed. Your order will appear shortly.", {
+              icon: '⚠️',
+              duration: 5000
+            });
           }
         }
       } catch (error) {
@@ -58,89 +65,24 @@ const SuccessPage = () => {
       }
     };
 
-    const pendingPayment = localStorage.getItem('pendingPayment');
-    
-    if (pendingPayment) {
-      const paymentData = JSON.parse(pendingPayment);
-      const isRecentPayment = Date.now() - paymentData.timestamp < 10 * 60 * 1000;
-      
-      if (isRecentPayment) {
-        processPaymentSuccess();
-      } else {
-        localStorage.removeItem('pendingPayment');
-        setIsLoading(false);
-      }
-    } else {
-      setIsLoading(false);
-    }
-  }, [fetchCartItem, fetchOrder]);
-
-  useEffect(() => {
-    const checkOrderStatus = async () => {
-      try {
-        const ordersResponse = await Axios({
-          ...SummaryApi.getOrderList
-        });
-        
-        if (!ordersResponse.data || !ordersResponse.data.success) {
-          throw new Error("Failed to fetch orders");
-        }
-        
-        const orders = ordersResponse.data.data;
-        const recentOrders = orders.filter(order => {
-          const orderDate = new Date(order.createdAt);
-          const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-          return orderDate > fiveMinutesAgo;
-        });
-        
-        if (recentOrders.length === 0) {
-          try {
-            await Axios({
-              ...SummaryApi.clearCart,
-              method: 'POST'
-            });
-
-            toast("Your payment was processed but we're still preparing your order. It will appear in your orders soon.", {
-              icon: '⚠️',
-              style: {
-                background: '#FEF3C7',
-                color: '#92400E',
-              },
-            });
-          } catch (clearCartError) {
-            console.error("Failed to clear cart:", clearCartError);
-            toast.error("There was an issue finalizing your order. Please contact support.");
-          }
-        } else {
-          toast.success("Order placed successfully!");
-        }
-        
-        if (fetchCartItem) fetchCartItem();
-        
-      } catch (error) {
-        console.error("Error checking order status:", error);
-        toast.error("We couldn't verify your order status. Please check your orders page or contact support.");
-      }
-    };
-    
-    checkOrderStatus();
+    processPaymentSuccess();
   }, []);
 
   return (
     <motion.div 
-      className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-50 via-white to-green-50 p-4"
+      className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-4 transition-colors duration-300"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       <motion.div 
-        className="bg-white max-w-lg w-full rounded-lg shadow-lg p-8 text-center"
+        className="bg-white dark:bg-gray-800 max-w-lg w-full rounded-lg shadow-lg dark:shadow-2xl border dark:border-gray-700 p-8 text-center transition-colors duration-300"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
         <motion.div 
-          className="w-20 h-20 bg-green-100 mx-auto rounded-full flex items-center justify-center mb-6"
+          className="w-20 h-20 bg-green-100 dark:bg-green-900 mx-auto rounded-full flex items-center justify-center mb-6 transition-colors duration-300"
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
           transition={{ 
@@ -150,11 +92,11 @@ const SuccessPage = () => {
             delay: 0.4
           }}
         >
-          <FaCheckCircle className="w-10 h-10 text-green-600" />
+          <FaCheckCircle className="w-10 h-10 text-green-600 dark:text-green-400" />
         </motion.div>
         
         <motion.h1 
-          className="text-3xl font-bold text-gray-800 mb-3"
+          className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-3 transition-colors duration-300"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
@@ -163,7 +105,7 @@ const SuccessPage = () => {
         </motion.h1>
         
         <motion.p 
-          className="text-gray-600 mb-6"
+          className="text-gray-600 dark:text-gray-300 mb-6 transition-colors duration-300"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
@@ -184,7 +126,7 @@ const SuccessPage = () => {
         >
           <motion.button 
             onClick={() => navigate('/dashboard/myorders')}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors"
+            className="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
             disabled={isLoading}
@@ -195,7 +137,7 @@ const SuccessPage = () => {
           
           <motion.button 
             onClick={() => navigate('/')}
-            className="px-6 py-2 border border-blue-600 text-blue-600 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors"
+            className="px-6 py-2 border border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
             disabled={isLoading}

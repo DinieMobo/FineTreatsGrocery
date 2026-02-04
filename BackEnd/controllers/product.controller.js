@@ -1,4 +1,5 @@
 import ProductModel from "../models/product.model.js";
+import ProductCartModel from "../models/product_cart.model.js";
 
 export const CreateProductController = async(request,response)=>{
     try {
@@ -246,6 +247,7 @@ export const DeleteProductDetails = async(request,response)=>{
         }
 
         const deleteProduct = await ProductModel.deleteOne({_id : _id })
+        const deleteCartItems = await ProductCartModel.deleteMany({ productId : _id })
 
         return response.json({
             message : "Delete successfully",

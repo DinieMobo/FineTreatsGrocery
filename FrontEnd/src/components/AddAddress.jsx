@@ -1,27 +1,33 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
-import Axios from '../utils/Axios'
-import SummaryApi from '../common/SummaryApi'
-import toast from 'react-hot-toast'
-import AxiosToastError from '../utils/AxiosToastError'
-import { IoClose } from "react-icons/io5";
-import { useGlobalContext } from '../provider/GlobalProvider'
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
+import { motion, AnimatePresence } from 'framer-motion'
+import toast from 'react-hot-toast'
+import Axios from '../utils/Axios'
+import SummaryApi from '../common/SummaryApi'
+import AxiosToastError from '../utils/AxiosToastError'
+import { IoClose, IoLocationOutline, IoHomeOutline, IoBriefcaseOutline } from "react-icons/io5"
+import { FaCity, FaMapMarkedAlt, FaGlobeAmericas, FaPhone, FaMapPin } from "react-icons/fa"
+import { useGlobalContext } from '../provider/GlobalProvider'
 
 const AddAddress = ({close}) => {
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm()
     const { fetchAddress } = useGlobalContext()
     const [selectedCountry, setSelectedCountry] = useState(null)
     const [countryOptions] = useState(countryList().getData())
+    const [activeField, setActiveField] = useState(null)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [addressType, setAddressType] = useState('home')
 
     const onSubmit = async(data)=>{
         try {
+            setIsSubmitting(true)
             const response = await Axios({
                 ...SummaryApi.createAddress,
                 data : {
-                    address_line1 :data.addressline1,
-                    address_line2 : data.addressline2,
+                    address_line1 : data.address_line1,
+                    address_line2 : data.address_line2,
                     city : data.city,
                     state : data.state,
                     country : selectedCountry ? selectedCountry.label : data.country,
@@ -42,108 +48,355 @@ const AddAddress = ({close}) => {
             }
         } catch (error) {
             AxiosToastError(error)
+        } finally {
+            setIsSubmitting(false)
         }
     }
-  return (
-    <section className='bg-black dark:bg-gray-900 fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-70 dark:bg-opacity-80 h-screen overflow-auto transition-colors duration-300'>
-        <div className='bg-white dark:bg-gray-800 p-4 w-full max-w-lg mt-8 mx-auto rounded-lg border dark:border-gray-700 shadow-xl transition-colors duration-300'>
-            <div className='flex justify-between items-center gap-4'>
-                <h2 className='font-semibold text-gray-900 dark:text-gray-100 transition-colors duration-300'>Add Address</h2>
-                <button onClick={close} className='hover:text-red-500'>
-                    <IoClose  size={25}/>
-                </button>
-            </div>
-            <form className='mt-4 grid gap-4' onSubmit={handleSubmit(onSubmit)}>
-                <div className='grid gap-1'>
-                    <label htmlFor='address_line1'>Address Line 1:</label>
-                    <input
-                        type='text'
-                        id='addressline1' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("address_line1",{required : true})}
-                    />
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='address_line2'>Address Line 2:</label>
-                    <input
-                        type='text'
-                        id='address_line2' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("address_line2",{required : true})}
-                    />
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='city'>City :</label>
-                    <input
-                        type='text'
-                        id='city' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("city",{required : true})}
-                    />
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='state'>State :</label>
-                    <input
-                        type='text'
-                        id='state' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("state",{required : true})}
-                    />
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='zipcode'>Zipcode :</label>
-                    <input
-                        type='text'
-                        id='zipcode' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("zipcode",{required : true})}
-                    />
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='country'>Country :</label>
-                    <Select
-                        id='country'
-                        options={countryOptions}
-                        value={selectedCountry}
-                        onChange={option => {
-                            setSelectedCountry(option)
-                            setValue('country', option.label)
-                        }}
-                        classNamePrefix="react-select"
-                        placeholder="Select a country"
-                        isSearchable
-                    />
-                    {/* Hidden input for react-hook-form */}
-                    <input
-                        type='hidden'
-                        {...register("country", {required: true})}
-                        value={selectedCountry ? selectedCountry.label : ''}
-                        readOnly
-                    />
-                    {errors.country && <p className="text-red-500 text-xs mt-1">Please select a country</p>}
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='phone'>Phone No. :</label>
-                    <input
-                        type='text'
-                        id='phone' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("phone", {
-                            required: true,
-                            pattern: {
-                                value: /^[0-9]{10,15}$/,
-                                message: "Please enter a valid phone number"
-                            }
-                        })}
-                    />
-                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
-                </div>
 
-                <button type='submit' className='bg-primary-200 w-full  py-2 font-semibold mt-4 hover:bg-primary-100'>Submit</button>
-            </form>
-        </div>
-    </section>
-  )
+    const overlayVariants = {
+        hidden: { opacity: 0 },
+        visible: { 
+            opacity: 1,
+            transition: { duration: 0.3 }
+        },
+        exit: {
+            opacity: 0,
+            transition: { duration: 0.3 }
+        }
+    }
+
+    const modalVariants = {
+        hidden: { 
+            opacity: 0,
+            y: 50,
+            scale: 0.95
+        },
+        visible: { 
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: {
+                type: "spring",
+                damping: 30,
+                stiffness: 400
+            }
+        },
+        exit: {
+            opacity: 0,
+            y: 50,
+            scale: 0.95,
+            transition: { duration: 0.2 }
+        }
+    }
+
+    const formItemVariants = {
+        hidden: { opacity: 0, x: -20 },
+        visible: (i) => ({ 
+            opacity: 1, 
+            x: 0,
+            transition: {
+                delay: i * 0.05,
+                type: "spring",
+                damping: 25,
+                stiffness: 300
+            }
+        })
+    }
+
+    return (
+        <AnimatePresence>
+            <motion.section 
+                className='fixed top-0 left-0 right-0 bottom-0 z-50 bg-neutral-800 bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto'
+                variants={overlayVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                onClick={(e) => {
+                    if (e.target === e.currentTarget) close();
+                }}
+            >
+                <motion.div 
+                    className='bg-white dark:bg-gray-800 w-full max-w-lg mx-auto rounded-lg shadow-2xl overflow-hidden'
+                    variants={modalVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                >
+                    {/* Header */}
+                    <div className='bg-gradient-to-r from-primary-200 to-blue-500 p-4 text-black dark:text-white flex justify-between items-center'>
+                        <motion.h2 
+                            className='font-semibold text-xl flex items-center gap-2'
+                            initial={{ x: -20, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            <IoLocationOutline className="text-2xl" /> Add New Address
+                        </motion.h2>
+                        <motion.button 
+                            onClick={close} 
+                            className='p-1.5 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 text-black dark:text-white transition-all duration-300'
+                            whileHover={{ rotate: 90 }}
+                            whileTap={{ scale: 0.9 }}
+                        >
+                            <IoClose size={20}/>
+                        </motion.button>
+                    </div>
+
+                    <div className='p-6'>
+                        {/* Address Type Selector */}
+                        <motion.div 
+                            className='flex space-x-4 mb-6'
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                        >
+                            <motion.div 
+                                className={`cursor-pointer flex-1 p-3 text-center rounded-lg border-2 flex items-center justify-center gap-2 ${
+                                    addressType === 'home' 
+                                        ? 'bg-primary-100 dark:bg-primary-900 text-white border-primary-200' 
+                                        : 'border-gray-200 dark:border-gray-600 hover:border-primary-100 dark:hover:border-primary-800 dark:text-gray-200'
+                                }`}
+                                onClick={() => setAddressType('home')}
+                                whileHover={{ y: -2 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                <IoHomeOutline size={18} />
+                                <span className="font-medium">Home</span>
+                            </motion.div>
+                            <motion.div 
+                                className={`cursor-pointer flex-1 p-3 text-center rounded-lg border-2 flex items-center justify-center gap-2 ${
+                                    addressType === 'work' 
+                                        ? 'bg-primary-100 dark:bg-primary-900 text-white border-primary-200' 
+                                        : 'border-gray-200 dark:border-gray-600 hover:border-primary-100 dark:hover:border-primary-800 dark:text-gray-200'
+                                }`}
+                                onClick={() => setAddressType('work')}
+                                whileHover={{ y: -2 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                <IoBriefcaseOutline size={18} />
+                                <span className="font-medium">Work</span>
+                            </motion.div>
+                        </motion.div>
+
+                        <form className='grid gap-4' onSubmit={handleSubmit(onSubmit)}>
+                            {/* Address Line 1 */}
+                            <motion.div 
+                                className={`grid gap-2 ${activeField === 'address_line1' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                custom={0}
+                                variants={formItemVariants}
+                                initial="hidden"
+                                animate="visible"
+                            >
+                                <label htmlFor='addressline1' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
+                                    <FaMapMarkedAlt className="text-primary-200" /> Address Line 1
+                                </label>
+                                <input
+                                    type='text'
+                                    id='addressline1' 
+                                    className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                    {...register("address_line1", {required: true})}
+                                    onFocus={() => setActiveField('address_line1')}
+                                    onBlur={() => setActiveField(null)}
+                                    placeholder="Enter street address"
+                                />
+                                {errors.address_line1 && <p className="text-red-500 text-xs">This field is required</p>}
+                            </motion.div>
+                            
+                            {/* Address Line 2 */}
+                            <motion.div 
+                                className={`grid gap-2 ${activeField === 'address_line2' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                custom={1}
+                                variants={formItemVariants}
+                                initial="hidden"
+                                animate="visible"
+                            >
+                                <label htmlFor='addressline2' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
+                                    <FaMapMarkedAlt className="text-primary-200" /> Address Line 2
+                                </label>
+                                <input
+                                    type='text'
+                                    id='addressline2' 
+                                    className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                    {...register("address_line2", {required: true})}
+                                    onFocus={() => setActiveField('address_line2')}
+                                    onBlur={() => setActiveField(null)}
+                                    placeholder="Apartment, suite, etc."
+                                />
+                                {errors.address_line2 && <p className="text-red-500 text-xs">This field is required</p>}
+                            </motion.div>
+                            
+                            {/* City and State */}
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                                <motion.div 
+                                    className={`grid gap-2 ${activeField === 'city' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                    custom={2}
+                                    variants={formItemVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                >
+                                    <label htmlFor='city' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
+                                        <FaCity className="text-primary-200" /> City
+                                    </label>
+                                    <input
+                                        type='text'
+                                        id='city' 
+                                        className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                        {...register("city", {required: true})}
+                                        onFocus={() => setActiveField('city')}
+                                        onBlur={() => setActiveField(null)}
+                                        placeholder="City name"
+                                    />
+                                    {errors.city && <p className="text-red-500 text-xs">Required</p>}
+                                </motion.div>
+                                
+                                <motion.div 
+                                    className={`grid gap-2 ${activeField === 'state' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                    custom={3}
+                                    variants={formItemVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                >
+                                    <label htmlFor='state' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
+                                        <FaMapPin className="text-primary-200" /> State
+                                    </label>
+                                    <input
+                                        type='text'
+                                        id='state' 
+                                        className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                        {...register("state", {required: true})}
+                                        onFocus={() => setActiveField('state')}
+                                        onBlur={() => setActiveField(null)}
+                                        placeholder="State/Province"
+                                    />
+                                    {errors.state && <p className="text-red-500 text-xs">Required</p>}
+                                </motion.div>
+                            </div>
+                            
+                            {/* Zipcode and Country */}
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                                <motion.div 
+                                    className={`grid gap-2 ${activeField === 'zipcode' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                    custom={4}
+                                    variants={formItemVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                >
+                                    <label htmlFor='zipcode' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
+                                        <FaMapPin className="text-primary-200" /> Zipcode
+                                    </label>
+                                    <input
+                                        type='text'
+                                        id='zipcode' 
+                                        className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                        {...register("zipcode", {required: true})}
+                                        onFocus={() => setActiveField('zipcode')}
+                                        onBlur={() => setActiveField(null)}
+                                        placeholder="Postal code"
+                                    />
+                                    {errors.zipcode && <p className="text-red-500 text-xs">Required</p>}
+                                </motion.div>
+                                
+                                <motion.div 
+                                    className={`grid gap-2 ${activeField === 'country' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                    custom={5}
+                                    variants={formItemVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                >
+                                    <label htmlFor='country' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
+                                        <FaGlobeAmericas className="text-primary-200" /> Country
+                                    </label>
+                                    <div className="dark:text-black">
+                                        <Select
+                                            id='country'
+                                            options={countryOptions}
+                                            value={selectedCountry}
+                                            onChange={option => {
+                                                setSelectedCountry(option)
+                                                setValue('country', option ? option.label : '', { 
+                                                    shouldValidate: true,
+                                                    shouldDirty: true 
+                                                })
+                                            }}
+                                            onFocus={() => setActiveField('country')}
+                                            onBlur={() => setActiveField(null)}
+                                            classNamePrefix="react-select"
+                                            placeholder="Select a country"
+                                            isSearchable
+                                        />
+                                    </div>
+                                    <input
+                                        type='hidden'
+                                        {...register("country", {required: "Country is required"})}
+                                    />
+                                    {errors.country && <p className="text-red-500 text-xs">{errors.country.message}</p>}
+                                </motion.div>
+                            </div>
+                            
+                            {/* Phone */}
+                            <motion.div 
+                                className={`grid gap-2 ${activeField === 'phone' ? 'bg-blue-50 dark:bg-gray-700 p-3 rounded-lg' : ''} transition-all duration-300`}
+                                custom={6}
+                                variants={formItemVariants}
+                                initial="hidden"
+                                animate="visible"
+                            >
+                                <label htmlFor='phone' className='text-gray-700 dark:text-gray-200 font-medium flex items-center gap-2'>
+                                    <FaPhone className="text-primary-200" /> Phone No.
+                                </label>
+                                <input
+                                    type='text'
+                                    id='phone' 
+                                    className='border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-primary-200 transition-all duration-300'
+                                    {...register("phone", {
+                                        required: "Phone number is required",
+                                        pattern: {
+                                            value: /^[0-9]{10,15}$/,
+                                            message: "Please enter a valid phone number (10-15 digits)"
+                                        }
+                                    })}
+                                    onFocus={() => setActiveField('phone')}
+                                    onBlur={() => setActiveField(null)}
+                                    placeholder="Enter phone number"
+                                />
+                                {errors.phone && <p className="text-red-500 text-xs">{errors.phone.message}</p>}
+                            </motion.div>
+
+                            {/* Submit Button */}
+                            <motion.button 
+                                type='submit' 
+                                className='bg-primary-200 w-full py-3 font-semibold text-black rounded-lg shadow-md hover:bg-primary-100 transition-all duration-300 mt-6 flex items-center justify-center gap-2'
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                disabled={isSubmitting}
+                                custom={7}
+                                variants={formItemVariants}
+                                initial="hidden"
+                                animate="visible"
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Saving Address...
+                                    </>
+                                ) : (
+                                    <>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        Add Address
+                                    </>
+                                )}
+                            </motion.button>
+                        </form>
+                    </div>
+                </motion.div>
+            </motion.section>
+        </AnimatePresence>
+    )
 }
 
 export default AddAddress

@@ -1,5 +1,6 @@
 import ProductCartModel from "../models/product_cart.model.js";
 import UserModel from "../models/user.model.js";
+import ProductModel from "../models/product.model.js";
 
 export const addToCartItemController = async(request,response)=>{
     try {
@@ -7,8 +8,25 @@ export const addToCartItemController = async(request,response)=>{
         const { productId } = request.body
         
         if(!productId){
-            return response.status(402).json({
+            return response.status(400).json({
                 message : "Please Provide Product Id",
+                error : true,
+                success : false
+            })
+        }
+
+        const product = await ProductModel.findById(productId);
+        if(!product){
+            return response.status(404).json({
+                message : "Product not found",
+                error : true,
+                success : false
+            })
+        }
+
+        if(product.stock <= 0){
+             return response.status(400).json({
+                message : "Product is out of stock",
                 error : true,
                 success : false
             })
@@ -31,12 +49,6 @@ export const addToCartItemController = async(request,response)=>{
             productId : productId
         })
         const save = await cartItem.save()
-
-        const updateCartUser = await UserModel.updateOne({ _id : userId},{
-            $push : { 
-                shopping_cart : productId
-            }
-        })
 
         return response.json({
             data : save,
@@ -85,6 +97,23 @@ export const UpdateCartItemQtyController = async(request,response)=>{
         if(!_id ||  !qty){
             return response.status(400).json({
                 message : "Provide User Id and Quantity",
+            })
+        }
+
+        const cartItem = await ProductCartModel.findOne({ _id: _id, userId: userId }).populate('productId');
+        if(!cartItem){
+             return response.status(404).json({
+                message : "Cart item not found",
+                error : true,
+                success : false
+            })
+        }
+
+        if(qty > cartItem.productId.stock){
+            return response.status(400).json({
+                message : `Only ${cartItem.productId.stock} items available in stock`,
+                error : true,
+                success : false
             })
         }
 
@@ -147,7 +176,6 @@ export async function clearCartController(request, response) {
         const userId = request.userId;
         
         await ProductCartModel.deleteMany({ userId: userId });
-        await UserModel.findByIdAndUpdate(userId, { shopping_cart: [] });
         
         return response.json({
             message: "Cart cleared successfully",

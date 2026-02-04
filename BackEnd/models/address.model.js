@@ -18,16 +18,16 @@ const addressSchema = new mongoose.Schema({
         default: ""
     },
     zipcode: {
-        type : Number,
-        default: null
+        type : String,
+        default: ""
     },
     country: {
         type : String,
         default: ""
     },
     phone: {
-        type : Number,
-        default: null
+        type : String,
+        default: ""
     },
     status: {
         type: Boolean,
